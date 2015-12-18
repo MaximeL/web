@@ -1,0 +1,17 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="level-component">
+  <template>
+    <div>
+      <label>Level&nbsp;
+        <input id="level" type="range" step="0.01" min="0" max="10">
+      </label>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "level-component"
+    });
+  </script>
+</dom-module>

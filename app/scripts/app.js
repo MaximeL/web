@@ -19,6 +19,11 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/record', {
+        templateUrl: 'views/record.html',
+        controller: 'RecordCtrl',
+        controllerAs: 'record'
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
