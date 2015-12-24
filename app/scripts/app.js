@@ -24,6 +24,11 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/liveinput', {
+        templateUrl: 'views/liveinput.html',
+        controller: 'LiveInputCtrl',
+        controllerAs: 'liveInput'
+      })
       .otherwise({
         redirectTo: '/'
       });
