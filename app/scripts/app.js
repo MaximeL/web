@@ -10,7 +10,7 @@
  */
 angular
   .module('webClientSideApp', [
-    'ngRoute'
+    'ngRoute', 'angularAudioRecorder'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -32,4 +32,7 @@ angular
       .otherwise({
         templateUrl: '404.html'
       });
-  });
+  })
+  .config(['recorderServiceProvider', function(recorderServiceProvider){
+    //configure here
+  }]);
