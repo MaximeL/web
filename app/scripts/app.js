@@ -10,7 +10,7 @@
  */
 angular
   .module('webClientSideApp', [
-    'ngRoute'
+    'ngRoute', 'angularAudioRecorder'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -20,16 +20,19 @@ angular
         controllerAs: 'main'
       })
       .when('/about', {
-        templateUrl: 'views/about.html',
+        templateUrl: 'views/pedal.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/liveinput', {
-        templateUrl: 'views/liveinput.html',
-        controller: 'LiveInputCtrl',
-        controllerAs: 'liveInput'
+      .when('/live', {
+        templateUrl: 'views/live.html',
+        controller: 'LiveCtrl',
+        controllerAs: 'live'
       })
       .otherwise({
-        redirectTo: '/'
+        templateUrl: '404.html'
       });
-  });
+  })
+  .config(['recorderServiceProvider', function(recorderServiceProvider){
+    //configure here
+  }]);
