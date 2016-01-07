@@ -1,6 +1,7 @@
 {
   "name": "webclientside",
   "private": true,
+  "version": "0.0.1",
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
     "grunt": "^0.4.5",
