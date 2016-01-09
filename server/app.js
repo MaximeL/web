@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/api');
 
 //pour version sans formulaire (permet l'acces à req.files.filefield) :
-var busboyBodyParser = require('busboy-body-parser');     
+var busboyBodyParser = require('busboy-body-parser');
 app.use(busboyBodyParser());
 
 app.use(bodyParser.json());
@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', routes);
-
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -46,4 +45,5 @@ app.use('/api', routes);
 //     });
 // });
 
+app.listen(3000);
 module.exports = app;
