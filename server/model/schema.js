@@ -18,8 +18,6 @@ var getCommentsSchema = function() {
   return mongoose.model('Comment', CommentsSchema);
 };
 
-exports.getCommentsSchema = getCommentsSchema;
-
 var UserSchema = new mongoose.Schema({
   username: String,
   password: String
@@ -28,5 +26,22 @@ var UserSchema = new mongoose.Schema({
 var getUserSchema = function () {
   return mongoose.model('User', UserSchema);
 };
+
+var PedaleSchema = new Schema({
+    type: String,
+    precedent: String,
+    suivant: String
+}, {collection: 'pedale', versionKey: false} );
+
+var getPedaleSchema = function() {
+    return mongoose.model('Pedale', PedaleSchema);
+};
+
+
+
+
+exports.getCommentsSchema = getCommentsSchema;
+
+exports.getPedaleSchema = getPedaleSchema;
 
 exports.getUserSchema = getUserSchema;
