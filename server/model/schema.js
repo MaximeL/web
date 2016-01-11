@@ -37,7 +37,9 @@ var getNotesSchema = function() {
  */
 var UserSchema = new Schema({
   username: String,
-  password: String
+  password: String,
+  pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal' }]
+  //rights: [{uid: Schema.Types.ObjectId}]
 }, {collection: 'user', versionKey: false} );
 
 var getUserSchema = function () {
@@ -48,9 +50,15 @@ var getUserSchema = function () {
  * Pedale
  */
 var PedaleSchema = new Schema({
-    type: String,
-    precedent: String,
-    suivant: String
+    nom: String,
+    description: String,
+    effets: [
+      {
+        type: String,
+        precedent: String,
+        suivant: String
+      }
+    ]
 }, {collection: 'pedale', versionKey: false} );
 
 var getPedaleSchema = function() {
