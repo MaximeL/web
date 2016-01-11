@@ -8,7 +8,6 @@ var port = '27017';
 
 
 
-
 // All request node
 router.use(function (req, res, next) {
   console.log('User api called.');

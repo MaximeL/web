@@ -9,6 +9,10 @@ var dbName = 'dbsound';
 var port = '27017';
 mongoose.connect('mongodb://localhost:' + port + '/' + dbName);
 
+
+/**
+ * Comments
+ */
 var CommentsSchema = new Schema({
   username: String,
   content: String
@@ -20,6 +24,23 @@ var getCommentsSchema = function() {
 
 exports.getCommentsSchema = getCommentsSchema;
 
+/**
+ * Notes
+ */
+var NotesSchema = new Schema({
+  username: String,
+  value: Number
+}, {collection: 'note', versionKey: false} );
+
+var getNotesSchema = function() {
+  return mongoose.model('Note', NotesSchema);
+};
+
+exports.getNotesSchema = getNotesSchema;
+
+/**
+ * User
+ */
 var UserSchema = new mongoose.Schema({
   username: String,
   password: String

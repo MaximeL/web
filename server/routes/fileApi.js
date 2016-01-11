@@ -9,14 +9,14 @@ Grid.mongo = mongoose.mongo;
 var formidable = require('formidable');
 
 
-//// ---------------------------
+// ---------------------------
 // Middleware for all requests
 // ---------------------------
 router.use(function(req, res, next) {
-	console.log('Middleware called.');
-	// allows requests from angularJS frontend applications
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	  console.log('Middleware called.');
+	  // allows requests from angularJS frontend applications
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next(); // go to the next route
 });
@@ -27,39 +27,39 @@ router.use(function(req, res, next) {
 // ---------------------------
 router.post('/', function(req, res) {
 
-	var fileToSave = req.files.filefield;    // champ à renseigner
-	// console.log("Contenu du fichier \n" + fileToSave);
+    var fileToSave = req.files.filefield;    // champ à renseigner
+    // console.log("Contenu du fichier \n" + fileToSave);
 
-	// on cree une connexion avec la BD
-	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+    // on cree une connexion avec la BD
+    var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
 
-	// check les erreurs
-	conn.on('error', function(err){
-  		if(err) {
-  			console.log(err);
-  			return;
-  		}
-	});
+    // check les erreurs
+    conn.on('error', function(err){
+        if(err) {
+          console.log(err);
+          return;
+        }
+    });
 
-	// enregistrement du ficher via la connexion
-	conn.once('open', function() {
-		var gfs = Grid(conn.db);
+    // enregistrement du ficher via la connexion
+    conn.once('open', function() {
+        var gfs = Grid(conn.db);
 
-		var writeStream = gfs.createWriteStream({
-			filename: fileToSave.name,
-			mode: 'w',
-			content_type: fileToSave.mimetype
-		});
+        var writeStream = gfs.createWriteStream({
+            filename: fileToSave.name,
+            mode: 'w',
+            content_type: fileToSave.mimetype
+        });
 
-		writeStream.on('close', function() {
-			return res.status(200).send({
-				message: 'Upload success'
-			});
-		});
+        writeStream.on('close', function() {
+            return res.status(200).send({
+               message: 'Upload success'
+            });
+        });
 
-		writeStream.write(fileToSave.data);
-		writeStream.end();
-	});
+        writeStream.write(fileToSave.data);
+        writeStream.end();
+    });
 });
 
 
@@ -70,33 +70,33 @@ router.post('/', function(req, res) {
 // -------------------------------
 router.post('/form/', function(req, res) {
 
-	var form = new formidable.IncomingForm();
-	// stockage en local aussi
-	form.uploadDir = __dirname + "/data";
+    var form = new formidable.IncomingForm();
+    // stockage en local aussi
+    form.uploadDir = __dirname + "/data";
     form.keepExtensions = true;
 
     form.parse(req, function(err, fields, files) {
-    	if (!err) {
-          	console.log('File uploaded : ' + files.file.path);
-          	console.log('File name: ' 	   + files.file.name);
-         	console.log('File type: ' 	   + files.file.type);
-          	console.log('File size: ' 	   + files.file.size);
+        if (!err) {
+            console.log('File uploaded : ' + files.file.path);
+            console.log('File name: ' 	   + files.file.name);
+            console.log('File type: ' 	   + files.file.type);
+            console.log('File size: ' 	   + files.file.size);
 
-          	Grid.mongo = mongoose.mongo;
-          	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+            Grid.mongo = mongoose.mongo;
+            var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
 
-          	conn.once('open', function () {
-            	var gfs = Grid(conn.db);
-            	var writeStream = gfs.createWriteStream({
-                	filename: files.file.name
-            	});
-            	fs.createReadStream(files.file.path).pipe(writeStream);
-          	});
+            conn.once('open', function () {
+                var gfs = Grid(conn.db);
+                var writeStream = gfs.createWriteStream({
+                    filename: files.file.name
+                });
+                fs.createReadStream(files.file.path).pipe(writeStream);
+            });
         }
     });
 
-	form.on('end', function() {
-    	res.send('Completed ...');
+    form.on('end', function() {
+        res.send('Completed ...');
     });
 });
 
@@ -106,40 +106,40 @@ router.post('/form/', function(req, res) {
 // -------------------------------
 router.get('/:fileid', function(req, res) {
 
-	// on cree une connexion avec la BD
-	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+    // on cree une connexion avec la BD
+    var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
 
-	// check les erreurs
-	conn.on('error', function(err){
-  		if(err) {
-  			console.log(err);
-  			return;
-  		}
-	});
+    // check les erreurs
+    conn.on('error', function(err){
+        if(err) {
+            console.log(err);
+            return;
+        }
+    });
 
-	// recupere le ficher via la connexion
-	conn.once('open', function() {
-		var gfs = Grid(conn.db);
-		gfs.findOne({ _id: req.params.fileid }, function(err, file) {
-			if(err) return res.status(400).send(err);
-			if(!file) return res.status(404).send(err);
+    // recupere le ficher via la connexion
+    conn.once('open', function() {
+        var gfs = Grid(conn.db);
+        gfs.findOne({ _id: req.params.fileid }, function(err, file) {
+            if(err) return res.status(400).send(err);
+            if(!file) return res.status(404).send(err);
 
-			res.set('Content-Type', file.contentType);
-	      	res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+            res.set('Content-Type', file.contentType);
+            res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
 
-	      	var readStream = gfs.createReadStream({
-	      		_id: file._id
-	      		// mode: 'r'
-	      	});
+            var readStream = gfs.createReadStream({
+                _id: file._id
+                // mode: 'r'
+            });
 
-	      	readStream.on('error', function(err) {
-	      		console.log('Error while processing stream' + err);
-	      		throw err;
-	      	});
+            readStream.on('error', function(err) {
+                console.log('Error while processing stream' + err);
+                throw err;
+            });
 
-	      	readStream.pipe(res);
-		});
-	});
+            readStream.pipe(res);
+        });
+    });
 });
 
 
