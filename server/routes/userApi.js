@@ -1,12 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var mongoose = require('mongoose');
-
-var dbName = 'dbsound';
-var port = '27017';
-
-
 var UserModel = require('../model/schema.js').getUserSchema();
 
 // All request node
@@ -19,53 +13,47 @@ router.use(function (req, res, next) {
   next(); // go to the next route
 });
 
-// Inscription
-router.put('/', function(req, res) {
-  if(req.body.username === undefined && req.body.password === undefined) {
-    // TODO : Error
-  }
+router.route('/')
+  // Liste des utilisateurs
+  .get(function(req, res) {
+    UserModel.find({}, function (err, users) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.status(200);
+      return res.send(users);
+    });
+  })
 
-  var conn = mongoose.createConnection('localhost', dbName, port);
-  conn.on('error', function (err) {
-    if (err) {
-      console.log(err);
-      return;
+  // Inscription
+  .put(function (req, res) {
+    if (req.body.username === undefined && req.body.password === undefined) {
+      // TODO : Error
     }
-  });
 
-  conn.once('open', function () {
     var user = new UserModel();
 
     user.username = req.body.username;
     user.password = req.body.password;
 
-    user.save(function(err, user) {
-      if(err) {
+    user.save(function (err, user) {
+      if (err) {
         res.status(404);
         res.send(err);
         console.log(err);
         return;
       }
-      return res.json({message: 'User created'});
+      // TODO : Vérifier le statut
+      res.statusCode(201);
+      return res.send(user);
     });
-  });
-});
+  })
 
-// Auth node
-router.post('/', function (req, res) {
-  var conn = mongoose.createConnection('localhost', dbName, port);
-
-  // check les erreurs
-  conn.on('error', function (err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-  });
-
-  conn.once('open', function () {
-    UserModel.findOne({ 'username': req.body.username, 'password': req.body.password }, function (err, user) {
-      if(err) {
+  // Connection
+  .post(function (req, res) {
+    UserModel.findOne({'username': req.body.username, 'password': req.body.password}, function (err, user) {
+      if (err) {
         console.log(err);
         return;
       }
@@ -74,6 +62,4 @@ router.post('/', function (req, res) {
       return res.send(user);
     });
   });
-});
-
 module.exports = router;
