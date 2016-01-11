@@ -25,10 +25,10 @@ router.use(function(req, res, next) {
 // ---------------------------
 // POST > Route ➜ /api/file
 // ---------------------------
-router.post('/file', function(req, res) {
+router.post('/', function(req, res) {
 
 	var fileToSave = req.files.filefield;    // champ à renseigner
-	console.log("Contenu du fichier \n" + fileToSave);
+	// console.log("Contenu du fichier \n" + fileToSave);
 
 	// on cree une connexion avec la BD
 	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
@@ -63,12 +63,12 @@ router.post('/file', function(req, res) {
 });
 
 
-// -----------------------------
+// -------------------------------
 // POST > Route ➜ /api/form/file
-// commenter line 8 et 9 : 
+// commenter line 8 et 9 de app.js 
 // 	  busboyBodyParser
-// -----------------------------
-router.post('/form/file', function(req, res) {
+// -------------------------------
+router.post('/form/', function(req, res) {
 
 	var form = new formidable.IncomingForm();
 	// stockage en local aussi
@@ -101,11 +101,10 @@ router.post('/form/file', function(req, res) {
 });
 
 
-
 // -------------------------------
 // GET > Route ➜ /api/file/:fileid
 // -------------------------------
-router.get('/file/:fileid', function(req, res) {
+router.get('/:fileid', function(req, res) {
 
 	// on cree une connexion avec la BD
 	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
@@ -150,7 +149,7 @@ router.get('/file/:fileid', function(req, res) {
 // ---------------------------
 router.get('/', function(req, res){
     res.send(
-        '<form method="post" action="/api/form/file" enctype="multipart/form-data">'
+        '<form method="post" action="/api/file/form" enctype="multipart/form-data">'
         + '<input type="file" id="file" name="file"><br/>'
         + '<input type="submit" value="submit">'
         + '</form>'
