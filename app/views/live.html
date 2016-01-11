@@ -5,5 +5,12 @@
   </header>
 
   <canvas class="visualizer" width="640" height="100"></canvas>
-
+<div ng-bind-html="live.INPUT.template"></div>
 </div>
+<div class="wrapper">
+  <div ng-repeat="effect in live.effects">
+
+  </div>
+</div>
+<p ng-bind-html="live.OUTPUT.template"></p>
+<div ng-bind-html="live.OUTPUT.template"></div>

@@ -8,16 +8,14 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', [ '$window', '$log', function ($window, $log) {
+  .controller('LiveCtrl', [ '$window', '$log', 'Inputnode', 'Outputnode',
+    function ($window, $log, , Inputnode, Outputnode) {
     var vm = this;
 
-    vm.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    vm.audionodes = [];
 
     var init = function() {
+
       navigator.getUserMedia = (navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia ||
@@ -31,36 +29,36 @@ angular.module('webClientSideApp')
 
       //set up the different audio nodes we will use for the app
 
-      var analyser = vm.audioCtx.createAnalyser();
-      analyser.minDecibels = -90;
-      analyser.maxDecibels = -10;
-      analyser.smoothingTimeConstant = 0.85;
+      //var analyser = vm.audioCtx.createAnalyser();
+      //analyser.minDecibels = -90;
+      //analyser.maxDecibels = -10;
+      //analyser.smoothingTimeConstant = 0.85;
       var gainNode = vm.audioCtx.createGain();
 
-      var soundSource, concertHallBuffer;
+      //var soundSource, concertHallBuffer;
+      //
+      //var ajaxRequest = new XMLHttpRequest();
+      //
+      //ajaxRequest.open('GET', 'http://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
+      //
+      //ajaxRequest.responseType = 'arraybuffer';
+      //
+      //
+      //ajaxRequest.onload = function() {
+      //  var audioData = ajaxRequest.response;
+      //
+      //  vm.audioCtx.decodeAudioData(audioData, function(buffer) {
+      //    concertHallBuffer = buffer;
+      //    soundSource = vm.audioCtx.createBufferSource();
+      //    soundSource.buffer = concertHallBuffer;
+      //  }, function(e){"Error with decoding audio data" + e.err});
+      //
+      //  //soundSource.connect(vm.audioCtx.destination);
+      //  //soundSource.loop = true;
+      //  //soundSource.start();
+      //};
 
-      var ajaxRequest = new XMLHttpRequest();
-
-      ajaxRequest.open('GET', 'http://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
-
-      ajaxRequest.responseType = 'arraybuffer';
-
-
-      ajaxRequest.onload = function() {
-        var audioData = ajaxRequest.response;
-
-        vm.audioCtx.decodeAudioData(audioData, function(buffer) {
-          concertHallBuffer = buffer;
-          soundSource = vm.audioCtx.createBufferSource();
-          soundSource.buffer = concertHallBuffer;
-        }, function(e){"Error with decoding audio data" + e.err});
-
-        //soundSource.connect(vm.audioCtx.destination);
-        //soundSource.loop = true;
-        //soundSource.start();
-      };
-
-      ajaxRequest.send();
+      //ajaxRequest.send();
 
 // set up canvas context for visualizer
 
@@ -85,12 +83,17 @@ angular.module('webClientSideApp')
 
           // Success callback
           function(stream) {
-            vm.source = vm.audioCtx.createMediaStreamSource(stream);
-            vm.source.connect(analyser);
-            analyser.connect(gainNode);
-            gainNode.connect(vm.audioCtx.destination);
+            //vm.source = vm.audioCtx.createMediaStreamSource(stream);
+            //vm.source.connect(analyser);
+            //analyser.connect(gainNode);
+            //gainNode.connect(vm.audioCtx.destination);
 
-            visualize();
+            vm.INPUT = Inputnode.create(vm.audioCtx, stream);
+            $log.debug(vm.INPUT);
+            vm.OUTPUT = Outputnode.create(vm.audioCtx);
+            $log.debug(vm.OUTPUT);
+
+            //visualize();
           },
 
           // Error callback
@@ -102,7 +105,7 @@ angular.module('webClientSideApp')
         console.log('getUserMedia not supported on your browser!');
       }
 
-      function visualize() {
+      /*function visualize() {
         var WIDTH = canvas.width;
         var HEIGHT = canvas.height;
         analyser.fftSize = 2048;
@@ -114,7 +117,7 @@ angular.module('webClientSideApp')
 
         function draw() {
 
-          drawVisual = requestAnimationFrame(draw);
+          var drawVisual = requestAnimationFrame(draw);
 
           analyser.getByteTimeDomainData(dataArray);
 
@@ -149,7 +152,7 @@ angular.module('webClientSideApp')
 
         draw();
 
-      }
+      }*/
     };
 
     init();
