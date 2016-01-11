@@ -22,7 +22,6 @@ var getCommentsSchema = function() {
   return mongoose.model('Comment', CommentsSchema);
 };
 
-exports.getCommentsSchema = getCommentsSchema;
 
 /**
  * Notes
@@ -36,7 +35,6 @@ var getNotesSchema = function() {
   return mongoose.model('Note', NotesSchema);
 };
 
-exports.getNotesSchema = getNotesSchema;
 
 /**
  * User
@@ -50,4 +48,21 @@ var getUserSchema = function () {
   return mongoose.model('User', UserSchema);
 };
 
+/**
+ * Pedale
+ */
+var PedaleSchema = new Schema({
+    type: String,
+    precedent: String,
+    suivant: String
+}, {collection: 'pedale', versionKey: false} );
+
+var getPedaleSchema = function() {
+    return mongoose.model('Pedale', PedaleSchema);
+};
+
+
+exports.getCommentsSchema = getCommentsSchema;
+exports.getNotesSchema = getNotesSchema;
 exports.getUserSchema = getUserSchema;
+exports.getPedaleSchema = getPedaleSchema;

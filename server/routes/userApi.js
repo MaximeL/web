@@ -7,6 +7,7 @@ var dbName = 'dbsound';
 var port = '27017';
 
 
+var UserModel = require('../model/schema.js').getUserSchema();
 
 // All request node
 router.use(function (req, res, next) {
@@ -33,7 +34,6 @@ router.put('/', function(req, res) {
   });
 
   conn.once('open', function () {
-    var UserModel = mongoose.model('user', UserSchema);
     var user = new UserModel();
 
     user.username = req.body.username;
@@ -64,7 +64,6 @@ router.post('/', function (req, res) {
   });
 
   conn.once('open', function () {
-    var UserModel = mongoose.model('User', UserSchema);
     UserModel.findOne({ 'username': req.body.username, 'password': req.body.password }, function (err, user) {
       if(err) {
         console.log(err);
