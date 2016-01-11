@@ -2,12 +2,8 @@
  * Created by Romain on 17/12/2015.
  */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var dbName = 'dbsound';
-var port = '27017';
-mongoose.connect('mongodb://localhost:' + port + '/' + dbName);
+var Dao = require('../model/dao').getDao();
+var Schema = Dao.Schema;
 
 
 /**
@@ -19,7 +15,7 @@ var CommentsSchema = new Schema({
 }, {collection: 'comment', versionKey: false} );
 
 var getCommentsSchema = function() {
-  return mongoose.model('Comment', CommentsSchema);
+  return Dao.model('Comment', CommentsSchema);
 };
 
 
@@ -32,20 +28,20 @@ var NotesSchema = new Schema({
 }, {collection: 'note', versionKey: false} );
 
 var getNotesSchema = function() {
-  return mongoose.model('Note', NotesSchema);
+  return Dao.model('Note', NotesSchema);
 };
 
 
 /**
  * User
  */
-var UserSchema = new mongoose.Schema({
+var UserSchema = new Schema({
   username: String,
   password: String
 }, {collection: 'user', versionKey: false} );
 
 var getUserSchema = function () {
-  return mongoose.model('User', UserSchema);
+  return Dao.model('User', UserSchema);
 };
 
 /**
@@ -58,7 +54,7 @@ var PedaleSchema = new Schema({
 }, {collection: 'pedale', versionKey: false} );
 
 var getPedaleSchema = function() {
-    return mongoose.model('Pedale', PedaleSchema);
+    return Dao.model('Pedale', PedaleSchema);
 };
 
 

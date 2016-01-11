@@ -6,7 +6,6 @@ var fs = require('fs');
 var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 //si utilisation d'un formulaire pour uploader fichier:
-var formidable = require('formidable');    
 
 var PedaleSchema = require('../model/schema').getPedaleSchema();
 
@@ -14,64 +13,64 @@ var PedaleSchema = require('../model/schema').getPedaleSchema();
 // ---------------------------
 // Middleware for all requests
 // ---------------------------
-router.use(function(req, res, next) {
-	console.log('Middleware called.');
-	// allows requests from angularJS frontend applications
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next(); // go to the next route
+router.use(function (req, res, next) {
+  console.log('Middleware called.');
+  // allows requests from angularJS frontend applications
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next(); // go to the next route
 });
 
 
-/* 
-------------------------------       
-       PEDALES
-------------------------------
-*/
+/*
+ ------------------------------
+ PEDALES
+ ------------------------------
+ */
 
 //##########POST > Route -> /api/pedale###########
 
-router.post('/', function(req, res) {
-	console.log(" # ----> POST Pedale");
-	
-	console.log("=============== \n");
-        console.log(req.body);
+router.post('/', function (req, res) {
+  console.log(" # ----> POST Pedale");
 
-        var pedale = new PedaleSchema();
+  console.log("=============== \n");
+  console.log(req.body);
 
-        pedale.type = req.body.type;
-        pedale.precedent = req.body.precedent;
-        pedale.suivant = req.body.suivant;
+  var pedale = new PedaleSchema();
 
-         pedale.save(function(err, pedaleSaved) {
-            if(err) {
-                res.status(404);
-                res.send(err);
-                return;
-            }
-            console.log('---> Pedale sauvegardee via ' + req.url);
-            res.json({message: 'Successfully saved', pedaleSaved});
-        });
+  pedale.type = req.body.type;
+  pedale.precedent = req.body.precedent;
+  pedale.suivant = req.body.suivant;
+
+  pedale.save(function (err, pedaleSaved) {
+    if (err) {
+      res.status(404);
+      res.send(err);
+      return;
+    }
+    console.log('---> Pedale sauvegardee via ' + req.url);
+    res.json({message: 'Successfully saved', pedaleSaved});
+  });
 
 });
 
 
 //##########GET > Route -> /api/pedale###########
 
-router.get('/', function(req, res) {
-	console.log(" # ----> GET Pedale");
-		
-	 PedaleSchema.find(function(err, pedaleList) {
-	        if(err) {
-	            console.log(err);
-	            res.status(404);
-	            return;
-	        }
-	        console.log('---> Liste de pedale enregistrees via ' + req.url + req.body.type);
-	        res.json(pedaleList);
-	    });
-	
+router.get('/', function (req, res) {
+  console.log(" # ----> GET Pedale");
+
+  PedaleSchema.find(function (err, pedaleList) {
+    if (err) {
+      console.log(err);
+      res.status(404);
+      return;
+    }
+    console.log('---> Liste de pedale enregistrees via ' + req.url + req.body.type);
+    res.json(pedaleList);
+  });
+
 });
 
 module.exports = router;
