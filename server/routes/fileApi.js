@@ -6,10 +6,10 @@ var fs = require('fs');
 var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 //si utilisation d'un formulaire pour uploader fichier:
-var formidable = require('formidable');    
+var formidable = require('formidable');
 
 
-// ---------------------------
+//// ---------------------------
 // Middleware for all requests
 // ---------------------------
 router.use(function(req, res, next) {
@@ -32,7 +32,7 @@ router.post('/', function(req, res) {
 
 	// on cree une connexion avec la BD
 	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
-	
+
 	// check les erreurs
 	conn.on('error', function(err){
   		if(err) {
@@ -65,7 +65,7 @@ router.post('/', function(req, res) {
 
 // -------------------------------
 // POST > Route ➜ /api/form/file
-// commenter line 8 et 9 de app.js 
+// commenter line 8 et 9 de app.js
 // 	  busboyBodyParser
 // -------------------------------
 router.post('/form/', function(req, res) {
@@ -81,10 +81,10 @@ router.post('/form/', function(req, res) {
           	console.log('File name: ' 	   + files.file.name);
          	console.log('File type: ' 	   + files.file.type);
           	console.log('File size: ' 	   + files.file.size);
-          
+
           	Grid.mongo = mongoose.mongo;
           	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
-          
+
           	conn.once('open', function () {
             	var gfs = Grid(conn.db);
             	var writeStream = gfs.createWriteStream({
@@ -92,10 +92,10 @@ router.post('/form/', function(req, res) {
             	});
             	fs.createReadStream(files.file.path).pipe(writeStream);
           	});
-        }     
+        }
     });
 
-	form.on('end', function() {   
+	form.on('end', function() {
     	res.send('Completed ...');
     });
 });
@@ -108,7 +108,7 @@ router.get('/:fileid', function(req, res) {
 
 	// on cree une connexion avec la BD
 	var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
-	
+
 	// check les erreurs
 	conn.on('error', function(err){
   		if(err) {
@@ -153,7 +153,7 @@ router.get('/', function(req, res){
         + '<input type="file" id="file" name="file"><br/>'
         + '<input type="submit" value="submit">'
         + '</form>'
-        );    
+        );
 });
 
 

@@ -19,3 +19,14 @@ var getCommentsSchema = function() {
 };
 
 exports.getCommentsSchema = getCommentsSchema;
+
+var UserSchema = new mongoose.Schema({
+  username: String,
+  password: String
+}, {collection: 'user', versionKey: false} );
+
+var getUserSchema = function () {
+  return mongoose.model('User', UserSchema);
+};
+
+exports.getUserSchema = getUserSchema;

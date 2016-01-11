@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 
 var fileRoutes = require('./routes/fileApi');
 var commentsRoutes = require('./routes/commentsApi');
+var userRoutes = require('./routes/userApi');
 
 //pour version sans formulaire (permet l'acces à req.files.filefield) :
 var busboyBodyParser = require('busboy-body-parser');
@@ -16,8 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/file', fileRoutes);
 app.use('/api/comment', commentsRoutes);
-
-
+app.use('/api/user', userRoutes);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
