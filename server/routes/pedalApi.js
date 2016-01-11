@@ -35,7 +35,7 @@ router.route('/')
 
     pedale.nom = req.body.nom;
     pedale.description = req.body.description;
-    if (req.body.effets.isArray) {
+    if (req.body.effets !== undefined && req.body.effets.isArray) {
       pedale.effets = req.body.effets;
     } else {
       pedale.effets = [];

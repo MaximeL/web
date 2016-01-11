@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var UserModel = require('../model/schema.js').getUserSchema();
+var PedaleSchema = require('../model/schema.js').getPedaleSchema();
 
 // All request node
 router.use(function (req, res, next) {
@@ -15,7 +16,7 @@ router.use(function (req, res, next) {
 
 router.route('/')
   // Liste des utilisateurs
-  .get(function(req, res) {
+  .get(function (req, res) {
     UserModel.find({}, function (err, users) {
       if (err) {
         console.log(err);
@@ -25,9 +26,8 @@ router.route('/')
       return res.send(users);
     });
   })
-
   // Inscription
-  .put(function (req, res) {
+  .post(function (req, res) {
     if (req.body.username === undefined && req.body.password === undefined) {
       // TODO : Error
     }
@@ -45,11 +45,11 @@ router.route('/')
         return;
       }
       // TODO : Vérifier le statut
-      res.statusCode(201);
+      res.status(201);
       return res.send(user);
     });
-  })
-
+  });
+router.route('/auth')
   // Connection
   .post(function (req, res) {
     UserModel.findOne({'username': req.body.username, 'password': req.body.password}, function (err, user) {
@@ -62,4 +62,49 @@ router.route('/')
       return res.send(user);
     });
   });
+
+// Update d'un user
+router.put('/:id', function (req, res) {
+  UserModel.findOne({'_id': req.params.id}, function (err, user) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    if (req.body.username !== undefined) {
+      user.username = req.body.username;
+    }
+    if (req.body.password !== undefined) {
+      user.password = req.body.password;
+    }
+    if (req.body.pedals !== undefined) {
+      if (req.body.pedals.isArray) {
+        for (var i = 0; i < req.body.pedals.length; i++) {
+          user.pedals.push(req.body.pedals[i]);
+        }
+      }
+      else {
+        user.pedals.push(req.body.pedals);
+      }
+      user.save(function (err, user) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.status(200);
+        return res.send(user);
+      });
+    } else {
+      user.save(function (err, user) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.status(200);
+        return res.send(user);
+      });
+    }
+  });
+  return res.end();
+});
 module.exports = router;
