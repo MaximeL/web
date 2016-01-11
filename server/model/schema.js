@@ -10,8 +10,12 @@ var port = '27017';
 mongoose.connect('mongodb://localhost:' + port + '/' + dbName);
 
 var CommentsSchema = new Schema({
-    username: String,
-    content: String
+  username: String,
+  content: String
 }, {collection: 'comment', versionKey: false} );
 
-module.exports = mongoose.model('Comment', CommentsSchema);
+var getCommentsSchema = function() {
+  return mongoose.model('Comment', CommentsSchema);
+};
+
+exports.getCommentsSchema = getCommentsSchema;

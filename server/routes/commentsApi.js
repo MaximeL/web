@@ -4,8 +4,8 @@
 
 var express = require('express');
 var router = express.Router();
-var CommentsSchema = require('../model/commentsSchema');
-var comment = new CommentsSchema();
+
+var CommentsSchema = require('../model/schema').getCommentsSchema();
 
 // ---------------------------
 // Middleware for all requests
