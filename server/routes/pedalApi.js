@@ -64,19 +64,28 @@ router.post('/', function (req, res) {
 
 //##########GET > Route -> /api/pedale###########
 
-//router.get('/', function (req, res) {
-//  console.log(" # ----> GET Pedale");
-//
-//  PedaleSchema.find(function (err, pedaleList) {
-//    if (err) {
-//      console.log(err);
-//      res.status(404);
-//      return;
-//    }
-//    console.log('---> Liste de pedale enregistrees via ' + req.url + req.body.type);
-//    res.json(pedaleList);
-//  });
-//
-//});
+router.get('/', function (req, res) {
+  var conn = mongoose.createConnection('localhost', dbName, port);
+
+  // check les erreurs
+  conn.on('error', function (err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+  });
+
+  conn.once('open', function () {
+    PedaleSchema.find(function (err, pedaleList) {
+      if (err) {
+        console.log(err);
+        res.status(404);
+        return;
+      }
+      console.log('---> Liste de pedale enregistrees via ' + req.url + req.body.type);
+      res.json(pedaleList);
+    });
+  });
+});
 
 module.exports = router;
