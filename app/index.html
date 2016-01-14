@@ -13,6 +13,7 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/live.css">
     <!-- endbuild -->
   </head>
   <body ng-app="webClientSideApp">
@@ -88,7 +89,11 @@
         <script src="scripts/services/SoundNode/soundnode.js"></script>
         <script src="scripts/services/SoundNode/inputnode.js"></script>
         <script src="scripts/services/SoundNode/outputnode.js"></script>
-        <script src="scripts/directives/inputnode.js"></script>
+        <script src="scripts/directives/drInputnode.js"></script>
+        <script src="scripts/directives/droutputnode.js"></script>
         <!-- endbuild -->
+
+        <!-- Import that can't be done with npm or bower -->
+        <!--<script src="scripts/imports/jsPlumb-2.0.5-min.js"></script>-->
 </body>
 </html>

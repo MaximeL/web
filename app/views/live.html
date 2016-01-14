@@ -1,16 +1,13 @@
-<div class="wrapper">
+<div class="live-page">
+  <div ng-if="ready">
+    <canvas class="visualizer" width="640" height="100"></canvas>
+    <dr-inputnode></dr-inputnode>
+    <dr-outputnode></dr-outputnode>
 
-  <header>
-    <h1>Sound Live</h1>
-  </header>
-
-  <canvas class="visualizer" width="640" height="100"></canvas>
-<div ng-bind-html="live.INPUT.template"></div>
-</div>
-<div class="wrapper">
-  <div ng-repeat="effect in live.effects">
-
+    <div ng-repeat="effect in live.effects">
+    </div>
+  </div>
+  <div ng-if="!ready">
+    <h1>ite dosehant worque véri waile</h1>
   </div>
 </div>
-<p ng-bind-html="live.OUTPUT.template"></p>
-<div ng-bind-html="live.OUTPUT.template"></div>

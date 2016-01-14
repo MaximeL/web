@@ -9,7 +9,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('SoundNode', function () {
+  .factory('soundNode', function () {
 
     var soundnode = {};
 
