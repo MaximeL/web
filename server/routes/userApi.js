@@ -49,6 +49,7 @@ router.route('/')
       return res.send(user);
     });
   });
+
 router.route('/auth')
   // Connection
   .post(function (req, res) {
@@ -57,7 +58,10 @@ router.route('/auth')
         console.log(err);
         return;
       }
-      // TODO :
+
+      if(user == null) {
+        return res.status(404).json("{message: user not found}")
+      }
       res.status(200);
       return res.send(user);
     });
