@@ -1,0 +1,16 @@
+<h2>Sign Up</h2>
+    <form role="form">
+      <div class="form-group">
+        <label for="unername">Unername:</label>
+        <input type="text" class="form-control" id="username" ng-model="signup.username" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label for="mail">Mail:</label>
+        <input type="mail" class="form-control" id="mail"  ng-model="signup.mail" placeholder="Enter mail">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password"  ng-model="signup.password" placeholder="Enter password">
+      </div>
+      <button type="submit" class="btn btn-info btn-lg glyphicon glyphicon-saved" ng-click="createUser()">Saved</button>
+    </form>

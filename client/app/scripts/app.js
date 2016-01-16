@@ -10,7 +10,8 @@
  */
 angular
   .module('webClientSideApp', [
-    'ngRoute'
+    'ngRoute',
+    'notifications'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -28,6 +29,11 @@ angular
         templateUrl: 'views/live.html',
         controller: 'LiveCtrl',
         controllerAs: 'live'
+      })
+      .when('/signup', {
+        templateUrl: 'views/signUp.html',
+        controller: 'MainCtrl',
+        controllerAs: 'signup'
       })
       .otherwise({
         templateUrl: '404.html'
