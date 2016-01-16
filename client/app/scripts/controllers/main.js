@@ -9,9 +9,7 @@
  */
 angular.module('webClientSideApp')
   .controller('MainCtrl', function ($scope , $notification , user) {
-    $scope.username = "passss@@";
-    $scope.password = "bououououf";
-
+  
     $scope.signup = {
 
       username : "",
@@ -27,7 +25,7 @@ angular.module('webClientSideApp')
     }
 
    /**
-      une manière d'necrypter les données du user : nom , mot de passe , email ......
+      une manière d'encrypter les données du user : nom , mot de passe , email ......
       Lien vers la personne à qui j'ai piqué le code :) : http://spaghetti.io/cont/article/angularjs-and-basic-auth/12/1.html#.VpaxtFnb_HY
       "il est open source"
    **/
@@ -40,26 +38,17 @@ angular.module('webClientSideApp')
     _utf8_decode:function(e){var t="";var n=0;var r=0 , c1=0,c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}
     }
 
-
-
-    $scope.userDataEncrypted = $scope._base64.encode( $scope.password);
-    $scope.userDataDecrypted = $scope._base64.decode( $scope.userDataEncrypted);
-    console.log("encrypted : " + $scope.userDataEncrypted);
-    console.log("decrypted : " + $scope.userDataDecrypted);
-
-
       /**
       chech login befor signin
       */
      $scope.checkLogin = function(){
-      if($scope.login.pseudo === "user" && $scope.login.password === "user"){
+      $scope._base64.encode($scope.login.password);
+      if(user.checkUser($scope.login)){
         $scope.logged = true;
-        $notification.success("login", "connected with " + $scope._base64.encode($scope.login.peudo + ":" + $scope.login.password));
-       
+        $notification.success("login", "connected successfuly");  
       }
       else{
         $notification.error("login", "refused");
-        console.log('kokok');
       }
     }
 
@@ -68,9 +57,12 @@ angular.module('webClientSideApp')
     */
     $scope.createUser = function(){
       if($scope.signup.username != $scope.signup.mail != $scope.signup.password != null){
+            $scope._base64.encode($scope.login.password);
             user.createUser($scope.signup);
             $notification.success("signup" ,  "user : " + $scope.signup.username + " created")
       }
     };
+
+
 
   });

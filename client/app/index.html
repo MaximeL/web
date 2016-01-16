@@ -15,6 +15,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+       <link rel="stylesheet" href="bower_components/ngnotification/notification.css" />
   </head>
   <body ng-app="webClientSideApp">
     <!--[if lte IE 8]>
@@ -54,11 +55,10 @@
     <div ng-view=""></div>
     </div>
 
-    <div class="footer">
-      <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+     <div class="footer">
+      <div class="navbar-fixed-bottom" notifications="alert">
+
       </div>
-    </div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -78,17 +78,22 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/ngnotification/notification.js"></script>
     <script src="bower_components/angular-crypto/angular-crypto.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/live.js"></script>
         <script src="scripts/services/user.js"></script>
+
+
         <!-- endbuild -->
 </body>
 </html>

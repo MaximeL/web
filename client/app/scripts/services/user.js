@@ -16,6 +16,16 @@ angular.module('webClientSideApp')
 		      $http.post("http://localhost:3000/api/user", user)
           console.log("user created" + user.username);
 		      return deferred.promise;
-  		})
+  		}),
+      checkUser : (function(user){
+        var deferred = $q.defer();
+          $http.get("http://localhost:3000/api/user", user)
+              .then(function(response) {
+                  console.log("user created" + user.username);
+                  if(response != null){return true}
+                });
+          return false;
+      })
+
   	};
   });
