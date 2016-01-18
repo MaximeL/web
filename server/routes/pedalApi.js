@@ -52,9 +52,12 @@ router.route('/')
       res.status(200);
       return res.send(pedaleSaved);
     });
-  })
+  });
+
+// Update d'une pédale
+router.route('/:id')
   .get(function (req, res) {
-    PedaleSchema.find({}, function (err, pedals) {
+    PedaleSchema.find({'_id': req.params.id}, function (err, pedals) {
       if (err) {
         console.log(err);
         res.status(404);
@@ -63,10 +66,7 @@ router.route('/')
       res.status(200);
       return res.send(pedals);
     });
-  });
-
-// Update d'une pédale
-router.route('/:id')
+  })
   .put(function (req, res) {
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
