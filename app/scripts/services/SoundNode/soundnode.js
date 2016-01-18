@@ -16,10 +16,14 @@ angular.module('webClientSideApp')
     var init = function(audioContext) {
       soundnode.input = audioContext.createGain();
       soundnode.output = audioContext.createGain();
-      soundnode.template = '<div class="soundnode">soundnode</div>';
+
+      soundnode.input.connect(soundnode.output);
 
       soundnode.connect = function(target) {
-        output.connect(target);
+        soundnode.output.connect(target);
+      };
+      soundnode.disconnect = function() {
+        soundnode.output.disconnect();
       };
       return soundnode;
     };

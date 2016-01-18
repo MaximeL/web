@@ -7,33 +7,41 @@
  * # Inputnode
  */
 angular.module('webClientSideApp')
-  .directive('drInputnode', function ($log, inputnode) {
-    var soundnode, audioCtx;
-
+  .directive('drInputnode', function ($log, inputnode, audiocontext) {
     return {
       template: '<div class="soundnode" id="input">' +
       '<div class="my-container">' +
       'Input' +
-      '<div class="link-point link-out"></div>' +
       '</div>' +
       '</div>',
       restrict: 'EA',
+      scope: {},
       link: function postLink(scope, element, attrs) {
         var linkOut = element.find(".link-out");
         $log.debug(linkOut);
 
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-          console.log('getUserMedia supported.');
-          navigator.getUserMedia(
-            {audio: true},
-            function(stream) {
-              soundnode = inputnode.create(audioCtx, stream);
-            },
-            function(err) {
-              console.log('The following gUM error occured: ' + err);
-            }
-          );
+        console.log('getUserMedia supported.');
+        navigator.getUserMedia(
+          {audio: true},
+          function(stream) {
+            scope.soundnode = inputnode.create(audiocontext.get(), stream);
+            jsPlumb.addEndpoint("input", {
+              anchor:"Right"
+            }, {
+              isSource:true,
+              isTarget:false,
+              connector:"Straight",
+              endpoint:"Dot",
+              paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
+              hoverPaintStyle:{ fillStyle:"blue" },
+              connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+              connectorHoverStyle:{ lineWidth:2 }
+            });
+          },
+          function(err) {
+            console.log('The following gUM error occured: ' + err);
+          }
+        );
       }
     }
   });

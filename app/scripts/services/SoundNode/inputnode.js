@@ -14,10 +14,13 @@ angular.module('webClientSideApp')
     var soundnode = {};
 
     var init = function(audioContext, stream) {
-      soundnode.input = audioContext.createMediaStreamSource(stream);
+      soundnode.output = audioContext.createMediaStreamSource(stream);
 
       soundnode.connect = function(target) {
-        input.connect(target);
+        soundnode.output.connect(target);
+      };
+      soundnode.disconnect = function() {
+        soundnode.output.disconnect();
       };
       return soundnode;
     };

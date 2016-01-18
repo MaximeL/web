@@ -15,8 +15,6 @@ angular.module('webClientSideApp')
 
     var init = function(audioContext) {
       soundnode.input = audioContext.destination;
-      soundnode.template = '<div class="soundnode output">Output</div>';
-
       return soundnode;
     };
 

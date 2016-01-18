@@ -12,7 +12,7 @@ angular
   .module('webClientSideApp', [
     'ngRoute'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $compileProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -32,4 +32,6 @@ angular
       .otherwise({
         templateUrl: '404.html'
       });
+
+    $compileProvider.debugInfoEnabled(true);
   });
