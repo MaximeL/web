@@ -9,19 +9,35 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('outputnode', function () {
+  .factory('outputnode', function (abstractSoundnode) {
     // Service logic
-    var soundnode = {};
-
-    var init = function(audioContext) {
-      soundnode.input = audioContext.destination;
-      return soundnode;
-    };
 
     // Public API here
     return {
-      create: function (audioContext) {
-        return init(audioContext);
+      create: function (audioContext, id, posx, posy, value, precedent, suivant) {
+        var soundnode = abstractSoundnode.create();
+        soundnode.type = 'output';
+        soundnode.initPlumb = function() {
+          jsPlumb.addEndpoint(""+soundnode.id, {
+            anchor:"Left"
+          }, {
+            isSource:false,
+            isTarget:true,
+            connector:"Straight",
+            endpoint:"Dot",
+            paintStyle:{ fillStyle:"red", outlineColor:"red", outlineWidth:1 },
+            hoverPaintStyle:{ fillStyle:"red" },
+            connectorStyle:{ strokeStyle:"red", lineWidth:1 },
+            connectorHoverStyle:{ lineWidth:2 }
+          });
+        };
+
+        soundnode.initNode = function(audioContext) {
+          soundnode.input = audioContext.destination;
+        };
+
+        soundnode.init(audioContext, id, posx, posy, value, precedent, suivant);
+        return soundnode;
       }
     };
   });

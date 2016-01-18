@@ -14,7 +14,22 @@ angular.module('webClientSideApp')
     $scope.ready = false;
     vm.audionodes = [
       {
-        type: 'gain'
+        id: 0,
+        type: 'input',
+        posx: null,
+        posy: null,
+        value: null,
+        precedent: null,
+        suivant: null
+      },
+      {
+        id: 1,
+        type: 'output',
+        posx: null,
+        posy: null,
+        value: null,
+        precedent: null,
+        suivant: null
       }
     ];
 
@@ -46,8 +61,8 @@ angular.module('webClientSideApp')
         $log.debug(inputElm);
         $log.debug(outputElm);
 
-        var inputNode = inputElm.scope().soundnode;
-        var outputNode = outputElm.scope().soundnode;
+        var inputNode = inputElm.scope();
+        var outputNode = outputElm.scope();
 
         $log.debug(inputNode);
         $log.debug(outputNode);

@@ -1,11 +1,15 @@
 <div id="live-page">
   <div ng-if="ready">
-    <canvas class="visualizer" width="640" height="100"></canvas>
-    <dr-inputnode></dr-inputnode>
-    <dr-outputnode></dr-outputnode>
 
-    <div ng-repeat="effect in live.effects">
-    </div>
+      <audio-node ng-repeat="node in live.audionodes"
+                  id="{{node.id}}"
+                  type="{{node.type}}"
+                  posx="{{node.posx}}"
+                  posy="{{node.posy}}"
+                  value="{{node.value}}"
+                  precedent="{{node.precedent}}"
+                  suivant="{{node.suivant}}">
+      </audio-node>
   </div>
   <div ng-if="!ready">
     <h1>ite dosehant worque véri waile</h1>

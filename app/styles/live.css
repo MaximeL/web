@@ -8,7 +8,7 @@
   background-color: #f4f4f4;
 }
 
-#input {
+.input {
   position: absolute;
   height: 100%;
   top: 0;
@@ -17,29 +17,12 @@
   background-color: #f4f4f4;
 }
 
-#output {
+.output {
   position: absolute;
   height: 100%;
   top: 0;
   right: 0;
   width: 5%;
-}
-
-.link-point {
-  top: 50%;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-}
-.link-out {
-  position: absolute;
-  right: -1em;
-  background: #f40e00;
-}
-.link-in {
-  position: absolute;
-  left: -1em;
-  background: #0027f4;
 }
 
 

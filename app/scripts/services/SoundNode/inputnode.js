@@ -9,26 +9,43 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('inputnode', function () {
+  .factory('inputnode', function ($log, abstractSoundnode) {
     // Service logic
-    var soundnode = {};
-
-    var init = function(audioContext, stream) {
-      soundnode.output = audioContext.createMediaStreamSource(stream);
-
-      soundnode.connect = function(target) {
-        soundnode.output.connect(target);
-      };
-      soundnode.disconnect = function() {
-        soundnode.output.disconnect();
-      };
-      return soundnode;
-    };
 
     // Public API here
     return {
-      create: function (audioContext, stream) {
-        return init(audioContext, stream);
+      create: function (audioContext, id, posx, posy, value, precedent, suivant) {
+        var soundnode = abstractSoundnode.create();
+        soundnode.type = 'input';
+
+        soundnode.initPlumb = function() {
+          jsPlumb.addEndpoint(""+soundnode.id, {
+            anchor:"Right"
+          }, {
+            isSource:true,
+            isTarget:false,
+            connector:"Straight",
+            endpoint:"Dot",
+            paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
+            hoverPaintStyle:{ fillStyle:"blue" },
+            connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+            connectorHoverStyle:{ lineWidth:2 }
+          });
+        };
+        soundnode.initNode = function(audioContext) {
+          navigator.getUserMedia(
+            {audio: true},
+            function(stream) {
+              soundnode.output = audioContext.createMediaStreamSource(stream);
+            },
+            function(err) {
+              console.log('The following gUM error occured: ' + err);
+            }
+          );
+        };
+
+        soundnode.init(audioContext, id, posx, posy, value, precedent, suivant);
+        return soundnode;
       }
     };
   });
