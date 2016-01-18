@@ -35,6 +35,8 @@ router.route('/')
 
     pedale.nom = req.body.nom;
     pedale.description = req.body.description;
+    pedale.owner = req.body.owner;
+                                         // TODO : marche pô
     if (req.body.effets !== undefined && req.body.effets.isArray) {
       pedale.effets = req.body.effets;
     } else {
@@ -62,4 +64,54 @@ router.route('/')
       return res.send(pedals);
     });
   });
+
+// Update d'une pédale
+router.put('/:id', function (req, res) {
+  PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      if (req.body.nom !== undefined) {
+        pedale.nom = req.body.nom;
+      }
+      if (req.body.description !== undefined) {
+        pedale.description = req.body.description;
+      }
+      //TODO
+      if (req.body.effets !== undefined) {
+        //{
+        //  type: String,
+        //    precedent: String,
+        //  suivant: String
+        //}
+        pedale.effets = req.body.effets;
+      }
+
+      if (req.body.users !== undefined) {
+        // TODO : marche pô
+        //if (req.body.users.isArray) {
+          for (var j = 0; j < req.body.users.length; j++) {
+            pedale.users.push(
+              {
+                _id: req.body.users[j].id,
+                right: req.body.users[j].right
+              }
+            );
+          }
+        //}
+      }
+
+      pedale.save(function (err, pedale) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.status(200);
+        return res.send(pedale);
+      });
+    }
+  );
+});
 module.exports = router;
