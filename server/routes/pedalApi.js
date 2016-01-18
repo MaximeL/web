@@ -57,14 +57,14 @@ router.route('/')
 // Update d'une pédale
 router.route('/:id')
   .get(function (req, res) {
-    PedaleSchema.find({'_id': req.params.id}, function (err, pedals) {
+    PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         console.log(err);
         res.status(404);
         return;
       }
       res.status(200);
-      return res.send(pedals);
+      return res.send(pedale);
     });
   })
   .put(function (req, res) {

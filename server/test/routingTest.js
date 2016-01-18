@@ -237,7 +237,7 @@ describe('Routing test', function () {
           // recupere l'id du post pour tester le get par id
           id_created = res.body._id;
           res.body.username.should.equal("test");
-          res.body.password.should.not.have.property("password");
+          res.body.should.not.have.property("password");
           done();
         });
     });
@@ -255,7 +255,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          console.log(res.body);
           // Should.js fluent syntax applied
           res.body._id.should.equal(id_created);
           res.body.username.should.equal("update-test");
@@ -307,33 +306,36 @@ describe('Routing test', function () {
 
   describe('Pedal API testing', function () {
     var id_owner;
-    var userBody = {
-      username: "test",
-      password: "alligator3"
-    };
-
-    request(URL)
-      .post(URL_USER)
-      .send(userBody)
-      .expect('Content-type', 'application/json; charset=utf-8')
-      .expect(201) //Status code created
-      .end(function (err, res) {
-        if (err) {
-          throw err;
-        }
-        // recupere l'id du post pour tester le get par id
-        id_owner = res.body._id;
-      });
-
-    var id_created = null;
+    var id_created;
     var pedalBody = {
       nom: "Ma pédale",
       description: "Celle de Tonton"
     };
-    pedalBody.owner = id_owner;
+
+    before(function(done) {
+      var userBody = {
+        username: "test",
+        password: "alligator3"
+      };
+
+      request(URL)
+        .post(URL_USER)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(201) //Status code created
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // recupere l'id du post
+          id_owner = res.body._id;
+          done();
+        });
+    });
 
     // TEST POST
     it('should correctly post a new pedal', function (done) {
+      pedalBody.owner = id_owner;
       request(URL)
         .post(URL_PEDAL)
         .send(pedalBody)
@@ -350,9 +352,9 @@ describe('Routing test', function () {
           res.body.owner.should.equal(id_owner);
           res.body.nom.should.equal("Ma pédale");
           res.body.description.should.equal("Celle de Tonton");
-          res.body.password.should.have.property("users");
+          res.body.should.have.property("users");
           // TODO : enfants
-          res.body.password.should.have.property("effets");
+          res.body.should.have.property("effets");
           done();
         });
     });
@@ -390,11 +392,11 @@ describe('Routing test', function () {
           res.body.should.have.property('_id');
           res.body._id.should.equal(id_created);
           res.body.owner.should.equal(id_owner);
-          res.body.nom.should.equal("Ma pédale");
+          res.body.nom.should.equal("Ma pédale modifée");
           res.body.description.should.equal("Celle de Tonton");
           // TODO : check content
-          res.body.password.should.have.property("effets");
-          res.body.password.should.have.property("users");
+          res.body.should.have.property("effets");
+          res.body.should.have.property("users");
           done();
         });
     });
