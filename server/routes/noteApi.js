@@ -47,7 +47,7 @@ router.route('/')
     if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('value') ||
       req.body.username === "" || req.body.value === "")
     {
-      console.log("   username or value not specified man!")
+      console.log("   username or value not specified man!");
       res.status(400);
       res.json({ message: "Post syntax incorrect, username or value not specified or empty" });
       return;
@@ -63,6 +63,7 @@ router.route('/')
         return;
       }
       console.log("   Ok pour l'ajout d'un meteo wesh magueul");
+      res.status(201);
       res.json(noteSaved);
     });
   });
@@ -99,7 +100,7 @@ router.route('/:note_id')
         if (err)
           res.send(err);
         console.log('---> note ' + req.params.note_id + ' mise a jour via ' + req.url);
-        res.json({ message: 'note updated!' });
+        res.json(note);
       });
     });
   })
