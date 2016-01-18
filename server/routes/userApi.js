@@ -81,7 +81,7 @@ router.put('/:id', function (req, res) {
         user.password = req.body.password;
       }
       if (req.body.pedals !== undefined) {
-        if (req.body.pedals.isArray) {
+        if (req.body.pedals.constructor === Array) {
           for (var i = 0; i < req.body.pedals.length; i++) {
             user.pedals.push(req.body.pedals[i]);
           }
@@ -92,8 +92,7 @@ router.put('/:id', function (req, res) {
       }
 
       if (req.body.shared !== undefined) {
-        // TODO : marche pô
-        if (req.body.shared.isArray) {
+        if (req.body.shared.constructor === Array) {
           for (var j = 0; j < req.body.shared.length; j++) {
             console.log(req.body.shared[j]);
             user.shared.push(
