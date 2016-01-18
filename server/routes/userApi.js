@@ -52,7 +52,7 @@ router.route('/')
 
 router.route('/auth')
   // Connection
-  .get(function (req, res) {
+  .post(function (req, res) {
     UserModel.findOne({'username': req.body.username, 'password': req.body.password}, function (err, user) {
       if (err) {
         console.log(err);
