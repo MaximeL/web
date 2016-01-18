@@ -12,9 +12,9 @@ var Schema = Dao.Schema;
 var CommentsSchema = new Schema({
   username: String,
   content: String
-}, {collection: 'comment', versionKey: false} );
+}, {collection: 'comment', versionKey: false});
 
-var getCommentsSchema = function() {
+var getCommentsSchema = function () {
   return Dao.model('Comment', CommentsSchema);
 };
 
@@ -25,9 +25,9 @@ var getCommentsSchema = function() {
 var NotesSchema = new Schema({
   username: String,
   value: Number
-}, {collection: 'note', versionKey: false} );
+}, {collection: 'note', versionKey: false});
 
-var getNotesSchema = function() {
+var getNotesSchema = function () {
   return Dao.model('Note', NotesSchema);
 };
 
@@ -38,9 +38,9 @@ var getNotesSchema = function() {
 var UserSchema = new Schema({
   username: String,
   password: String,
-  pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal' }]
-  //rights: [{uid: Schema.Types.ObjectId}]
-}, {collection: 'user', versionKey: false} );
+  pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal'}],
+  shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedal'}, right: Boolean}]
+}, {collection: 'user', versionKey: false});
 
 var getUserSchema = function () {
   return Dao.model('User', UserSchema);
@@ -50,19 +50,21 @@ var getUserSchema = function () {
  * Pedale
  */
 var PedaleSchema = new Schema({
-    nom: String,
-    description: String,
-    effets: [
-      {
-        type: String,
-        precedent: String,
-        suivant: String
-      }
-    ]
-}, {collection: 'pedale', versionKey: false} );
+  nom: String,
+  description: String,
+  effets: [
+    {
+      type: String,
+      precedent: String,
+      suivant: String
+    }
+  ],
+  owner: {type: Schema.Types.ObjectId, ref: 'User'},
+  users: [{_id: {type: Schema.Types.ObjectId, ref: 'User'}, right: Boolean}]
+}, {collection: 'pedale', versionKey: false});
 
-var getPedaleSchema = function() {
-    return Dao.model('Pedale', PedaleSchema);
+var getPedaleSchema = function () {
+  return Dao.model('Pedale', PedaleSchema);
 };
 
 
