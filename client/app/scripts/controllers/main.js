@@ -14,14 +14,32 @@ angular.module('webClientSideApp')
 
       username : "",
       mail : "",
-      password : ""
+      password : "",
+      _id : "",
+      pedals : $rootScope.pedal
+
     }
 
     $rootScope.logged = false;
 
     $rootScope.login = {
       username : "",
-      password : ""
+      password : "",
+      _id : "",
+      pedals : $rootScope.pedal
+    }
+
+
+    $rootScope.pedal = {
+      nom: "",
+      description: "",
+      effets: [
+        {
+          type: "",
+          precedent: "",
+          suivant: ""
+        }
+      ]
     }
 
    /**
@@ -44,7 +62,10 @@ angular.module('webClientSideApp')
      $rootScope.checkLogin = function(){
       $rootScope._base64.encode($rootScope.login.password);
 
-       user.checkUser($rootScope.login)
+       user.checkUser($rootScope.login);
+
+
+
 
 
     }
@@ -53,13 +74,22 @@ angular.module('webClientSideApp')
     create a new user and stor it in DB
     */
     $rootScope.createUser = function(){
-      console.log("before");
       if($rootScope.signup.username != $rootScope.signup.mail != $rootScope.signup.password != null){
             $rootScope.signup.password = $rootScope._base64.encode($rootScope.signup.password);
             user.createUser($rootScope.signup);
             $notification.success("signup" ,  "user : " + $rootScope.signup.username + " created")
       }
     };
+
+    $rootScope.createPedale = function(){
+      user.createPedale($rootScope.pedal);
+      console.log($rootScope.pedal);
+    };
+
+    $rootScope.share = function(){
+      console.log("debeug");
+      console.log($rootScope.login);
+    }
 
 
 

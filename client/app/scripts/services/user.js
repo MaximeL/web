@@ -14,23 +14,42 @@ angular.module('webClientSideApp')
     return {
     	createUser : (function(user){
 		    var deferred = $q.defer();
-		      $http.post("http://localhost:3000/api/user", user)
-          console.log("user created" + user.username);
-		      return deferred.promise;
+        $http.post("http://localhost:3000/api/user", user)
+        console.log("user created" + user.username);
+        return deferred.promise;
   		}),
       checkUser : (function(user){
 
         var deferred = $q.defer();
           $http.post("http://localhost:3000/api/user/auth", user)
-              .success(function() {
+              .success(function(data) {
+                $rootScope.login._id = data._id;
+                $rootScope.login.pedals = data.pedals;
                 $rootScope.logged = true;
+                deferred.resolve(data);
                 $notification.success("login", "connected successfuly");
+
               })
               .error(function() {
-                console.log("error");
                 $notification.error("login", "refused");
+                deferred.reject(false);
 
               });
+
+        return deferred.promise;
+      }),
+      createPedale : (function(pedal){
+        var deferred = $q.defer();
+        $http.post("http://localhost:3000/api/pedal", pedal)
+          .success(function(data) {
+            deferred.resolve(data);
+            $notification.success("login", "pedal created");
+
+          })
+          .error(function() {
+            $notification.error("login", "");
+            deferred.reject(false);
+          });
         return deferred.promise;
       })
 

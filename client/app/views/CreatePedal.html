@@ -1,0 +1,55 @@
+<div class="modal" ng-class="{'show': true, hide: logged }" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Pedale:</h3>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+              <div class="col-md-6 col-md-offset-2">
+
+                    <input type="text" id="nom" name="nom"  ng-model="pedal.nom" required />
+                    <label for="nom" >
+                      Nom
+                    </label>
+                    <br>
+
+                    <input type="text" id="description" name="description" ng-model="pedal.description" required />
+                    <label for="description" >
+                      description
+                    </label>
+                    <br>
+
+                    <input type="text" id="type" name="type" ng-model="pedal.effets[0].type" required />
+                    <label for="description" >
+                      type
+                    </label>
+                    <br>
+
+                    <input type="text" id="suivant" name="suivant" ng-model="pedal.effets[0].suivant" required />
+                    <label for="suivant" >
+                      suivant
+                    </label>
+                    <br>
+
+                    <input type="text" id="precedent" name="precedent" ng-model="pedal.effets[0].precedent" required />
+                    <label for="precedent" >
+                      precedent
+                    </label>
+                    <br>
+                    <br>
+                    <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="createPedale()">
+                    </span>Create
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
