@@ -63,6 +63,7 @@ router.route('/')
                 return;
             }
             console.log("   Ok pour l'ajout d'un meteo wesh magueul");
+            res.status(201);
             res.json(commentSaved);
         });
     });
@@ -99,7 +100,7 @@ router.route('/')
                     if (err)
                         res.send(err);
                     console.log('---> Comment ' + req.params.comment_id + ' mise a jour via ' + req.url);
-                    res.json({ message: 'Comment updated!' });
+                    res.json(comment);
                 });
             });
         })
