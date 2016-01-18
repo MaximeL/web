@@ -16,11 +16,13 @@ router.use(function (req, res, next) {
 router.route('/')
   // Liste des utilisateurs
   .get(function (req, res) {
-    UserSchema.find({}, function (err, users) {
+    var query = UserSchema.find({}).select('-password');
+    query.exec(function (err, users) {
       if (err) {
         console.log(err);
         return;
       }
+      // TODO : Supprimer les mots de passe
       res.status(200);
       return res.send(users);
     });
@@ -43,7 +45,7 @@ router.route('/')
         console.log(err);
         return;
       }
-      // TODO : Vérifier le statut
+      user.password = undefined;
       res.status(201);
       return res.send(user);
     });
@@ -52,7 +54,8 @@ router.route('/')
 router.route('/auth')
   // Connection
   .post(function (req, res) {
-    UserSchema.findOne({'username': req.body.username, 'password': req.body.password}, function (err, user) {
+    var query = UserSchema.findOne({'username': req.body.username, 'password': req.body.password}).select('-password');
+    query.exec(function (err, user) {
       if (err) {
         console.log(err);
         return;
@@ -69,6 +72,7 @@ router.route('/auth')
 // Update d'un user
 router.put('/:id', function (req, res) {
   UserSchema.findOne({'_id': req.params.id}, function (err, user) {
+    console.log(user);
       if (err) {
         console.log(err);
         return;
@@ -110,6 +114,8 @@ router.put('/:id', function (req, res) {
           console.log(err);
           return;
         }
+        user.password = undefined;
+        console.log(user);
         res.status(200);
         return res.send(user);
       });

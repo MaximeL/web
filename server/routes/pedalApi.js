@@ -49,7 +49,7 @@ router.route('/')
         res.send(err);
         return;
       }
-      res.status(200);
+      res.status(201);
       return res.send(pedaleSaved);
     });
   });
@@ -116,10 +116,11 @@ router.route('/:id')
 
   })
   .delete(function (req, res) {
-    PedaleSchema.remove({_id: req.params.id}, function (err, note) {
+    PedaleSchema.remove({_id: req.params.id}, function (err) {
       if (err)
         res.send(err);
       res.json({message: 'Successfully deleted'});
+      return res.end();
     });
   });
 module.exports = router;
