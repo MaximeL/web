@@ -36,8 +36,8 @@ router.route('/')
     pedale.nom = req.body.nom;
     pedale.description = req.body.description;
     pedale.owner = req.body.owner;
-                                         // TODO : marche pô
-    if (req.body.effets !== undefined && req.body.effets.isArray) {
+
+    if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
       pedale.effets = req.body.effets;
     } else {
       pedale.effets = [];
@@ -90,8 +90,7 @@ router.put('/:id', function (req, res) {
       }
 
       if (req.body.users !== undefined) {
-        // TODO : marche pô
-        //if (req.body.users.isArray) {
+        if (req.body.users.constructor === Array) {
           for (var j = 0; j < req.body.users.length; j++) {
             pedale.users.push(
               {
@@ -100,7 +99,7 @@ router.put('/:id', function (req, res) {
               }
             );
           }
-        //}
+        }
       }
 
       pedale.save(function (err, pedale) {
