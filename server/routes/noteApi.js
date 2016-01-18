@@ -10,7 +10,7 @@ var NotesSchema = require('../model/schema').getNotesSchema();
 // ---------------------------
 // Middleware for all requests
 // ---------------------------
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
   console.log('Middleware called.');
   // allows requests from angularJS frontend applications
   res.header("Access-Control-Allow-Origin", "*");
@@ -24,45 +24,45 @@ router.use(function(req, res, next) {
 // ---------------
 router.route('/')
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     console.log('GET all list of notes');
-    NotesSchema.find(function(err, noteList) {
-      if(err) {
+    NotesSchema.find(function (err, noteList) {
+      if (err) {
         console.log(err);
         res.status(404);
         return;
       }
-      console.log("   Ok pour lister les meteos wesh t'as vu");
+      console.log("   Ok pour lister les notes ");
+      res.status(200);
       res.json(noteList);
     });
   })
 
-  .post(function(req, res) {
+  .post(function (req, res) {
     console.log('POST a note');
 
     var note = new NotesSchema();
 
     // on test l'existence des parametres requis
     // !req.body.hasOwnProperty('number')
-    if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('value') ||
-      req.body.username === "" || req.body.value === "")
-    {
+    if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('value') ||
+      req.body.username === "" || req.body.value === "") {
       console.log("   username or value not specified man!");
       res.status(400);
-      res.json({ message: "Post syntax incorrect, username or value not specified or empty" });
+      res.json({message: "Post syntax incorrect, username or value not specified or empty"});
       return;
     }
 
     note.username = req.body.username;
     note.value = req.body.value;
 
-    note.save(function(err, noteSaved) {
-      if(err) {
+    note.save(function (err, noteSaved) {
+      if (err) {
         res.status(404);
         res.send(err);
         return;
       }
-      console.log("   Ok pour l'ajout d'un meteo wesh magueul");
+      console.log("   Ok pour l'ajout d'une note");
       res.status(201);
       res.json(noteSaved);
     });
@@ -73,47 +73,51 @@ router.route('/')
 // -----------------------------
 router.route('/:note_id')
   // HTTP GET
-  .get(function(req, res) {
+  .get(function (req, res) {
     console.log('# GET a note by id');
-    NotesSchema.findOne({_id: req.params.note_id}, function(err, note) {
-      if(err) {
+    NotesSchema.findOne({_id: req.params.note_id}, function (err, note) {
+      if (err) {
         console.log(err);
         res.status(404);
         return;
       }
       console.log('---> note ' + req.params.note_id + ' liste via ' + req.url);
+      res.status(200);
       res.json(note);
     });
   })
   // HTTP PUT
-  .put(function(req, res) {
+  .put(function (req, res) {
     console.log('# PUT an note by id');
 
-    NotesSchema.findById(req.params.note_id, function(err, note) {
+    NotesSchema.findById(req.params.note_id, function (err, note) {
       if (err)
         res.send(err);
 
       note.username = req.body.username;
       note.value = req.body.value;
 
-      note.save(function(err) {
+      note.save(function (err) {
         if (err)
           res.send(err);
         console.log('---> note ' + req.params.note_id + ' mise a jour via ' + req.url);
+        res.status(200);
         res.json(note);
       });
     });
   })
   // HTTP DELETE
-  .delete(function(req, res) {
+  // TODO preciser une url pour permettre la suppression
+  .delete(function (req, res) {
     console.log('# DELETE a note by id');
     NotesSchema.remove({
       _id: req.params.note_id
-    }, function(err, note) {
+    }, function (err, note) {
       if (err)
         res.send(err);
       console.log('---> note ' + req.params.note_id + ' supprimee via ' + req.url);
-      res.json({message: 'Successfully deleted' });
+      res.status(200);
+      res.json({message: 'Successfully deleted'});
     });
   });
 

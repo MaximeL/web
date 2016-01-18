@@ -10,13 +10,13 @@ var CommentsSchema = require('../model/schema').getCommentsSchema();
 // ---------------------------
 // Middleware for all requests
 // ---------------------------
-router.use(function(req, res, next) {
-    console.log('Middleware called.');
-    // allows requests from angularJS frontend applications
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next(); // go to the next route
+router.use(function (req, res, next) {
+  console.log('Middleware called.');
+  // allows requests from angularJS frontend applications
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next(); // go to the next route
 });
 
 // ---------------
@@ -24,97 +24,97 @@ router.use(function(req, res, next) {
 // ---------------
 router.route('/')
 
-    .get(function(req, res) {
-        console.log('GET all list of comments');
-        CommentsSchema.find(function(err, commentsList) {
-            if(err) {
-                console.log(err);
-                res.status(404);
-                return;
-            }
-            console.log("   Ok pour lister les meteos wesh t'as vu");
-            res.json(commentsList);
-        });
-    })
-
-    .post(function(req, res) {
-        console.log('POST a comment');
-
-        var comment = new CommentsSchema();
-
-        // on test l'existence des parametres requis
-        // !req.body.hasOwnProperty('number')
-        if(!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('content') ||
-            req.body.username === "" || req.body.content === "")
-        {
-            console.log("   username or content not specified man!")
-            res.status(400);
-            res.json({ message: "Post syntax incorrect, username or content not specified or empty" });
-            return;
-        }
-
-        comment.username = req.body.username;
-        comment.content = req.body.content;
-
-        comment.save(function(err, commentSaved) {
-            if(err) {
-                res.status(404);
-                res.send(err);
-                return;
-            }
-            console.log("   Ok pour l'ajout d'un meteo wesh magueul");
-            res.status(201);
-            res.json(commentSaved);
-        });
+  .get(function (req, res) {
+    console.log('GET all list of comments');
+    CommentsSchema.find(function (err, commentsList) {
+      if (err) {
+        console.log(err);
+        res.status(404);
+        return;
+      }
+      console.log("   Ok pour lister les commentaires");
+      res.json(commentsList);
     });
+  })
+
+  .post(function (req, res) {
+    console.log('POST a comment');
+
+    var comment = new CommentsSchema();
+
+    // on test l'existence des parametres requis
+    // !req.body.hasOwnProperty('number')
+    if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('content') ||
+      req.body.username === "" || req.body.content === "") {
+      console.log("   username or content not specified!");
+      res.status(400);
+      res.json({message: "Post syntax incorrect, username or content not specified or empty"});
+      return;
+    }
+
+    comment.username = req.body.username;
+    comment.content = req.body.content;
+
+    comment.save(function (err, commentSaved) {
+      if (err) {
+        res.status(404);
+        res.send(err);
+        return;
+      }
+      console.log("   Ok pour l'ajout d'un commentaire");
+      res.status(201);
+      res.json(commentSaved);
+    });
+  });
 
 // -----------------------------
 // Route ➜ /comment/:comment_id
 // -----------------------------
-    router.route('/:comment_id')
-        // HTTP GET
-        .get(function(req, res) {
-            console.log('# GET a comment by id');
-            CommentsSchema.findOne({_id: req.params.comment_id}, function(err, comment) {
-                if(err) {
-                    console.log(err);
-                    res.status(404);
-                    return;
-                }
-                console.log('---> Comment ' + req.params.comment_id + ' liste via ' + req.url);
-                res.json(comment);
-            });
-        })
-        // HTTP PUT
-        .put(function(req, res) {
-            console.log('# PUT an comment by id');
+router.route('/:comment_id')
+  // HTTP GET
+  .get(function (req, res) {
+    console.log('# GET a comment by id');
+    CommentsSchema.findOne({_id: req.params.comment_id}, function (err, comment) {
+      if (err) {
+        console.log(err);
+        res.status(404);
+        return;
+      }
+      console.log('---> Comment ' + req.params.comment_id + ' liste via ' + req.url);
+      res.json(comment);
+    });
+  })
+  // HTTP PUT
+  .put(function (req, res) {
+    console.log('# PUT an comment by id');
 
-            CommentsSchema.findById(req.params.comment_id, function(err, comment) {
-                if (err)
-                    res.send(err);
+    CommentsSchema.findById(req.params.comment_id, function (err, comment) {
+      if (err)
+        res.send(err);
 
-                comment.username = req.body.username;
-                comment.content = req.body.content;
+      comment.username = req.body.username;
+      comment.content = req.body.content;
 
-                comment.save(function(err) {
-                    if (err)
-                        res.send(err);
-                    console.log('---> Comment ' + req.params.comment_id + ' mise a jour via ' + req.url);
-                    res.json(comment);
-                });
-            });
-        })
-        // HTTP DELETE
-        .delete(function(req, res) {
-            console.log('# DELETE a comment by id');
-            CommentsSchema.remove({
-                _id: req.params.comment_id
-            }, function(err, comment) {
-                if (err)
-                    res.send(err);
-                console.log('---> Comment ' + req.params.comment_id + ' supprimee via ' + req.url);
-                res.json({message: 'Successfully deleted' });
-            });
-        });
+      comment.save(function (err) {
+        if (err)
+          res.send(err);
+        console.log('---> Comment ' + req.params.comment_id + ' mise a jour via ' + req.url);
+        res.json(comment);
+      });
+    });
+  })
+  // HTTP DELETE
+  // TODO preciser une url pour permettre la suppression
+  .delete(function (req, res) {
+    console.log('# DELETE a comment by id');
+    CommentsSchema.remove({
+      _id: req.params.comment_id
+    }, function (err, comment) {
+      if (err)
+        res.send(err);
+      console.log('---> Comment ' + req.params.comment_id + ' supprimee via ' + req.url);
+      res.json({message: 'Successfully deleted'});
+    });
+  });
 
 module.exports = router;

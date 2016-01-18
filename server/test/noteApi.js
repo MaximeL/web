@@ -15,7 +15,7 @@ describe('Routing test', function () {
   var URL = 'http://localhost:3000';
   var TEST_DB = 'dbsound_test';
   var URL_NOTE = '/api/note/';
-  //var URL_COMMENT = '/api/comment/';
+  var URL_COMMENT = '/api/comment/';
 
   // connection with the database
   before(function (done) {
@@ -215,6 +215,12 @@ describe('Routing test', function () {
   /** ---------------------------------------------------------------------------------------
    *  Test pour les Pedales
    *  --------------------------------------------------------------------------------------- */
+
+  after(function (done) {
+    // In our tests we use the dbsound_test
+    mongoose.connection.close();
+    done();
+  });
 
 
 });
