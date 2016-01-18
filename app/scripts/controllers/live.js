@@ -12,7 +12,11 @@ angular.module('webClientSideApp')
     var vm = this;
 
     $scope.ready = false;
-    vm.audionodes = [];
+    vm.audionodes = [
+      {
+        type: 'gain'
+      }
+    ];
 
     var init = function() {
 
@@ -20,8 +24,6 @@ angular.module('webClientSideApp')
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia);
-
-      //$scope.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
       if (navigator.getUserMedia) {
         console.log('getUserMedia supported.');
@@ -55,7 +57,7 @@ angular.module('webClientSideApp')
       jsPlumb.bind('connectionDetached', function(info) {
         $log.debug('disconnect event');
         $log.debug(info);
-        
+
         var inputElm = angular.element(document).find('#'+info.sourceId);
         $log.debug(inputElm);
 
