@@ -60,57 +60,66 @@ router.route('/')
         res.status(404);
         return;
       }
-      res.statusCode(200);
+      res.status(200);
       return res.send(pedals);
     });
   });
 
 // Update d'une pédale
-router.put('/:id', function (req, res) {
-  PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-      if (req.body.nom !== undefined) {
-        pedale.nom = req.body.nom;
-      }
-      if (req.body.description !== undefined) {
-        pedale.description = req.body.description;
-      }
-      //TODO
-      if (req.body.effets !== undefined) {
-        //{
-        //  type: String,
-        //    precedent: String,
-        //  suivant: String
-        //}
-        pedale.effets = req.body.effets;
-      }
-
-      if (req.body.users !== undefined) {
-        if (req.body.users.constructor === Array) {
-          for (var j = 0; j < req.body.users.length; j++) {
-            pedale.users.push(
-              {
-                _id: req.body.users[j].id,
-                right: req.body.users[j].right
-              }
-            );
-          }
-        }
-      }
-
-      pedale.save(function (err, pedale) {
+router.route('/:id')
+  .put(function (req, res) {
+    PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
           console.log(err);
           return;
         }
-        res.status(200);
-        return res.send(pedale);
-      });
-    }
-  );
-});
+
+        if (req.body.nom !== undefined) {
+          pedale.nom = req.body.nom;
+        }
+        if (req.body.description !== undefined) {
+          pedale.description = req.body.description;
+        }
+        //TODO
+        if (req.body.effets !== undefined) {
+          //{
+          //  type: String,
+          //    precedent: String,
+          //  suivant: String
+          //}
+          pedale.effets = req.body.effets;
+        }
+
+        if (req.body.users !== undefined) {
+          if (req.body.users.constructor === Array) {
+            for (var j = 0; j < req.body.users.length; j++) {
+              pedale.users.push(
+                {
+                  _id: req.body.users[j].id,
+                  right: req.body.users[j].right
+                }
+              );
+            }
+          }
+        }
+
+        pedale.save(function (err, pedale) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          res.status(200);
+          return res.send(pedale);
+        });
+      }
+    )
+
+  })
+  .delete(function (req, res) {
+    PedaleSchema.remove({_id: req.params.id}, function (err, note) {
+      if (err)
+        res.send(err);
+      res.json({message: 'Successfully deleted'});
+    });
+  });
 module.exports = router;
