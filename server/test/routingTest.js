@@ -17,6 +17,7 @@ describe('Routing test', function () {
   var URL_NOTE = '/api/note/';
   var URL_COMMENT = '/api/comment/';
   var URL_USER = '/api/user/';
+  var URL_USER_AUTH = URL_USER + 'auth/';
   var URL_PEDAL = '/api/pedal/';
 
   // connection with the database
@@ -247,13 +248,14 @@ describe('Routing test', function () {
       // TODO : Tester les pédales et les partages
       request(URL)
         .put(URL_USER + id_created)
-        .send(noteBody)
+        .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
           }
+          console.log(res.body);
           // Should.js fluent syntax applied
           res.body._id.should.equal(id_created);
           res.body.username.should.equal("update-test");
@@ -264,19 +266,33 @@ describe('Routing test', function () {
         });
     });
 
-    // TEST GET PAR ID
-    it('should correctly get a user', function (done) {
+    // Liste des utilisateurs
+    it('should correctly get all users', function (done) {
       request(URL)
-        .get(URL_USER + id_created)
+        .get(URL_USER)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
           }
+          //TODO : Assertions
+          done();
+        });
+    });
+
+    it('should correctily authenticate user', function (done) {
+      request(URL)
+        .post(URL_USER_AUTH)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code created
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
           res.body._id.should.equal(id_created);
-          res.body.username.should.equal("test");
-          // TODO : Check values
+          res.body.username.should.equal("update-test");
           res.body.should.have.property("pedals");
           res.body.should.have.property("shared");
           res.body.should.not.have.property("password");
@@ -290,17 +306,34 @@ describe('Routing test', function () {
    *  --------------------------------------------------------------------------------------- */
 
   describe('Pedal API testing', function () {
-    var id_owner = "aze";
+    var id_owner;
+    var userBody = {
+      username: "test",
+      password: "alligator3"
+    };
+
+    request(URL)
+      .post(URL_USER)
+      .send(userBody)
+      .expect('Content-type', 'application/json; charset=utf-8')
+      .expect(201) //Status code created
+      .end(function (err, res) {
+        if (err) {
+          throw err;
+        }
+        // recupere l'id du post pour tester le get par id
+        id_owner = res.body._id;
+      });
+
     var id_created = null;
     var pedalBody = {
       nom: "Ma pédale",
-      description: "Celle de Tonton",
-
-      owner: id_owner
+      description: "Celle de Tonton"
     };
+    pedalBody.owner = id_owner;
 
     // TEST POST
-    it('should correctly post a new note', function (done) {
+    it('should correctly post a new pedal', function (done) {
       request(URL)
         .post(URL_PEDAL)
         .send(pedalBody)
@@ -325,12 +358,12 @@ describe('Routing test', function () {
     });
 
     // TEST PUT
-    it('should correctly update a note', function (done) {
+    it('should correctly update a pedal', function (done) {
       pedalBody.nom = 'Ma pédale modifée';
       // TODO : Ajouter des users
       request(URL)
-        .put(URL_NOTE + id_created)
-        .send(noteBody)
+        .put(URL_PEDAL + id_created)
+        .send(pedalBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
@@ -345,7 +378,7 @@ describe('Routing test', function () {
     });
 
     // TEST GET PAR ID
-    it('should correctly get a note', function (done) {
+    it('should correctly get a pedal', function (done) {
       request(URL)
         .get(URL_PEDAL + id_created)
         .expect('Content-type', 'application/json; charset=utf-8')
@@ -356,6 +389,7 @@ describe('Routing test', function () {
           }
           res.body.should.have.property('_id');
           res.body._id.should.equal(id_created);
+          res.body.owner.should.equal(id_owner);
           res.body.nom.should.equal("Ma pédale");
           res.body.description.should.equal("Celle de Tonton");
           // TODO : check content
@@ -366,9 +400,9 @@ describe('Routing test', function () {
     });
 
     // TEST DELETE
-    it('should correctly delete a note', function (done) {
+    it('should correctly delete a pedal', function (done) {
       request(URL)
-        .delete(URL_NOTE + id_created)
+        .delete(URL_PEDAL + id_created)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
@@ -382,6 +416,14 @@ describe('Routing test', function () {
           done();
         });
     });
+  });
+
+
+
+  after(function (done) {
+    // In our tests we use the dbsound_test
+    mongoose.connection.close();
+    done();
   });
 
 });
