@@ -14,13 +14,13 @@ describe('Routing test', function () {
 
   var URL = 'http://localhost:3000';
   var TEST_DB = 'dbsound_test';
-  //var URL_NOTE = '/api/note/';
+  var URL_NOTE = '/api/note/';
   //var URL_COMMENT = '/api/comment/';
 
   // connection with the database
   before(function (done) {
     // In our tests we use the dbsound_test
-    mongoose.connect('mongodb://localhost:27017/' + 'dbsound');
+    mongoose.connect('mongodb://localhost:27017/' + TEST_DB);
     done();
   });
 
@@ -40,7 +40,7 @@ describe('Routing test', function () {
     // TEST POST
     it('should correctly post a new note', function (done) {
       request(URL)
-        .post('/api/note/')
+        .post(URL_NOTE)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(201) //Status code created
@@ -62,7 +62,7 @@ describe('Routing test', function () {
     // TEST GET PAR ID
     it('should correctly get a note', function (done) {
       request(URL)
-        .get('/api/note/' + id_created)
+        .get(URL_NOTE + id_created)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
@@ -81,7 +81,7 @@ describe('Routing test', function () {
     it('should correctly update a note', function (done) {
       noteBody.username = 'Berd2';
       request(URL)
-        .put('/api/note/' + id_created)
+        .put(URL_NOTE + id_created)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
@@ -99,7 +99,7 @@ describe('Routing test', function () {
     // TEST DELETE
     it('should correctly delete a note', function (done) {
       request(URL)
-        .delete('/api/note/' + id_created)
+        .delete(URL_NOTE + id_created)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
@@ -131,7 +131,7 @@ describe('Routing test', function () {
     // TEST POST
     it('should correctly post a new comment', function (done) {
       request(URL)
-        .post('/api/comment/')
+        .post(URL_COMMENT)
         .send(commentBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(201) //Status code created
@@ -153,7 +153,7 @@ describe('Routing test', function () {
     //TEST GET PAR ID
     it('should correctly get a comment', function (done) {
       request(URL)
-        .get('/api/comment/' + id_created)
+        .get(URL_COMMENT + id_created)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
@@ -172,7 +172,7 @@ describe('Routing test', function () {
     it('should correctly update a comment', function (done) {
       commentBody.content = 'Le commentaire de la mort qui tue vraiment tout';
       request(URL)
-        .put('/api/comment/' + id_created)
+        .put(URL_COMMENT + id_created)
         .send(commentBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
@@ -190,7 +190,7 @@ describe('Routing test', function () {
     // TEST DELETE
     it('should correctly delete a comment', function (done) {
       request(URL)
-        .delete('/api/comment/' + id_created)
+        .delete(URL_COMMENT + id_created)
         .send(commentBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
