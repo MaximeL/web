@@ -9,43 +9,40 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('inputnode', function ($log, abstractSoundnode) {
+  .factory('Inputnode', function ($log, AbstractSoundnode) {
     // Service logic
+    function Inputnode() {}
+    Inputnode.prototype = Object.create(AbstractSoundnode.prototype);
+
+    Inputnode.prototype.type = 'input';
+
+    Inputnode.prototype.initPlumb = function() {
+      jsPlumb.addEndpoint(""+this.id, {
+        anchor:"Right"
+      }, {
+        isSource:true,
+        isTarget:false,
+        connector:"Straight",
+        endpoint:"Dot",
+        paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
+        hoverPaintStyle:{ fillStyle:"blue" },
+        connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+        connectorHoverStyle:{ lineWidth:2 }
+      });
+    };
+    Inputnode.prototype.initNode = function(audioContext) {
+      var self = this;
+      navigator.getUserMedia(
+        {audio: true},
+        function(stream) {
+          self.output = audioContext.createMediaStreamSource(stream);
+        },
+        function(err) {
+          console.log('The following gUM error occured: ' + err);
+        }
+      );
+    };
 
     // Public API here
-    return {
-      create: function (audioContext, id, posx, posy, value, precedent, suivant) {
-        var soundnode = abstractSoundnode.create();
-        soundnode.type = 'input';
-
-        soundnode.initPlumb = function(id) {
-          jsPlumb.addEndpoint(""+id, {
-            anchor:"Right"
-          }, {
-            isSource:true,
-            isTarget:false,
-            connector:"Straight",
-            endpoint:"Dot",
-            paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
-            hoverPaintStyle:{ fillStyle:"blue" },
-            connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
-            connectorHoverStyle:{ lineWidth:2 }
-          });
-        };
-        soundnode.initNode = function(audioContext, input, output) {
-          navigator.getUserMedia(
-            {audio: true},
-            function(stream) {
-              output = audioContext.createMediaStreamSource(stream);
-            },
-            function(err) {
-              console.log('The following gUM error occured: ' + err);
-            }
-          );
-        };
-
-        soundnode.init(audioContext, id, posx, posy, value, precedent, suivant);
-        return soundnode;
-      }
-    };
+    return Inputnode;
   });

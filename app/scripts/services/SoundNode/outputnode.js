@@ -9,35 +9,31 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('outputnode', function (abstractSoundnode) {
+  .factory('Outputnode', function (AbstractSoundnode) {
     // Service logic
+    function Outputnode() {}
+    Outputnode.prototype = Object.create(AbstractSoundnode.prototype);
+
+    Outputnode.prototype.type = 'output';
+
+    Outputnode.prototype.initPlumb = function() {
+      jsPlumb.addEndpoint(""+this.id, {
+        anchor:"Left"
+      }, {
+        isSource:false,
+        isTarget:true,
+        connector:"Straight",
+        endpoint:"Dot",
+        paintStyle:{ fillStyle:"red", outlineColor:"red", outlineWidth:1 },
+        hoverPaintStyle:{ fillStyle:"red" },
+        connectorStyle:{ strokeStyle:"red", lineWidth:1 },
+        connectorHoverStyle:{ lineWidth:2 }
+      });
+    };
+    Outputnode.prototype.initNode = function(audioContext) {
+      this.input = audioContext.destination;
+    };
 
     // Public API here
-    return {
-      create: function (audioContext, id, posx, posy, value, precedent, suivant) {
-        var soundnode = abstractSoundnode.create();
-        soundnode.type = 'output';
-        soundnode.initPlumb = function(id) {
-          jsPlumb.addEndpoint(""+id, {
-            anchor:"Left"
-          }, {
-            isSource:false,
-            isTarget:true,
-            connector:"Straight",
-            endpoint:"Dot",
-            paintStyle:{ fillStyle:"red", outlineColor:"red", outlineWidth:1 },
-            hoverPaintStyle:{ fillStyle:"red" },
-            connectorStyle:{ strokeStyle:"red", lineWidth:1 },
-            connectorHoverStyle:{ lineWidth:2 }
-          });
-        };
-
-        soundnode.initNode = function(audioContext, input, output) {
-          input = audioContext.destination;
-        };
-
-        soundnode.init(audioContext, id, posx, posy, value, precedent, suivant);
-        return soundnode;
-      }
-    };
+    return Outputnode;
   });

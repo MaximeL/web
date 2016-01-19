@@ -8,18 +8,21 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('audionodeSelector', function (inputnode, outputnode) {
+  .factory('audionodeSelector', function ($log, Inputnode, Outputnode) {
     // Service logic
     var selectNode = function(type) {
       if(type === 'input')
-        return inputnode;
+        return new Inputnode();
       if(type === 'output')
-        return outputnode;
+        return new Outputnode();
       return null;
     };
 
     return {
       getAudionode: function(type) {
+        /*$log.debug('in audioselector');
+        $log.debug(new Inputnode());
+        $log.debug(new Outputnode());*/
         return selectNode(type);
       }
     };

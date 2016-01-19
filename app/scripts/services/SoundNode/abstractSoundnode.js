@@ -9,66 +9,69 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('abstractSoundnode', function () {
+  .factory('AbstractSoundnode', function () {
 
     // Service logic
-    var soundnode = {
-      initNode: function(audioContext, output, input) {
-        //kind of exemple of what should be done here
-        output = audioContext.createGain();
-        input = audioContext.createGain();
-        input.connect(output);
-      },
-      connect: function(target) {
-        this.output.connect(target);
-      },
-      disconnect: function () {
-        this.output.disconnect();
-      },
-      initPlumb: function(id) {
-        jsPlumb.addEndpoint(""+id, {
-          anchor:"Right"
-        }, {
-          isSource:true,
-          isTarget:false,
-          connector:"Straight",
-          endpoint:"Dot",
-          paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
-          hoverPaintStyle:{ fillStyle:"blue" },
-          connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
-          connectorHoverStyle:{ lineWidth:2 }
-        });
-        jsPlumb.addEndpoint(""+id, {
-          anchor:"Left"
-        }, {
-          isSource:false,
-          isTarget:true,
-          connector:"Straight",
-          endpoint:"Dot",
-          paintStyle:{ fillStyle:"red", outlineColor:"red", outlineWidth:1 },
-          hoverPaintStyle:{ fillStyle:"red" },
-          connectorStyle:{ strokeStyle:"red", lineWidth:1 },
-          connectorHoverStyle:{ lineWidth:2 }
-        });
-      },
-      init: function(audioContext, id, posx, posy, value, precedent, suivant) {
-        this.id = id;
-        this.posx = posx;
-        this.posy=  posy;
-        this.value = value;
-        this.precedent = precedent;
-        this.suivant = suivant;
-        this.input = null;
-        this.output = null;
+    function AbstractSoundnode() {}
 
-        this.initPlumb(id);
-        this.initNode(audioContext, this.input, this.output);
-      }
+    AbstractSoundnode.prototype.id = null;
+    AbstractSoundnode.prototype.posx = null;
+    AbstractSoundnode.prototype.posy =  null;
+    AbstractSoundnode.prototype.value = null;
+    AbstractSoundnode.prototype.precedent = null;
+    AbstractSoundnode.prototype.suivant = null;
+    AbstractSoundnode.prototype.output = null;
+    AbstractSoundnode.prototype.input = null;
+
+    AbstractSoundnode.prototype.initNode = function(audioContext) {
+      //kind of exemple of what should be done here
+      this.output = audioContext.createGain();
+      this.input = audioContext.createGain();
+      this.input.connect(this.output);
+    };
+    AbstractSoundnode.prototype.connect = function(target) {
+      this.output.connect(target);
+    };
+    AbstractSoundnode.prototype.disconnect = function () {
+      this.output.disconnect();
+    };
+    AbstractSoundnode.prototype.initPlumb = function() {
+      jsPlumb.addEndpoint(""+this.id, {
+        anchor:"Right"
+      }, {
+        isSource:true,
+        isTarget:false,
+        connector:"Straight",
+        endpoint:"Dot",
+        paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
+        hoverPaintStyle:{ fillStyle:"blue" },
+        connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+        connectorHoverStyle:{ lineWidth:2 }
+      });
+      jsPlumb.addEndpoint(""+this.id, {
+        anchor:"Left"
+      }, {
+        isSource:false,
+        isTarget:true,
+        connector:"Straight",
+        endpoint:"Dot",
+        paintStyle:{ fillStyle:"red", outlineColor:"red", outlineWidth:1 },
+        hoverPaintStyle:{ fillStyle:"red" },
+        connectorStyle:{ strokeStyle:"red", lineWidth:1 },
+        connectorHoverStyle:{ lineWidth:2 }
+      });
+    };
+    AbstractSoundnode.prototype.init = function(audioContext, id, posx, posy, value, precedent, suivant) {
+      this.id = id;
+      this.posx = posx;
+      this.posy=  posy;
+      this.value = value;
+      this.precedent = precedent;
+      this.suivant = suivant;
+
+      this.initPlumb();
+      this.initNode(audioContext);
     };
     // Public API here
-    return {
-      create: function () {
-        return soundnode;
-      }
-    };
+    return AbstractSoundnode;
   });

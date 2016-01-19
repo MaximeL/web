@@ -20,8 +20,8 @@ angular.module('webClientSideApp')
       },
       restrict: 'EA',
       controller: ['$scope', '$log', function($scope, $log) {
-        $log.debug('scopeCtrl');
-        $log.debug($scope);
+        /*$log.debug('scopeCtrl');
+         $log.debug($scope);*/
       }],
       link: function postLink(scope, element, attrs) {
         element.addClass("soundnode");
@@ -29,18 +29,18 @@ angular.module('webClientSideApp')
         element.attr('id', scope.id);
         element.text(scope.type);
 
-        scope.soundnode = audionodeSelector
-          .getAudionode(scope.type)
-          .create(audiocontext.get(),
-            scope.id,
-            scope.posx,
-            scope.posy,
-            scope.value,
-            scope.precedent,
-            scope.suivant);
+        //$log.debug(audionodeSelector.getAudionode(scope.type));
+        element.scope().soundnode = audionodeSelector.getAudionode(scope.type);
+        element.scope().soundnode.init(audiocontext.get(),
+          scope.id,
+          scope.posx,
+          scope.posy,
+          scope.value,
+          scope.precedent,
+          scope.suivant);
 
-        $log.debug('scopeLink');
-        $log.debug(scope);
+        /*$log.debug('scopeLink');
+         $log.debug(scope);*/
       }
     };
   });
