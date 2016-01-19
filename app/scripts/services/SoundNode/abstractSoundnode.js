@@ -13,11 +13,11 @@ angular.module('webClientSideApp')
 
     // Service logic
     var soundnode = {
-      initNode: function(audioContext) {
+      initNode: function(audioContext, output, input) {
         //kind of exemple of what should be done here
-        this.output = audioContext.createGain();
-        this.input = audioContext.createGain();
-        this.input.connect(this.output);
+        output = audioContext.createGain();
+        input = audioContext.createGain();
+        input.connect(output);
       },
       connect: function(target) {
         this.output.connect(target);
@@ -25,8 +25,8 @@ angular.module('webClientSideApp')
       disconnect: function () {
         this.output.disconnect();
       },
-      initPlumb: function() {
-        jsPlumb.addEndpoint(""+this.id, {
+      initPlumb: function(id) {
+        jsPlumb.addEndpoint(""+id, {
           anchor:"Right"
         }, {
           isSource:true,
@@ -58,9 +58,11 @@ angular.module('webClientSideApp')
         this.value = value;
         this.precedent = precedent;
         this.suivant = suivant;
+        this.input = null;
+        this.output = null;
 
-        this.initPlumb();
-        this.initNode(audioContext);
+        this.initPlumb(id);
+        this.initNode(audioContext, this.input, this.output);
       }
     };
     // Public API here

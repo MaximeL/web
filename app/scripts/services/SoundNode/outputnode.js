@@ -17,8 +17,8 @@ angular.module('webClientSideApp')
       create: function (audioContext, id, posx, posy, value, precedent, suivant) {
         var soundnode = abstractSoundnode.create();
         soundnode.type = 'output';
-        soundnode.initPlumb = function() {
-          jsPlumb.addEndpoint(""+soundnode.id, {
+        soundnode.initPlumb = function(id) {
+          jsPlumb.addEndpoint(""+id, {
             anchor:"Left"
           }, {
             isSource:false,
@@ -32,8 +32,8 @@ angular.module('webClientSideApp')
           });
         };
 
-        soundnode.initNode = function(audioContext) {
-          soundnode.input = audioContext.destination;
+        soundnode.initNode = function(audioContext, input, output) {
+          input = audioContext.destination;
         };
 
         soundnode.init(audioContext, id, posx, posy, value, precedent, suivant);

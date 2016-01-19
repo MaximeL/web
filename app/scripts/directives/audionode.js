@@ -19,6 +19,10 @@ angular.module('webClientSideApp')
         suivant: '@'
       },
       restrict: 'EA',
+      controller: ['$scope', '$log', function($scope, $log) {
+        $log.debug('scopeCtrl');
+        $log.debug($scope);
+      }],
       link: function postLink(scope, element, attrs) {
         element.addClass("soundnode");
         element.addClass(scope.type);
@@ -35,6 +39,7 @@ angular.module('webClientSideApp')
             scope.precedent,
             scope.suivant);
 
+        $log.debug('scopeLink');
         $log.debug(scope);
       }
     };

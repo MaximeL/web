@@ -18,8 +18,8 @@ angular.module('webClientSideApp')
         var soundnode = abstractSoundnode.create();
         soundnode.type = 'input';
 
-        soundnode.initPlumb = function() {
-          jsPlumb.addEndpoint(""+soundnode.id, {
+        soundnode.initPlumb = function(id) {
+          jsPlumb.addEndpoint(""+id, {
             anchor:"Right"
           }, {
             isSource:true,
@@ -32,11 +32,11 @@ angular.module('webClientSideApp')
             connectorHoverStyle:{ lineWidth:2 }
           });
         };
-        soundnode.initNode = function(audioContext) {
+        soundnode.initNode = function(audioContext, input, output) {
           navigator.getUserMedia(
             {audio: true},
             function(stream) {
-              soundnode.output = audioContext.createMediaStreamSource(stream);
+              output = audioContext.createMediaStreamSource(stream);
             },
             function(err) {
               console.log('The following gUM error occured: ' + err);
