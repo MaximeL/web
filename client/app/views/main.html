@@ -1,0 +1,76 @@
+
+  <div class="modal" ng-class="{'show': !logged, hide: logged }" >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Sign In:</h3>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    <label for="loginPseudo" >
+                      Pseudo
+                    </label>
+                    <br>
+                    <input type="text" id="loginPseudo" name="username" ng-model="login.username" required />
+                    <br>
+                    <label for="loginPassword" >
+                      password
+                    </label>
+                    <br>
+                    <input type="password" id="loginPassword" name="password" ng-model="login.password" required />
+
+                    <br>
+                    <br>
+                    <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()">
+                    </span>Sign In
+
+
+
+
+                 <a href="#/signup">
+                 <span class="btn   btn-info btn-lg glyphicon glyphicon-plus-sign">
+                    </span>
+                  </a>
+                   Sign Up
+                   </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+      </div>
+    </div>
+</div>
+
+
+  <div>
+  <a href="#/createPedal" class="btn btn-info btn-lg " style="padding-left: 10%">
+    <span class="glyphicon glyphicon-new-window"></span> New Pedale
+  </a>
+  </div>
+
+  <div class="overlay" ng-if=true>
+    <div class="overlay-container">
+
+    </div>
+    <fieldset class="col-sm-6 col-md-6 col-lg-6">
+          <legend>My Pedals </legend>
+
+        <div class="pedal">
+          datat
+          <a class="btn btn-info pull-right">
+            <span class="glyphicon glyphicon-share" ng-click="share()"></span> Share
+          </a>
+        </div>
+      </fieldset>
+    <fieldset class="col-sm-6 col-md-6 col-lg-6">
+          <legend> Pedals shared</legend>
+
+      <div class="pedal"> pedals shared</div>
+      </fieldset>
+</div>
+
+
+
