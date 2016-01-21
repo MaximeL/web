@@ -60,7 +60,7 @@ angular.module('webClientSideApp')
       chech login befor signin
       */
      $rootScope.checkLogin = function(){
-      $rootScope._base64.encode($rootScope.login.password);
+       $rootScope.login.password = $rootScope._base64.encode($rootScope.login.password);
 
        user.checkUser($rootScope.login);
 
@@ -73,11 +73,13 @@ angular.module('webClientSideApp')
     /**
     create a new user and stor it in DB
     */
-    $rootScope.createUser = function(){
-      if($rootScope.signup.username != $rootScope.signup.mail != $rootScope.signup.password != null){
-            $rootScope.signup.password = $rootScope._base64.encode($rootScope.signup.password);
-            user.createUser($rootScope.signup);
-            $notification.success("signup" ,  "user : " + $rootScope.signup.username + " created")
+    $rootScope.createUser = function(u){
+      if(u.username != u.mail != u.password != null){
+            u.password = $rootScope._base64.encode(u.password);
+            $rootScope.signup = u;
+            user.createUser(u);
+
+            $notification.success("signup" ,  "user : " + u.username + " created")
       }
     };
 

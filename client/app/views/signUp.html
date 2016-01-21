@@ -1,6 +1,6 @@
 <h2>Sign Up</h2>
     <form role="form">
-      <div class="form-group">
+      <div ng-controller="MainCtrl" class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" ng-model="signup.username" placeholder="Enter name">
       </div>
@@ -12,5 +12,5 @@
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password"  ng-model="signup.password" placeholder="Enter password">
       </div>
-      <button type="submit" class="btn btn-info btn-lg glyphicon glyphicon-saved" ng-click="createUser()">Saved</button>
+      <button type="submit" class="btn btn-info btn-lg glyphicon glyphicon-saved" ng-click="createUser(signup)">Saved</button>
     </form>

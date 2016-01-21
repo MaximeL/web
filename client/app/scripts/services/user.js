@@ -25,6 +25,7 @@ angular.module('webClientSideApp')
               .success(function(data) {
                 $rootScope.login._id = data._id;
                 $rootScope.login.pedals = data.pedals;
+                console.log("pass" + user.password);
                 $rootScope.logged = true;
                 deferred.resolve(data);
                 $notification.success("login", "connected successfuly");
