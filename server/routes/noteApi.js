@@ -24,6 +24,7 @@ router.use(function (req, res, next) {
 // ---------------
 router.route('/')
 
+  // HTTP GET
   .get(function (req, res) {
     console.log('GET all list of notes');
     NotesSchema.find(function (err, noteList) {
@@ -38,6 +39,7 @@ router.route('/')
     });
   })
 
+  // HTTP POST
   .post(function (req, res) {
     console.log('POST a note');
 
@@ -72,13 +74,18 @@ router.route('/')
 // Route ➜ /note/:note_id
 // -----------------------------
 router.route('/:note_id')
-  // HTTP GET
+  // HTTP GET ID
   .get(function (req, res) {
     console.log('# GET a note by id');
     NotesSchema.findOne({_id: req.params.note_id}, function (err, note) {
       if (err) {
         console.log(err);
         res.status(404);
+        return;
+      }
+      if(note == null) {
+        res.status(404);
+        res.send({message : 'Invalid note'});
         return;
       }
       console.log('---> note ' + req.params.note_id + ' liste via ' + req.url);
@@ -94,6 +101,12 @@ router.route('/:note_id')
       if (err)
         res.send(err);
 
+      if(typeof req.body.username !== 'string' || typeof req.body.value !== 'number') {
+        res.status(400);
+        res.send({message: 'Incorrect values'});
+        return;
+      }
+
       note.username = req.body.username;
       note.value = req.body.value;
 
@@ -106,15 +119,22 @@ router.route('/:note_id')
       });
     });
   })
+
   // HTTP DELETE
   // TODO preciser une url pour permettre la suppression
   .delete(function (req, res) {
     console.log('# DELETE a note by id');
-    NotesSchema.remove({
-      _id: req.params.note_id
-    }, function (err, note) {
+    NotesSchema.remove({_id: req.params.note_id}, function (err, note) {
+
       if (err)
         res.send(err);
+
+      if(note.result.n === 0 ) {    // aucune colonne affectee
+        res.status(404);
+        res.send({message : "Not found"});
+        return;
+      }
+
       console.log('---> note ' + req.params.note_id + ' supprimee via ' + req.url);
       res.status(200);
       res.json({message: 'Successfully deleted'});

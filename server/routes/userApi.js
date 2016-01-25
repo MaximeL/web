@@ -72,7 +72,6 @@ router.route('/auth')
 // Update d'un user
 router.put('/:id', function (req, res) {
   UserSchema.findOne({'_id': req.params.id}, function (err, user) {
-    console.log(user);
       if (err) {
         console.log(err);
         return;
