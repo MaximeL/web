@@ -19,14 +19,19 @@ angular.module('webClientSideApp')
         $http.post("http://localhost:3000/api/user", user)
         return deferred.promise;
   		}),
+      updateUser : (function(user){
+		    var deferred = $q.defer();
+
+        $http.post("http://localhost:3000/api/user", user)
+        return deferred.promise;
+  		}),
       checkUser : (function(user){
 
         var deferred = $q.defer();
           $http.post("http://localhost:3000/api/user/auth", user)
               .success(function(data) {
-                $rootScope.data = data;
-                console.log(data);
                 $rootScope.logged = true;
+                user._id = data._id;
                 deferred.resolve(data);
                 $notification.success("login", "connected successfuly");
 

@@ -1,3 +1,5 @@
+var extScope;
+
 'use strict';
 
 /**
@@ -8,28 +10,32 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope , $rootScope, $notification , user) {
+  .controller('MainCtrl', function ($scope , $rootScope, $notification , user, pedal) {
+    extScope = $scope;
 
     $scope.signup = {
       username : "",
       mail : "",
       password : "",
-      _id : "",
-      pedals : $scope.pedal
+      _id : ""
 
-    }
+    };
 
     $rootScope.logged = false;
+    $rootScope.uu = "";
+    $scope.created = true;
+
 
     $scope.login = {
       username : "",
       password : "",
       _id : "",
-      pedals : $scope.pedal
-    }
+      pedals : []
+    };
 
 
     $scope.pedal = {
+      _id: "",
       nom: "",
       description: "",
       effets: [
@@ -38,8 +44,10 @@ angular.module('webClientSideApp')
           precedent: "",
           suivant: ""
         }
-      ]
-    }
+      ],
+      owner : "",
+      users: []
+    };
 
    /**
       une manière d'encrypter les données du user : nom , mot de passe , email ......
@@ -67,7 +75,7 @@ angular.module('webClientSideApp')
 
 
 
-    }
+    };
 
     /**
     create a new user and stor it in DB
@@ -82,8 +90,10 @@ angular.module('webClientSideApp')
       }
     };
 
-    $scope.createPedale = function(){
-      user.createPedale($scope.pedal);
+    $scope.newPedal = function(){
+      $scope.pedal.owner = $scope.login._id;
+      pedal.createPedal($scope.pedal , $scope.login);
+      user.updateUser($scope.login);
     };
 
     $scope.share = function(){
