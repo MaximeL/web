@@ -36,7 +36,7 @@ var Schema = Dao.Schema;
  * User
  */
 var UserSchema = new Schema({
-  username: { type : String , unique : true, required : true},
+  username: {type: String, unique: true, required: true},
   password: String,
   pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal'}],
   shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedal'}, right: Boolean}]
@@ -72,7 +72,12 @@ var PedaleSchema = new Schema({
     }
   ],
   owner: {type: Schema.Types.ObjectId, ref: 'User'},
-  users: [{_id: {type: Schema.Types.ObjectId, ref: 'User'}, right: Boolean}]
+  users: [
+    {
+      _id: {type: Schema.Types.ObjectId, ref: 'User'},
+      right: Boolean
+    }
+  ]
 }, {collection: 'pedale', versionKey: false});
 
 var getPedaleSchema = function () {

@@ -260,7 +260,6 @@ describe('Routing test', function () {
           res.body.should.have.property("pedals");
           res.body.should.have.property("shared");
           res.body.should.not.have.property("password");
-          console.log(res.body);
           done();
         });
     });
@@ -275,7 +274,7 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          console.log(res.body);
+          //console.log(res.body);
           //TODO : Assertions
           done();
         });
@@ -291,8 +290,8 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          console.log(userBody);
-          console.log(res.body);
+          //console.log(userBody);
+          //console.log(res.body);
           res.body._id.should.equal(id_created);
           res.body.username.should.equal("update-test");
           res.body.should.have.property("pedals");
@@ -314,12 +313,14 @@ describe('Routing test', function () {
     var pedalBody = {
       nom: "Ma pédale",
       description: "Celle de Tonton",
-      effets: {
+      effets: [{
         precedent: "aze",
         suivant: "aze",
         type: "aze"
-      }
+      }]
     };
+
+    console.log(pedalBody);
 
     before(function (done) {
       var userBody = {
@@ -384,12 +385,13 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           res.body.nom.should.equal('Ma pédale modifée');
+          console.log(res);
           done();
         });
     });
 
     // TEST PUT 2
-    it('should correctly add commets and note to a pedal', function (done) {
+    it('should correctly add comments and note to a pedal', function (done) {
       pedalBody.comment = {
         author: id_owner,
         content: "Test"
@@ -399,6 +401,14 @@ describe('Routing test', function () {
         author: id_owner,
         value: 5
       };
+
+      pedalBody.users = [{
+        _id: id_owner,
+        right: false
+      }];
+
+      console.log(URL + URL_PEDAL + id_created);
+      console.log(pedalBody);
       request(URL)
         .put(URL_PEDAL + id_created)
         .send(pedalBody)
@@ -411,6 +421,9 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           res.body.nom.should.equal('Ma pédale modifée');
+          console.log(res.body.comments);
+          console.log(res.body.notes);
+          console.log(res.body.users);
           done();
         });
     });
@@ -438,22 +451,22 @@ describe('Routing test', function () {
     });
 
     // TEST DELETE
-    it('should correctly delete a pedal', function (done) {
-      request(URL)
-        .delete(URL_PEDAL + id_created)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(200) //Status code success
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          // Should.js fluent syntax applied
-          res.body.should.not.have.property('_id');
-          res.body.should.have.property('message');
-          res.body.message.should.equal('Successfully deleted');
-          done();
-        });
-    });
+    //it('should correctly delete a pedal', function (done) {
+    //  request(URL)
+    //    .delete(URL_PEDAL + id_created)
+    //    .expect('Content-type', 'application/json; charset=utf-8')
+    //    .expect(200) //Status code success
+    //    .end(function (err, res) {
+    //      if (err) {
+    //        throw err;
+    //      }
+    //      // Should.js fluent syntax applied
+    //      res.body.should.not.have.property('_id');
+    //      res.body.should.have.property('message');
+    //      res.body.message.should.equal('Successfully deleted');
+    //      done();
+    //    });
+    //});
   });
 
 

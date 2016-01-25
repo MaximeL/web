@@ -28,8 +28,8 @@ router.use(function (req, res, next) {
 //##########POST > Route -> /api/pedale###########
 
 router.route('/')
-  // TODO : Différentiation update / création
   .post(function (req, res) {
+    console.log("Creating a new pedal");
 
     var pedale = new PedaleSchema();
 
@@ -38,13 +38,23 @@ router.route('/')
     pedale.owner = req.body.owner;
 
     if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
-      pedale.effets = req.body.effets;
+      for (var i = 0; i < req.body.effets.length; i++) {
+        var elem = req.body.effets[i];
+        var keys = Object.keys(elem);
+
+        pedale.effets[i] = {};
+        for (var j = 0; j < keys.length; j++) {
+          pedale.effets[i][keys[j]] = elem[keys[j]];
+        }
+      }
+
     } else {
       pedale.effets = [];
     }
 
     pedale.save(function (err, pedaleSaved) {
       if (err) {
+        console.log(err);
         res.status(404);
         res.send(err);
         return;
@@ -57,6 +67,7 @@ router.route('/')
 // Actions sur une pédale
 router.route('/:id')
   .get(function (req, res) {
+    console.log("Getting a pedal");
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         console.log(err);
@@ -68,6 +79,7 @@ router.route('/:id')
     });
   })
   .put(function (req, res) {
+    console.log("Updating a pedal");
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
           console.log(err);
@@ -80,14 +92,19 @@ router.route('/:id')
         if (req.body.description !== undefined) {
           pedale.description = req.body.description;
         }
-        //TODO
-        if (req.body.effets !== undefined) {
-          //{
-          //  type: String,
-          //    precedent: String,
-          //  suivant: String
-          //}
-          pedale.effets = req.body.effets;
+
+        if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
+          pedale.effets = [];
+
+          for (var i = 0; i < req.body.effets.length; i++) {
+            var elem = req.body.effets[i];
+            var keys = Object.keys(elem);
+
+            pedale.effets[i] = {};
+            for (var j = 0; j < keys.length; j++) {
+              pedale.effets[i][keys[j]] = elem[keys[j]];
+            }
+          }
         }
 
         if (req.body.note !== undefined) {
@@ -101,38 +118,39 @@ router.route('/:id')
               }
             }
             if (!found) {
-              pedale.notes.push({
-                author: req.body.note.author,
-                value: req.body.note.value
-              });
+              var item = {};
+              item.author = req.body.note.author;
+              item.value = req.body.note.value;
+              pedale.notes.push(item);
             }
           }
         }
 
         if (req.body.comment != undefined) {
           if (req.body.comment.author != undefined && req.body.comment.content != undefined) {
-            pedale.comments.push({
-              author: req.body.comment.author,
-              content: req.body.comment.content
-            });
+            var item = {};
+            item.author = req.body.comment.author;
+            item.content = req.body.comment.content;
+            pedale.comments.push(item);
           }
         }
 
-        if (req.body.users !== undefined) {
-          if (req.body.users.constructor === Array) {
-            for (var j = 0; j < req.body.users.length; j++) {
-              pedale.users.push(
-                {
-                  _id: req.body.users[j].id,
-                  right: req.body.users[j].right
-                }
-              );
-            }
-          }
-        }
+      // TODO : Ici ça marche pas
+      //  if (req.body.users !== undefined) {
+      //    if (req.body.users.constructor === Array) {
+      //      pedale.users = [];
+      //      for (var j = 0; j < req.body.users.length; j++) {
+      //        pedale.users[j] = {};
+      //
+      //        pedale.users[j]._id = req.body.users[j]._id;
+      //        pedale.users[j].right = req.body.users[j].right;
+      //      }
+      //    }
+      //  }
 
         pedale.save(function (err, pedale) {
           if (err) {
+            console.log("Error during save");
             console.log(err);
             return;
           }
@@ -144,6 +162,7 @@ router.route('/:id')
 
   })
   .delete(function (req, res) {
+    console.log("Deleting a pedal");
     PedaleSchema.remove({_id: req.params.id}, function (err) {
       if (err)
         res.send(err);
