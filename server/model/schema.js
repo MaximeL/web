@@ -9,34 +9,34 @@ var Schema = Dao.Schema;
 /**
  * Comments
  */
-var CommentsSchema = new Schema({
-  username: String,
-  content: String
-}, {collection: 'comment', versionKey: false});
-
-var getCommentsSchema = function () {
-  return Dao.model('Comment', CommentsSchema);
-};
+//var CommentsSchema = new Schema({
+//  username: String,
+//  content: String
+//}, {collection: 'comment', versionKey: false});
+//
+//var getCommentsSchema = function () {
+//  return Dao.model('Comment', CommentsSchema);
+//};
 
 
 /**
  * Notes
  */
-var NotesSchema = new Schema({
-  username: String,
-  value: Number
-}, {collection: 'note', versionKey: false});
-
-var getNotesSchema = function () {
-  return Dao.model('Note', NotesSchema);
-};
+//var NotesSchema = new Schema({
+//  username: String,
+//  value: Number
+//}, {collection: 'note', versionKey: false});
+//
+//var getNotesSchema = function () {
+//  return Dao.model('Note', NotesSchema);
+//};
 
 
 /**
  * User
  */
 var UserSchema = new Schema({
-  username: String,
+  username: { type : String , unique : true, required : true},
   password: String,
   pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal'}],
   shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedal'}, right: Boolean}]
@@ -59,6 +59,18 @@ var PedaleSchema = new Schema({
       suivant: String
     }
   ],
+  notes: [
+    {
+      author: {type: Schema.Types.ObjectId, ref: 'User'},
+      note: Number
+    }
+  ],
+  comments: [
+    {
+      author: {type: Schema.Types.ObjectId, ref: 'User'},
+      comment: String
+    }
+  ],
   owner: {type: Schema.Types.ObjectId, ref: 'User'},
   users: [{_id: {type: Schema.Types.ObjectId, ref: 'User'}, right: Boolean}]
 }, {collection: 'pedale', versionKey: false});
@@ -68,7 +80,7 @@ var getPedaleSchema = function () {
 };
 
 
-exports.getCommentsSchema = getCommentsSchema;
-exports.getNotesSchema = getNotesSchema;
+//exports.getCommentsSchema = getCommentsSchema;
+//exports.getNotesSchema = getNotesSchema;
 exports.getUserSchema = getUserSchema;
 exports.getPedaleSchema = getPedaleSchema;

@@ -54,7 +54,7 @@ router.route('/')
     });
   });
 
-// Update d'une pédale
+// Actions sur une pédale
 router.route('/:id')
   .get(function (req, res) {
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
@@ -88,6 +88,34 @@ router.route('/:id')
           //  suivant: String
           //}
           pedale.effets = req.body.effets;
+        }
+
+        if (req.body.note !== undefined) {
+          if (req.body.note.author != undefined && req.body.note.value != undefined && req.body.note.value <= 5 && req.body.note.value > 0) {
+            var found = false;
+            for (var i = 0; i < pedale.notes.length; i++) {
+              if (pedale.notes[i].author == req.body.note.author) {
+                pedale.notes[i].note = req.body.note.value;
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              pedale.notes.push({
+                author: req.body.note.author,
+                value: req.body.note.value
+              });
+            }
+          }
+        }
+
+        if (req.body.comment != undefined) {
+          if (req.body.comment.author != undefined && req.body.comment.content != undefined) {
+            pedale.comments.push({
+              author: req.body.comment.author,
+              content: req.body.comment.content
+            });
+          }
         }
 
         if (req.body.users !== undefined) {
