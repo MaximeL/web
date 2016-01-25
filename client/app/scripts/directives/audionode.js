@@ -13,11 +13,11 @@ angular.module('webClientSideApp')
         nodeData: '=node'
       },
       restrict: 'EA',
-      //replace: true,
+      replace: true,
       templateUrl: function(elem, attr) {
-        $log.info('in TemplateUrl');
+        /*$log.info('in TemplateUrl');
         $log.debug(elem);
-        $log.debug(attr);
+        $log.debug(attr);*/
         return 'views/templates/audionode/basicnode.html';
       },
       controller: ['$scope', '$log', function($scope, $log) {
@@ -26,15 +26,14 @@ angular.module('webClientSideApp')
       }],
       link: function postLink(scope, element, attrs) {
         $log.info('in link');
-        $log.debug(element);
+        //$log.debug(element);
         //element.addClass("soundnode");
         //element.addClass(scope.type);
-        element.attr('id', 'soundnode'+scope.id);
+        element.attr('id', 'soundnode'+scope.nodeData.id);
         //element.text(scope.type);
 
-
         //$log.debug(audionodeSelector.getAudionode(scope.type));
-        $log.debug(scope);
+        //$log.debug(scope);
         element.scope().soundnode = audionodeSelector.getAudionode(scope.nodeData.type);
         element.scope().soundnode.init(audiocontext.get(),
           scope.nodeData.id,
@@ -44,8 +43,11 @@ angular.module('webClientSideApp')
           scope.nodeData.precedent,
           scope.nodeData.suivant);
 
+
         /*$log.debug('scopeLink');
          $log.debug(scope);*/
       }
     };
   });
+
+//id="soundnode{{nodeData.id}}"

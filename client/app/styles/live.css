@@ -6,6 +6,9 @@
 
 .soundnode {
   background-color: #f4f4f4;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .input {
@@ -14,7 +17,6 @@
   top: 0;
   left: 0;
   width: 5%;
-  background-color: #f4f4f4;
 }
 
 .output {
