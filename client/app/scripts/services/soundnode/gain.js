@@ -16,16 +16,22 @@ angular.module('webClientSideApp')
     Gain.prototype.type = 'gain';
 
     Gain.prototype.initNode = function(audioContext) {
-      var self = this;
-      navigator.getUserMedia(
-        {audio: true},
-        function(stream) {
-          self.output = audioContext.createMediaStreamSource(stream);
-        },
-        function(err) {
-          console.log('The following gUM error occured: ' + err);
-        }
-      );
+      this.output = audioContext.createGain();
+      this.input = audioContext.createGain();
+
+      this.gain = audioContext.createGain();
+
+      this.input.connect(this.gain);
+      this.gain.connect(this.output);
+
+      this.output.gain.value = 1;
+      this.input.gain.value = 1;
+      this.gain.gain.value = 1;
+    };
+
+    Gain.prototype.setVolume = function (val) {
+      //for the moment, no control over val but after we must keep it between 0 and 1
+      this.gain.gain.value = val;
     };
 
     // Public API here

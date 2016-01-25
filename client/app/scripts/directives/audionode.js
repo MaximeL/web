@@ -19,15 +19,20 @@ angular.module('webClientSideApp')
         suivant: '@'
       },
       restrict: 'EA',
+      templateUrl: function(elem, attr) {
+        $log.debug(elem);
+        $log.debug(attr);
+        return 'views/templates/audionode/basicnode.html';
+      },
       controller: ['$scope', '$log', function($scope, $log) {
         /*$log.debug('scopeCtrl');
          $log.debug($scope);*/
       }],
       link: function postLink(scope, element, attrs) {
-        element.addClass("soundnode");
-        element.addClass(scope.type);
-        element.attr('id', scope.id);
-        element.text(scope.type);
+        //element.addClass("soundnode");
+        //element.addClass(scope.type);
+        //element.attr('id', scope.id);
+        //element.text(scope.type);
 
         //$log.debug(audionodeSelector.getAudionode(scope.type));
         element.scope().soundnode = audionodeSelector.getAudionode(scope.type);

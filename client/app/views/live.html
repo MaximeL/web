@@ -1,8 +1,8 @@
 <div id="live-page">
   <div ng-if="ready">
 
-      <audio-node ng-repeat="node in live.audionodes"
-                  id="{{node.id}}"
+    <div ng-repeat="node in live.audionodes">
+      <audio-node id="{{node.id}}"
                   type="{{node.type}}"
                   posx="{{node.posx}}"
                   posy="{{node.posy}}"
@@ -10,6 +10,8 @@
                   precedent="{{node.precedent}}"
                   suivant="{{node.suivant}}">
       </audio-node>
+    </div>
+
   </div>
   <div ng-if="!ready">
     <h1>ite dosehant worque véri waile</h1>

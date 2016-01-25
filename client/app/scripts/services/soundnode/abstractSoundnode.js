@@ -29,11 +29,19 @@ angular.module('webClientSideApp')
       this.input = audioContext.createGain();
       this.input.connect(this.output);
     };
-    AbstractSoundnode.prototype.connect = function(target) {
-      this.output.connect(target);
+    AbstractSoundnode.prototype.connect = function(output) {
+      this.output.connect(output.input);
+      this.suivant = output.id;
+    };
+    AbstractSoundnode.prototype.isConnected = function (input) {
+      this.precedent = input.id;
     };
     AbstractSoundnode.prototype.disconnect = function () {
       this.output.disconnect();
+      this.suivant = null;
+    };
+    AbstractSoundnode.prototype.isDisconnected = function () {
+      this.precedent = null;
     };
     AbstractSoundnode.prototype.initPlumb = function() {
       jsPlumb.addEndpoint(""+this.id, {
