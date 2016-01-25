@@ -24,6 +24,7 @@ router.use(function (req, res, next) {
 // ---------------
 router.route('/')
 
+  // HTTP GET
   .get(function (req, res) {
     console.log('GET all list of comments');
     CommentsSchema.find(function (err, commentsList) {
@@ -37,6 +38,7 @@ router.route('/')
     });
   })
 
+  // HTTP POST
   .post(function (req, res) {
     console.log('POST a comment');
 
@@ -80,6 +82,11 @@ router.route('/:comment_id')
         res.status(404);
         return;
       }
+      if(comment == null) {
+        res.status(404);
+        res.send({message : 'Invalid comment'});
+        return;
+      }
       console.log('---> Comment ' + req.params.comment_id + ' liste via ' + req.url);
       res.json(comment);
     });
@@ -92,6 +99,12 @@ router.route('/:comment_id')
       if (err)
         res.send(err);
 
+      if(typeof req.body.username !== 'string') {
+        res.status(400);
+        res.send({message: 'Username is not a string'});
+        return;
+      }
+
       comment.username = req.body.username;
       comment.content = req.body.content;
 
@@ -103,15 +116,21 @@ router.route('/:comment_id')
       });
     });
   })
+
   // HTTP DELETE
   // TODO preciser une url pour permettre la suppression
   .delete(function (req, res) {
     console.log('# DELETE a comment by id');
-    CommentsSchema.remove({
-      _id: req.params.comment_id
-    }, function (err, comment) {
+    CommentsSchema.remove({_id: req.params.comment_id}, function (err, comment) {
       if (err)
         res.send(err);
+
+      if(comment.result.n === 0 ) {    // aucune colonne affectee
+        res.status(404);
+        res.send({message : "Not found"});
+        return;
+      }
+
       console.log('---> Comment ' + req.params.comment_id + ' supprimee via ' + req.url);
       res.json({message: 'Successfully deleted'});
     });

@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 
-²var db = {
+var db = {
   //TODO Pour faire genre
   //production: "mongodb://user:pass@example.com:1234/dbsound-prod",
   development: "mongodb://localhost:27017/dbsound",
