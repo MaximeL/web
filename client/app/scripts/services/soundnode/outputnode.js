@@ -9,7 +9,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Outputnode', function (AbstractSoundnode) {
+  .factory('Outputnode', function ($log, AbstractSoundnode) {
     // Service logic
     function Outputnode() {}
     Outputnode.prototype = Object.create(AbstractSoundnode.prototype);
@@ -17,7 +17,9 @@ angular.module('webClientSideApp')
     Outputnode.prototype.type = 'output';
 
     Outputnode.prototype.initPlumb = function() {
-      jsPlumb.addEndpoint(""+this.id, {
+      $log.info('inputnode initplumb');
+      $log.debug(this.id);
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Left"
       }, {
         isSource:false,

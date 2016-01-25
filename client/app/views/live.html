@@ -2,14 +2,7 @@
   <div ng-if="ready">
 
     <div ng-repeat="node in live.audionodes">
-      <audio-node id="{{node.id}}"
-                  type="{{node.type}}"
-                  posx="{{node.posx}}"
-                  posy="{{node.posy}}"
-                  value="{{node.value}}"
-                  precedent="{{node.precedent}}"
-                  suivant="{{node.suivant}}">
-      </audio-node>
+      <audio-node node="node" ></audio-node>
     </div>
 
   </div>

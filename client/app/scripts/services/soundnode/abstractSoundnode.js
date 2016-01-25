@@ -44,7 +44,7 @@ angular.module('webClientSideApp')
       this.precedent = null;
     };
     AbstractSoundnode.prototype.initPlumb = function() {
-      jsPlumb.addEndpoint(""+this.id, {
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Right"
       }, {
         isSource:true,
@@ -56,7 +56,7 @@ angular.module('webClientSideApp')
         connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
         connectorHoverStyle:{ lineWidth:2 }
       });
-      jsPlumb.addEndpoint(""+this.id, {
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Left"
       }, {
         isSource:false,
