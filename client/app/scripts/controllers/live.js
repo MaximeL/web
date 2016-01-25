@@ -30,6 +30,15 @@ angular.module('webClientSideApp')
         value: null,
         precedent: null,
         suivant: null
+      },
+      {
+        id: 2,
+        type: 'gain',
+        posx: null,
+        posy: null,
+        value: null,
+        precedent: null,
+        suivant: null
       }
     ];
 
