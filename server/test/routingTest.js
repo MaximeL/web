@@ -214,8 +214,7 @@ describe('Routing test', function () {
    *  --------------------------------------------------------------------------------------- */
 
   describe('User API testing', function () {
-
-    var id_created = null;
+    var id_created;
     var userBody = {
       username: "test",
       password: "alligator3"
@@ -261,6 +260,7 @@ describe('Routing test', function () {
           res.body.should.have.property("pedals");
           res.body.should.have.property("shared");
           res.body.should.not.have.property("password");
+          console.log(res.body);
           done();
         });
     });
@@ -275,6 +275,7 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
+          console.log(res.body);
           //TODO : Assertions
           done();
         });
@@ -290,6 +291,8 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
+          console.log(userBody);
+          console.log(res.body);
           res.body._id.should.equal(id_created);
           res.body.username.should.equal("update-test");
           res.body.should.have.property("pedals");
