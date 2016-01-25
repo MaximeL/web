@@ -1,9 +1,10 @@
 <div id="live-page">
   <div ng-if="ready">
 
-    <div ng-repeat="node in live.audionodes">
-      <audio-node node="node"></audio-node>
-    </div>
+      <audio-node ng-repeat="node in live.audionodes"
+                  node="node">
+      </audio-node>
+
 
   </div>
   <div ng-if="!ready">

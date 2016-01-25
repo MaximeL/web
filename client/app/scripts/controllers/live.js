@@ -52,16 +52,21 @@ angular.module('webClientSideApp')
       jsPlumb.setContainer("live-page");
 
       jsPlumb.bind('connection', function(info) {
-        var inputElm = angular.element(document).find('#soundnode'+info.sourceId);
-        var outputElm = angular.element(document).find('#soundnode'+info.targetId);
+        $log.debug(info);
+        var inputElm = angular.element(document).find('#'+info.sourceId);
+        var outputElm = angular.element(document).find('#'+info.targetId);
+        $log.debug(inputElm);
+        $log.debug(outputElm);
         var inputNode = inputElm.scope().soundnode;
         var outputNode = outputElm.scope().soundnode;
+        $log.debug(inputNode);
+        $log.debug(outputNode);
         inputNode.connect(outputNode);
         outputNode.isConnected(inputNode);
       });
       jsPlumb.bind('connectionDetached', function(info) {
-        var inputElm = angular.element(document).find('#soundnode'+info.sourceId);
-        var outputElm = angular.element(document).find('#soundnode'+info.targetId);
+        var inputElm = angular.element(document).find('#'+info.sourceId);
+        var outputElm = angular.element(document).find('#'+info.targetId);
         var inputNode = inputElm.scope().soundnode;
         var outputNode = outputElm.scope().soundnode;
         inputNode.disconnect();

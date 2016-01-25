@@ -13,7 +13,6 @@ angular.module('webClientSideApp')
         nodeData: '=node'
       },
       restrict: 'EA',
-      replace: true,
       templateUrl: function(elem, attr) {
         /*$log.info('in TemplateUrl');
         $log.debug(elem);
@@ -27,8 +26,8 @@ angular.module('webClientSideApp')
       link: function postLink(scope, element, attrs) {
         $log.info('in link');
         //$log.debug(element);
-        //element.addClass("soundnode");
-        //element.addClass(scope.type);
+        element.addClass("soundnode");
+        element.addClass(scope.nodeData.type);
         element.attr('id', 'soundnode'+scope.nodeData.id);
         //element.text(scope.type);
 
