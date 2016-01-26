@@ -10,41 +10,49 @@ angular.module('webClientSideApp')
   .directive('audioNode', function ($log, audionodeSelector, audiocontext) {
     return {
       scope: {
-        nodeData: '=node'
+        nodeId: '=nid',
+        nodeType: '=type'
       },
       restrict: 'EA',
       templateUrl: function(elem, attr) {
-        /*$log.info('in TemplateUrl');
-        $log.debug(elem);
-        $log.debug(attr);*/
         return 'views/templates/audionode/basicnode.html';
       },
       controller: ['$scope', '$log', function($scope, $log) {
-        /*$log.debug('scopeCtrl');
-         $log.debug($scope);*/
       }],
       link: function postLink(scope, element, attrs) {
-        $log.info('in link');
-        //$log.debug(element);
+        $log.info('ceating node of type : '+scope.nodeType);
         element.addClass("soundnode");
-        element.addClass(scope.nodeData.type);
-        element.attr('id', 'soundnode'+scope.nodeData.id);
-        //element.text(scope.type);
+        element.addClass(scope.nodeType);
+        element.attr('id', scope.nodeId);
 
-        //$log.debug(audionodeSelector.getAudionode(scope.type));
-        //$log.debug(scope);
-        element.scope().soundnode = audionodeSelector.getAudionode(scope.nodeData.type);
-        element.scope().soundnode.init(audiocontext.get(),
-          scope.nodeData.id,
-          scope.nodeData.posx,
-          scope.nodeData.posy,
-          scope.nodeData.value,
-          scope.nodeData.precedent,
-          scope.nodeData.suivant);
-
-
-        /*$log.debug('scopeLink');
-         $log.debug(scope);*/
+        if(scope.nodeType !== 'output') {
+          jsPlumb.addEndpoint("" + scope.nodeId, {
+            anchor: "Right"
+          }, {
+            isSource: true,
+            isTarget: false,
+            connector: "Straight",
+            endpoint: "Dot",
+            paintStyle: {fillStyle: "blue", outlineColor: "blue", outlineWidth: 1},
+            hoverPaintStyle: {fillStyle: "blue"},
+            connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+            connectorHoverStyle: {lineWidth: 2}
+          });
+        }
+        if(scope.nodeType !== 'input') {
+          jsPlumb.addEndpoint("" + scope.nodeId, {
+            anchor: "Left"
+          }, {
+            isSource: false,
+            isTarget: true,
+            connector: "Straight",
+            endpoint: "Dot",
+            paintStyle: {fillStyle: "red", outlineColor: "red", outlineWidth: 1},
+            hoverPaintStyle: {fillStyle: "red"},
+            connectorStyle: {strokeStyle: "red", lineWidth: 1},
+            connectorHoverStyle: {lineWidth: 2}
+          });
+        }
       }
     };
   });

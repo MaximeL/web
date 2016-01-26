@@ -15,6 +15,7 @@ angular.module('webClientSideApp')
     function AbstractSoundnode() {}
 
     AbstractSoundnode.prototype.id = null;
+    AbstractSoundnode.prototype.type = null;
     AbstractSoundnode.prototype.posx = null;
     AbstractSoundnode.prototype.posy =  null;
     AbstractSoundnode.prototype.value = null;
@@ -69,15 +70,16 @@ angular.module('webClientSideApp')
         connectorHoverStyle:{ lineWidth:2 }
       });
     };
-    AbstractSoundnode.prototype.init = function(audioContext, id, posx, posy, value, precedent, suivant) {
+    AbstractSoundnode.prototype.init = function(audioContext, id, type, posx, posy, value, precedent, suivant) {
       this.id = id;
+      this.type = type;
       this.posx = posx;
       this.posy=  posy;
       this.value = value;
       this.precedent = precedent;
       this.suivant = suivant;
 
-      this.initPlumb();
+      //this.initPlumb();
       this.initNode(audioContext);
     };
     // Public API here
