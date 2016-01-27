@@ -129,9 +129,28 @@ angular.module('webClientSideApp')
           })
       }
     }
-
-    $scope.share = function(id){
-
+    /**
+     * shared pedals with other users
+     *
+     * @param id
+     * @param pedal
+       */
+    $scope.share = function(id , pedal){
+      $http.get("http://localhost:3000/api/pedal/"+id)
+        .success(function(data){
+        var elt = {_id:id , right:true};
+          /**
+           * add pedal shared into my list of pedals
+           */
+          data.pedal.push(elt);
+          /**
+           * update user
+           */
+          $http.put("http://localhost:3000/api/user", data)
+        })
+        .error(function(data){
+          console.log("ouuups");
+        })
     }
 
 
