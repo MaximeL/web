@@ -10,7 +10,7 @@ var extScope;
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope , $rootScope, $notification , user, pedal) {
+  .controller('MainCtrl', function ($scope , $rootScope, $notification , user, pedal, $http) {
     extScope = $scope;
 
     $scope.signup = {
@@ -30,7 +30,13 @@ angular.module('webClientSideApp')
       username : "",
       password : "",
       _id : "",
-      pedals : []
+      pedals : [],
+      shared : [
+        {
+          _id: "",
+          right: false
+        }
+      ]
     };
 
 
@@ -49,6 +55,11 @@ angular.module('webClientSideApp')
       users: []
     };
 
+    $scope.myPedals = [];
+    $scope.pedalsShared = [];
+    $scope.myPedals.push("pedal00");
+    $scope.pedalsShared.push("pedal111");
+
    /**
       une manière d'encrypter les données du user : nom , mot de passe , email ......
       Lien vers la personne à qui j'ai piqué le code :) : http://spaghetti.io/cont/article/angularjs-and-basic-auth/12/1.html#.VpaxtFnb_HY
@@ -62,6 +73,17 @@ angular.module('webClientSideApp')
     _utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},
     _utf8_decode:function(e){var t="";var n=0;var r=0 , c1=0,c2= 0,c3=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}
     };
+
+    /**
+     * retrieve list to all of users
+     */
+    $http.get("http://localhost:3000/api/user/")
+      .success(function(data){
+        $scope.users = data;
+      })
+      .error(function(data){
+        console.log("ouuups");
+      })
 
       /**
       chech login befor signin
@@ -96,7 +118,20 @@ angular.module('webClientSideApp')
       user.updateUser($scope.login);
     };
 
-    $scope.share = function(){
+    $scope.getMyPedals = function(){
+      for (var i=0 ; i < $scope.login.pedals.length; i++){
+        $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
+          .success(function(data){
+            $scope.myPedals.push(data);
+          })
+          .error(function(data){
+            console.log("ouuups");
+          })
+      }
+    }
+
+    $scope.share = function(id){
+
     }
 
 
