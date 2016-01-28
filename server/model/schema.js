@@ -61,7 +61,7 @@ var PedaleSchema = new Schema({
   ],
   notes: [
     {
-²      _id: {type: Schema.Types.ObjectId, ref: 'User'},
+      _id: {type: Schema.Types.ObjectId, ref: 'User'},
       note: Number
     }
   ],
