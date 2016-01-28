@@ -14,7 +14,6 @@
   top: 0;
   left: 0;
   width: 5%;
-  background-color: #f4f4f4;
 }
 
 .output {
@@ -23,6 +22,14 @@
   top: 0;
   right: 0;
   width: 5%;
+}
+
+.gain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10%;
+  height: 10%;
 }
 
 

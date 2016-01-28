@@ -17,7 +17,9 @@ angular.module('webClientSideApp')
     Inputnode.prototype.type = 'input';
 
     Inputnode.prototype.initPlumb = function() {
-      jsPlumb.addEndpoint(""+this.id, {
+      $log.info('inputnode initplumb');
+      $log.debug(this.id);
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Right"
       }, {
         isSource:true,

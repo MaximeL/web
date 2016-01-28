@@ -8,19 +8,23 @@
  * Service in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .service('pedal', function ($http, $q, $notification) {
+  .service('pedal', function ($http, $q, user , $notification) {
     // AngularJS will instantiate a singleton by calling "new" on this function
-    return {
-      createPedale: (function (pedal) {
-        var deferred = $q.defer();
-        $http.post("http://localhost:3000/api/pedal", pedal)
-          .success(function (data) {
-            deferred.resolve(data);
-            $notification.success("login", "pedal created");
 
+    return {
+      createPedal: (function (pedal , u) {
+        var deferred = $q.defer();
+        $http.post("http://localhost:3000/api/pedal/", pedal)
+          .success(function (data) {
+            pedal._id = data._id;
+            u.pedals.push(data._id);
+            user.updateUser(u);
+            deferred.resolve(data);
+            $notification.success("Pedal", "pedal created");
           })
           .error(function () {
-            $notification.error("login", "");
+            $notification.error("Pedal", "");
+
             deferred.reject(false);
           });
         return deferred.promise;

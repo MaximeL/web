@@ -12,11 +12,9 @@ angular.module('webClientSideApp')
     // Service logic
     var getAudioCtx = function() {
       if(typeof $rootScope.audioCtx === 'undefined' || $rootScope.audioCtx === null) {
-        $log.debug('creating audioCtx');
         $rootScope.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         return $rootScope.audioCtx;
       } else {
-        $log.debug('not creating audioCtx');
         return $rootScope.audioCtx;
       }
     };
