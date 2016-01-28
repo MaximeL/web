@@ -28,7 +28,7 @@
 
               Quality
               <input type="range"
-                     min="0"
+                     min="1"
                      max="100"
                      step="1"
                      ng-model="node.lowpass.Q.value"/>
@@ -44,10 +44,26 @@
 
               Quality
               <input type="range"
-                     min="0"
+                     min="1"
                      max="100"
                      step="1"
                      ng-model="node.highpass.Q.value"/>
+            </div>
+
+            <div ng-switch-when="bandpass">
+              Frequency
+              <input type="range"
+                     min="20"
+                     max="20000"
+                     step="1"
+                     ng-model="node.bandpass.frequency.value"/>
+
+              Quality
+              <input type="range"
+                     min="0.01"
+                     max="1"
+                     step="0.01"
+                     ng-model="node.bandpass.Q.value"/>
             </div>
 
             <div ng-switch-default>

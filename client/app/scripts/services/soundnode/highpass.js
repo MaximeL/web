@@ -20,7 +20,7 @@ angular.module('webClientSideApp')
       this.input = audioContext.createGain();
 
       this.highpass = audioContext.createBiquadFilter();
-      this.highpass.type = 1;
+      this.highpass.type = 'highpass';
 
       this.input.connect(this.highpass);
       this.highpass.connect(this.output);

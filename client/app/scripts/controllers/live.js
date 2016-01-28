@@ -63,7 +63,7 @@ angular.module('webClientSideApp')
 
       var filter = angular.copy(defaultNode);
       filter.id = 6;
-      filter.type = 'highpass';
+      filter.type = 'bandpass';
       $scope.nodeStorage.addNode(filter);
     };
     init();

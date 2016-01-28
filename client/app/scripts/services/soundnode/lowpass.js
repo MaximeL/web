@@ -20,7 +20,7 @@ angular.module('webClientSideApp')
       this.input = audioContext.createGain();
 
       this.lowpass = audioContext.createBiquadFilter();
-      this.lowpass.type = 0;
+      this.lowpass.type = 'lowpass';
 
       this.input.connect(this.lowpass);
       this.lowpass.connect(this.output);

@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('audionodeSelector', function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass) {
+  .factory('audionodeSelector', function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass, BandPass) {
     // Service logic
     var selectNode = function(type) {
       if(type === 'input')
@@ -21,6 +21,8 @@ angular.module('webClientSideApp')
         return new LowPass();
       if(type === 'highpass')
         return new HighPass();
+      if(type === 'bandpass')
+        return new BandPass();
       return null;
     };
 
