@@ -82,6 +82,22 @@
                      ng-model="node.lowshelf.gain.value"/>
             </div>
 
+            <div ng-switch-when="highshelf">
+              Frequency
+              <input type="range"
+                     min="20"
+                     max="20000"
+                     step="1"
+                     ng-model="node.highshelf.frequency.value"/>
+
+              Gain
+              <input type="range"
+                     min="0"
+                     max="40"
+                     step="1"
+                     ng-model="node.highshelf.gain.value"/>
+            </div>
+
             <div ng-switch-default>
             </div>
           </div>
