@@ -66,13 +66,28 @@
                      ng-model="node.bandpass.Q.value"/>
             </div>
 
+            <div ng-switch-when="lowshelf">
+              Frequency
+              <input type="range"
+                     min="20"
+                     max="20000"
+                     step="1"
+                     ng-model="node.lowshelf.frequency.value"/>
+
+              Gain
+              <input type="range"
+                     min="0"
+                     max="40"
+                     step="1"
+                     ng-model="node.lowshelf.gain.value"/>
+            </div>
+
             <div ng-switch-default>
             </div>
           </div>
         </div>
 
       </audio-node>
-
 
   </div>
   <div ng-if="!ready">
