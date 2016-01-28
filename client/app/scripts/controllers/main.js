@@ -1,3 +1,5 @@
+var extScope;
+
 'use strict';
 
 /**
@@ -8,28 +10,38 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope , $rootScope, $notification , user) {
+  .controller('MainCtrl', function ($scope , $rootScope, $notification , user, pedal, $http) {
+    extScope = $scope;
 
     $scope.signup = {
       username : "",
       mail : "",
       password : "",
-      _id : "",
-      pedals : $scope.pedal
+      _id : ""
 
-    }
+    };
 
     $rootScope.logged = false;
+    $rootScope.uu = "";
+    $scope.created = true;
+
 
     $scope.login = {
       username : "",
       password : "",
       _id : "",
-      pedals : $scope.pedal
-    }
+      pedals : [],
+      shared : [
+        {
+          _id: "",
+          right: false
+        }
+      ]
+    };
 
 
     $scope.pedal = {
+      _id: "",
       nom: "",
       description: "",
       effets: [
@@ -38,8 +50,15 @@ angular.module('webClientSideApp')
           precedent: "",
           suivant: ""
         }
-      ]
-    }
+      ],
+      owner : "",
+      users: []
+    };
+
+    $scope.myPedals = [];
+    $scope.pedalsShared = [];
+    $scope.myPedals.push("pedal00");
+    $scope.pedalsShared.push("pedal111");
 
    /**
       une manière d'encrypter les données du user : nom , mot de passe , email ......
@@ -55,6 +74,17 @@ angular.module('webClientSideApp')
     _utf8_decode:function(e){var t="";var n=0;var r=0 , c1=0,c2= 0,c3=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}
     };
 
+    /**
+     * retrieve list to all of users
+     */
+    $http.get("http://localhost:3000/api/user/")
+      .success(function(data){
+        $scope.users = data;
+      })
+      .error(function(data){
+        console.log("ouuups");
+      })
+
       /**
       chech login befor signin
       */
@@ -67,7 +97,7 @@ angular.module('webClientSideApp')
 
 
 
-    }
+    };
 
     /**
     create a new user and stor it in DB
@@ -82,11 +112,45 @@ angular.module('webClientSideApp')
       }
     };
 
-    $scope.createPedale = function(){
-      user.createPedale($scope.pedal);
+    $scope.newPedal = function(){
+      $scope.pedal.owner = $scope.login._id;
+      pedal.createPedal($scope.pedal , $scope.login);
+      user.updateUser($scope.login);
     };
 
-    $scope.share = function(){
+    $scope.getMyPedals = function(){
+      for (var i=0 ; i < $scope.login.pedals.length; i++){
+        $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
+          .success(function(data){
+            $scope.myPedals.push(data);
+          })
+          .error(function(data){
+            console.log("ouuups");
+          })
+      }
+    }
+    /**
+     * shared pedals with other users
+     *
+     * @param id
+     * @param pedal
+       */
+    $scope.share = function(id , pedal){
+      $http.get("http://localhost:3000/api/pedal/"+id)
+        .success(function(data){
+        var elt = {_id:id , right:true};
+          /**
+           * add pedal shared into my list of pedals
+           */
+          data.pedal.push(elt);
+          /**
+           * update user
+           */
+          $http.put("http://localhost:3000/api/user", data)
+        })
+        .error(function(data){
+          console.log("ouuups");
+        })
     }
 
 

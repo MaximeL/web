@@ -15,6 +15,7 @@ angular.module('webClientSideApp')
     function AbstractSoundnode() {}
 
     AbstractSoundnode.prototype.id = null;
+    AbstractSoundnode.prototype.type = null;
     AbstractSoundnode.prototype.posx = null;
     AbstractSoundnode.prototype.posy =  null;
     AbstractSoundnode.prototype.value = null;
@@ -29,14 +30,22 @@ angular.module('webClientSideApp')
       this.input = audioContext.createGain();
       this.input.connect(this.output);
     };
-    AbstractSoundnode.prototype.connect = function(target) {
-      this.output.connect(target);
+    AbstractSoundnode.prototype.connect = function(output) {
+      this.output.connect(output.input);
+      this.suivant = output.id;
+    };
+    AbstractSoundnode.prototype.isConnected = function (input) {
+      this.precedent = input.id;
     };
     AbstractSoundnode.prototype.disconnect = function () {
       this.output.disconnect();
+      this.suivant = null;
     };
-    AbstractSoundnode.prototype.initPlumb = function() {
-      jsPlumb.addEndpoint(""+this.id, {
+    AbstractSoundnode.prototype.isDisconnected = function () {
+      this.precedent = null;
+    };
+    /*AbstractSoundnode.prototype.initPlumb = function() {
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Right"
       }, {
         isSource:true,
@@ -48,7 +57,7 @@ angular.module('webClientSideApp')
         connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
         connectorHoverStyle:{ lineWidth:2 }
       });
-      jsPlumb.addEndpoint(""+this.id, {
+      jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Left"
       }, {
         isSource:false,
@@ -60,16 +69,17 @@ angular.module('webClientSideApp')
         connectorStyle:{ strokeStyle:"red", lineWidth:1 },
         connectorHoverStyle:{ lineWidth:2 }
       });
-    };
-    AbstractSoundnode.prototype.init = function(audioContext, id, posx, posy, value, precedent, suivant) {
+    };*/
+    AbstractSoundnode.prototype.init = function(audioContext, id, type, posx, posy, value, precedent, suivant) {
       this.id = id;
+      this.type = type;
       this.posx = posx;
       this.posy=  posy;
       this.value = value;
       this.precedent = precedent;
       this.suivant = suivant;
 
-      this.initPlumb();
+      //this.initPlumb();
       this.initNode(audioContext);
     };
     // Public API here

@@ -13,7 +13,7 @@ var winston = require('winston');
 describe('Routing test', function () {
 
   var URL = 'http://localhost:3000';
-  var TEST_DB = 'dbsound-test';
+  var TEST_DB = 'dbsound_test';
   var URL_NOTE = '/api/note/';
   var URL_COMMENT = '/api/comment/';
   var URL_USER = '/api/user/';
@@ -28,185 +28,326 @@ describe('Routing test', function () {
   });
 
 
-  ///** ---------------------------------------------------------------------------------------
-  // *  Test pour les Notes
-  // *  --------------------------------------------------------------------------------------- */
-  //
-  //describe('Note API testing', function () {
-  //
-  //  var id_created = null;
-  //  var noteBody = {
-  //    value: 3,
-  //    username: 'Berd'
-  //  };
-  //
-  //  // TEST POST
-  //  it('should correctly post a new note', function (done) {
-  //    request(URL)
-  //      .post(URL_NOTE)
-  //      .send(noteBody)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(201) //Status code created
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.have.property('_id');
-  //        // recupere l'id du post pour tester le get par id
-  //        id_created = res.body._id;
-  //        res.body.value.should.equal(3);
-  //        res.body.username.should.equal('Berd');
-  //        //res.body.creationDate.should.not.equal(null);
-  //        done();
-  //      });
-  //  });
-  //
-  //  // TEST GET PAR ID
-  //  it('should correctly get a note', function (done) {
-  //    request(URL)
-  //      .get(URL_NOTE + id_created)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        res.body.should.have.property('_id');
-  //        res.body._id.should.equal(id_created);
-  //        res.body.value.should.equal(3);
-  //        res.body.username.should.equal('Berd');
-  //        done();
-  //      });
-  //  });
-  //
-  //  // TEST PUT
-  //  it('should correctly update a note', function (done) {
-  //    noteBody.username = 'Berd2';
-  //    request(URL)
-  //      .put(URL_NOTE + id_created)
-  //      .send(noteBody)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.have.property('_id');
-  //        res.body.username.should.equal('Berd2');
-  //        done();
-  //      });
-  //  });
-  //
-  //  // TEST DELETE
-  //  it('should correctly delete a note', function (done) {
-  //    request(URL)
-  //      .delete(URL_NOTE + id_created)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.not.have.property('_id');
-  //        res.body.should.have.property('message');
-  //        res.body.message.should.equal('Successfully deleted');
-  //        done();
-  //      });
-  //  });
-  //});
-  //
-  //
-  ///** ---------------------------------------------------------------------------------------
-  // *  Test pour les Commentaires
-  // *  --------------------------------------------------------------------------------------- */
-  //describe('Comment API testing', function () {
-  //
-  //  var id_created = null;
-  //  var commentBody = {
-  //    content: "Le commentaire de la mort qui tue tout",
-  //    username: 'Berd'
-  //  };
-  //
-  //  // TEST POST
-  //  it('should correctly post a new comment', function (done) {
-  //    request(URL)
-  //      .post(URL_COMMENT)
-  //      .send(commentBody)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(201) //Status code created
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.have.property('_id');
-  //        // recupere l'id du post pour tester le get par id
-  //        id_created = res.body._id;
-  //        res.body.content.should.equal('Le commentaire de la mort qui tue tout');
-  //        res.body.username.should.equal('Berd');
-  //        //res.body.creationDate.should.not.equal(null);
-  //        done();
-  //      });
-  //  });
-  //
-  //  //TEST GET PAR ID
-  //  it('should correctly get a comment', function (done) {
-  //    request(URL)
-  //      .get(URL_COMMENT + id_created)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        res.body.should.have.property('_id');
-  //        res.body._id.should.equal(id_created);
-  //        res.body.content.should.equal('Le commentaire de la mort qui tue tout');
-  //        res.body.username.should.equal('Berd');
-  //        done();
-  //      });
-  //  });
-  //
-  //  // TEST PUT
-  //  it('should correctly update a comment', function (done) {
-  //    commentBody.content = 'Le commentaire de la mort qui tue vraiment tout';
-  //    request(URL)
-  //      .put(URL_COMMENT + id_created)
-  //      .send(commentBody)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.have.property('_id');
-  //        res.body.content.should.equal('Le commentaire de la mort qui tue vraiment tout');
-  //        done();
-  //      });
-  //  });
-  //
-  //  // TEST DELETE
-  //  it('should correctly delete a comment', function (done) {
-  //    request(URL)
-  //      .delete(URL_COMMENT + id_created)
-  //      .expect('Content-type', 'application/json; charset=utf-8')
-  //      .expect(200) //Status code success
-  //      .end(function (err, res) {
-  //        if (err) {
-  //          throw err;
-  //        }
-  //        // Should.js fluent syntax applied
-  //        res.body.should.not.have.property('_id');
-  //        res.body.should.have.property('message');
-  //        res.body.message.should.equal('Successfully deleted');
-  //        done();
-  //      });
-  //  });
-  //});
+  /** ---------------------------------------------------------------------------------------
+   *  Test pour les Notes
+   *  --------------------------------------------------------------------------------------- */
+
+  describe('Note API testing', function () {
+
+    var id_created = null;
+    var noteBody = {
+      value: 3,
+      username: 'Berd'
+    };
+
+    // TEST POST
+    it('should correctly post a new note', function (done) {
+      request(URL)
+        .post(URL_NOTE)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(201) //Status code created
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          // recupere l'id du post pour tester le get par id
+          id_created = res.body._id;
+          res.body.value.should.equal(3);
+          res.body.username.should.equal('Berd');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    // TEST GET PAR ID
+    it('should correctly get a note', function (done) {
+      request(URL)
+        .get(URL_NOTE + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.should.have.property('_id');
+          res.body._id.should.equal(id_created);
+          res.body.value.should.equal(3);
+          res.body.username.should.equal('Berd');
+          done();
+        });
+    });
+
+    // TEST PUT
+    it('should correctly update a note', function (done) {
+      noteBody.username = 'Berd2';
+      request(URL)
+        .put(URL_NOTE + id_created)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          res.body.username.should.equal('Berd2');
+          done();
+        });
+    });
+
+    // TEST DELETE
+    it('should correctly delete a note', function (done) {
+      request(URL)
+        .delete(URL_NOTE + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          res.body.should.have.property('message');
+          res.body.message.should.equal('Successfully deleted');
+          done();
+        });
+    });
+
+    /**
+     *  Gestions des erreurs pour les Notes
+     *  ____________________________________ */
+
+      // TEST POST ERROR
+    it('should not post a new note, properties not specified', function (done) {
+      request(URL)
+        .post(URL_NOTE)
+        .send({username: 'Berd'})
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    // TEST GET PAR ID ERROR
+    it('should return 404 with an incorrect ID', function (done) {
+      request(URL)
+        .get(URL_NOTE + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code error
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.message.should.equal('Invalid note');
+          done();
+        });
+    });
+
+    // TEST PUT ERROR
+    it('should not correctly update a note if incorrect values', function (done) {
+      noteBody.username = 4;
+      request(URL)
+        .put(URL_NOTE + id_created)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code accepted
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.message.should.equal('Incorrect values');
+          done();
+        });
+    });
+
+    // TEST DELETE ERROR
+    it('should not correctly delete a note', function (done) {
+      request(URL)
+        .delete(URL_NOTE + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.message.should.equal('Not found');
+          done();
+        });
+    });
+  });
+
+  /** ---------------------------------------------------------------------------------------
+   *  Test pour les Commentaires
+   *  --------------------------------------------------------------------------------------- */
+  describe('Comment API testing', function () {
+
+    var id_created = null;
+    var commentBody = {
+      content: "Le commentaire de la mort qui tue tout",
+      username: 'Berd'
+    };
+
+    // TEST POST
+    it('should correctly post a new comment', function (done) {
+      request(URL)
+        .post(URL_COMMENT)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(201) //Status code created
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          // recupere l'id du post pour tester le get par id
+          id_created = res.body._id;
+          res.body.content.should.equal('Le commentaire de la mort qui tue tout');
+          res.body.username.should.equal('Berd');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    //TEST GET PAR ID
+    it('should correctly get a comment', function (done) {
+      request(URL)
+        .get(URL_COMMENT + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.should.have.property('_id');
+          res.body._id.should.equal(id_created);
+          res.body.content.should.equal('Le commentaire de la mort qui tue tout');
+          res.body.username.should.equal('Berd');
+          done();
+        });
+    });
+
+    // TEST PUT
+    it('should correctly update a comment', function (done) {
+      commentBody.content = 'Le commentaire de la mort qui tue vraiment tout';
+      request(URL)
+        .put(URL_COMMENT + id_created)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          res.body.content.should.equal('Le commentaire de la mort qui tue vraiment tout');
+          done();
+        });
+    });
+
+    // TEST DELETE
+    it('should correctly delete a comment', function (done) {
+      request(URL)
+        .delete(URL_COMMENT + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          res.body.should.have.property('message');
+          res.body.message.should.equal('Successfully deleted');
+          done();
+        });
+    });
+
+    /**
+     *  Gestions des erreurs pour les Commentaires
+     *  __________________________________________ */
+
+      // TEST POST ERROR
+    it('should not post a new comment, properties not specified', function (done) {
+      request(URL)
+        .post(URL_COMMENT)
+        .send({})
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    // TEST GET PAR ID ERROR
+    it('should return 404 with an incorrect ID', function (done) {
+      request(URL)
+        .get(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code error
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.message.should.equal('Invalid comment');
+          done();
+        });
+    });
+
+    // TEST PUT ERROR
+    it('should not correctly update a note if incorrect values', function (done) {
+      commentBody.username = 4;
+      request(URL)
+        .put(URL_COMMENT + id_created)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code accepted
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.message.should.equal('Username is not a string');
+          done();
+        });
+    });
+
+    // TEST DELETE ERROR
+    it('should not correctly delete a note', function (done) {
+      request(URL)
+        .delete(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.message.should.equal('Not found');
+          done();
+        });
+    });
+  });
 
 
   /** ---------------------------------------------------------------------------------------
@@ -274,7 +415,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          //console.log(res.body);
           //TODO : Assertions
           done();
         });
@@ -290,8 +430,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          //console.log(userBody);
-          //console.log(res.body);
           res.body._id.should.equal(id_created);
           res.body.username.should.equal("update-test");
           res.body.should.have.property("pedals");
@@ -319,8 +457,6 @@ describe('Routing test', function () {
         type: "aze"
       }]
     };
-
-    console.log(pedalBody);
 
     before(function (done) {
       var userBody = {
@@ -385,7 +521,6 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           res.body.nom.should.equal('Ma pédale modifée');
-          console.log(res);
           done();
         });
     });
@@ -421,9 +556,6 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           res.body.nom.should.equal('Ma pédale modifée');
-          console.log(res.body.comments);
-          console.log(res.body.notes);
-          console.log(res.body.users);
           done();
         });
     });
@@ -451,24 +583,23 @@ describe('Routing test', function () {
     });
 
     // TEST DELETE
-    //it('should correctly delete a pedal', function (done) {
-    //  request(URL)
-    //    .delete(URL_PEDAL + id_created)
-    //    .expect('Content-type', 'application/json; charset=utf-8')
-    //    .expect(200) //Status code success
-    //    .end(function (err, res) {
-    //      if (err) {
-    //        throw err;
-    //      }
-    //      // Should.js fluent syntax applied
-    //      res.body.should.not.have.property('_id');
-    //      res.body.should.have.property('message');
-    //      res.body.message.should.equal('Successfully deleted');
-    //      done();
-    //    });
-    //});
+    it('should correctly delete a pedal', function (done) {
+      request(URL)
+        .delete(URL_PEDAL + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          res.body.should.have.property('message');
+          res.body.message.should.equal('Successfully deleted');
+          done();
+        });
+    });
   });
-
 
   after(function (done) {
     mongoose.connection.db.dropDatabase( function (err, res) {

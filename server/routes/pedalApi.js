@@ -29,7 +29,6 @@ router.use(function (req, res, next) {
 
 router.route('/')
   .post(function (req, res) {
-    console.log("Creating a new pedal");
 
     var pedale = new PedaleSchema();
 
@@ -54,7 +53,6 @@ router.route('/')
 
     pedale.save(function (err, pedaleSaved) {
       if (err) {
-        console.log(err);
         res.status(404);
         res.send(err);
         return;
@@ -67,7 +65,6 @@ router.route('/')
 // Actions sur une pédale
 router.route('/:id')
   .get(function (req, res) {
-    console.log("Getting a pedal");
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         console.log(err);
@@ -79,7 +76,6 @@ router.route('/:id')
     });
   })
   .put(function (req, res) {
-    console.log("Updating a pedal");
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
           console.log(err);
@@ -150,7 +146,6 @@ router.route('/:id')
 
         pedale.save(function (err, pedale) {
           if (err) {
-            console.log("Error during save");
             console.log(err);
             return;
           }
@@ -162,7 +157,6 @@ router.route('/:id')
 
   })
   .delete(function (req, res) {
-    console.log("Deleting a pedal");
     PedaleSchema.remove({_id: req.params.id}, function (err) {
       if (err)
         res.send(err);
