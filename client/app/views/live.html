@@ -98,6 +98,27 @@
                      ng-model="node.highshelf.gain.value"/>
             </div>
 
+            <div ng-switch-when="peaking">
+              Frequency
+              <input type="range"
+                     min="20"
+                     max="20000"
+                     step="1"
+                     ng-model="node.peaking.frequency.value"/>
+              Quality
+              <input type="range"
+                     min="0.01"
+                     max="1"
+                     step="0.01"
+                     ng-model="node.peaking.Q.value"/>
+              Gain
+              <input type="range"
+                     min="0"
+                     max="40"
+                     step="1"
+                     ng-model="node.peaking.gain.value"/>
+            </div>
+
             <div ng-switch-default>
             </div>
           </div>
