@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
   .factory('audionodeSelector',
-    function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass, BandPass, LowShelf, HighShelf, Peaking) {
+    function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass, BandPass, LowShelf, HighShelf, Peaking, Notch) {
 
     // Service logic
     var selectNode = function(type) {
@@ -31,6 +31,8 @@ angular.module('webClientSideApp')
         return new HighShelf();
       if(type === 'peaking')
         return new Peaking();
+      if(type === 'notch')
+        return new Notch();
       return null;
     };
 

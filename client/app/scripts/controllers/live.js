@@ -63,7 +63,7 @@ angular.module('webClientSideApp')
 
       var filter = angular.copy(defaultNode);
       filter.id = 6;
-      filter.type = 'peaking';
+      filter.type = 'notch';
       $scope.nodeStorage.addNode(filter);
     };
     init();
