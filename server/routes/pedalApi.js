@@ -107,33 +107,33 @@ router.route('/:id')
           }
         }
 
-        if (req.body.note !== undefined) {
-          if (req.body.note.author != undefined && req.body.note.value != undefined && req.body.note.value <= 5 && req.body.note.value > 0) {
-            var found = false;
-            for (var i = 0; i < pedale.notes.length; i++) {
-              if (pedale.notes[i].author == req.body.note.author) {
-                pedale.notes[i].note = req.body.note.value;
-                found = true;
-                break;
-              }
-            }
-            if (!found) {
-              var item = {};
-              item.author = req.body.note.author;
-              item.value = req.body.note.value;
-              pedale.notes.push(item);
-            }
-          }
-        }
+        //if (req.body.note !== undefined) {
+        //  if (req.body.note.author != undefined && req.body.note.value != undefined && req.body.note.value <= 5 && req.body.note.value > 0) {
+        //    var found = false;
+        //    for (var i = 0; i < pedale.notes.length; i++) {
+        //      if (pedale.notes[i].author == req.body.note.author) {
+        //        pedale.notes[i].note = req.body.note.value;
+        //        found = true;
+        //        break;
+        //      }
+        //    }
+        //    if (!found) {
+        //      var item = {};
+        //      item.author = req.body.note.author;
+        //      item.value = req.body.note.value;
+        //      pedale.notes.push(item);
+        //    }
+        //  }
+        //}
 
-        if (req.body.comment != undefined) {
-          if (req.body.comment.author != undefined && req.body.comment.content != undefined) {
-            var item = {};
-            item.author = req.body.comment.author;
-            item.content = req.body.comment.content;
-            pedale.comments.push(item);
-          }
-        }
+        //if (req.body.comment != undefined) {
+        //  if (req.body.comment.author != undefined && req.body.comment.content != undefined) {
+        //    var item = {};
+        //    item.author = req.body.comment.author;
+        //    item.content = req.body.comment.content;
+        //    pedale.comments.push(item);
+        //  }
+        //}
 
         // TODO : Ici ça marche pas
         //  if (req.body.users !== undefined) {
@@ -167,5 +167,38 @@ router.route('/:id')
       res.json({message: 'Successfully deleted'});
       return res.end();
     });
+  });
+router.route('/:id/users')
+  .get(function (req, res) {
+    PedalSchema.findOne(
+      {"users": {$exists: true}, "_id": req.params.pedalId},
+      {"users": 1},
+      function (err, pedal) {
+        if (err) {
+          console.log(err);
+          res.status(404);
+          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        }
+        res.status(200);
+        return res.json(pedal.users);
+      }
+    );
+  })
+  .put(function (req, res) {
+    // TODO #palafoi
+    //
+    //PedalSchema.findOne(
+    //  {"users": {$exists: true}, "_id": req.params.pedalId},
+    //  {"users": 1},
+    //  function (err, pedal) {
+    //    if (err) {
+    //      console.log(err);
+    //      res.status(404);
+    //      return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+    //    }
+    //    res.status(200);
+    //    return res.json(pedal.users);
+    //  }
+    //);
   });
 module.exports = router;
