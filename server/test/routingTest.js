@@ -438,6 +438,59 @@ describe('Routing test', function () {
           done();
         });
     });
+
+    /**
+     //   *  Gestions des erreurs pour les Users
+     //   *  ____________________________________ */
+     // TEST POST ERROR
+    it('should not post a new user, username already used', function (done) {
+      request(URL)
+        .post(URL_USER)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          done();
+        });
+    });
+
+    // TEST GET PAR ID ERROR
+    it('should return 404 with an incorrect ID', function (done) {
+      request(URL_USER)
+        .get(URL_NOTE + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code error
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.message.should.equal('Invalid user');
+          done();
+        });
+    });
+
+    // TODO : TEST PUT ERROR
+    //it('should not correctly update a user if incorrect values', function (done) {
+    //  noteBody.username = "aze";
+    //  request(URL)
+    //    .put(URL_USER + id_created)
+    //    .send(userBody)
+    //    .expect('Content-type', 'application/json; charset=utf-8')
+    //    .expect(400) //Status code accepted
+    //    .end(function (err, res) {
+    //      if (err) {
+    //        throw err;
+    //      }
+    //      // Should.js fluent syntax applied
+    //      res.body.message.should.equal('Incorrect values');
+    //      done();
+    //    });
+    //});
   });
 
   /** ---------------------------------------------------------------------------------------
@@ -599,10 +652,81 @@ describe('Routing test', function () {
           done();
         });
     });
+
+      /**
+       *  Gestions des erreurs pour les Pedales
+       *  __________________________________________ */
+
+        // TODO : TEST POST ERROR
+      //it('should not post a new comment, properties not specified', function (done) {
+      //  request(URL)
+      //    .post(URL_COMMENT)
+      //    .send({})
+      //    .expect('Content-type', 'application/json; charset=utf-8')
+      //    .expect(400) //Status code bas request
+      //    .end(function (err, res) {
+      //      if (err) {
+      //        throw err;
+      //      }
+      //      // Should.js fluent syntax applied
+      //      res.body.should.not.have.property('_id');
+      //      //res.body.creationDate.should.not.equal(null);
+      //      done();
+      //    });
+      //});
+
+      // TODO : TEST GET PAR ID ERROR
+      //it('should return 404 with an incorrect ID', function (done) {
+      //  request(URL)
+      //    .get(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
+      //    .expect('Content-type', 'application/json; charset=utf-8')
+      //    .expect(404) //Status code error
+      //    .end(function (err, res) {
+      //      if (err) {
+      //        throw err;
+      //      }
+      //      res.body.message.should.equal('Invalid comment');
+      //      done();
+      //    });
+      //});
+
+      // TODO : TEST PUT ERROR
+      //it('should not correctly update a note if incorrect values', function (done) {
+      //  commentBody.username = 4;
+      //  request(URL)
+      //    .put(URL_COMMENT + id_created)
+      //    .send(commentBody)
+      //    .expect('Content-type', 'application/json; charset=utf-8')
+      //    .expect(400) //Status code accepted
+      //    .end(function (err, res) {
+      //      if (err) {
+      //        throw err;
+      //      }
+      //      // Should.js fluent syntax applied
+      //      res.body.message.should.equal('Username is not a string');
+      //      done();
+      //    });
+      //});
+
+      // TODO : TEST DELETE ERROR
+      //it('should not correctly delete a note', function (done) {
+      //  request(URL)
+      //    .delete(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
+      //    .expect('Content-type', 'application/json; charset=utf-8')
+      //    .expect(404) //Status code success
+      //    .end(function (err, res) {
+      //      if (err) {
+      //        throw err;
+      //      }
+      //      // Should.js fluent syntax applied
+      //      res.body.message.should.equal('Not found');
+      //      done();
+      //    });
+      //});
   });
 
   after(function (done) {
-    mongoose.connection.db.dropDatabase( function (err, res) {
+    mongoose.connection.db.dropDatabase(function (err, res) {
       console.log("\n" + err);
     });
 
