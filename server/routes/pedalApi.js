@@ -24,6 +24,10 @@ router.use(function (req, res, next) {
  PEDALES
  ------------------------------
  */
+var noteRouter = require('./noteApi');
+var commentRouter = require('./commentApi');
+router.use('/:pedalId/notes', noteRouter);
+router.use('/:pedalId/comments', commentRouter);
 
 //##########POST > Route -> /api/pedale###########
 
@@ -131,18 +135,18 @@ router.route('/:id')
           }
         }
 
-      // TODO : Ici ça marche pas
-      //  if (req.body.users !== undefined) {
-      //    if (req.body.users.constructor === Array) {
-      //      pedale.users = [];
-      //      for (var j = 0; j < req.body.users.length; j++) {
-      //        pedale.users[j] = {};
-      //
-      //        pedale.users[j]._id = req.body.users[j]._id;
-      //        pedale.users[j].right = req.body.users[j].right;
-      //      }
-      //    }
-      //  }
+        // TODO : Ici ça marche pas
+        //  if (req.body.users !== undefined) {
+        //    if (req.body.users.constructor === Array) {
+        //      pedale.users = [];
+        //      for (var j = 0; j < req.body.users.length; j++) {
+        //        pedale.users[j] = {};
+        //
+        //        pedale.users[j]._id = req.body.users[j]._id;
+        //        pedale.users[j].right = req.body.users[j].right;
+        //      }
+        //    }
+        //  }
 
         pedale.save(function (err, pedale) {
           if (err) {

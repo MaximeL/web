@@ -1,78 +1,82 @@
-///**
-// * Created by Romain on 11/01/2016.
-// */
-//
-//var express = require('express');
-//var router = express.Router();
-//
-//var NotesSchema = require('../model/schema').getNotesSchema();
-//
-//// ---------------------------
-//// Middleware for all requests
-//// ---------------------------
-//router.use(function (req, res, next) {
-//  console.log('Middleware called.');
-//  // allows requests from angularJS frontend applications
-//  res.header("Access-Control-Allow-Origin", "*");
-//  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//  next(); // go to the next route
-//});
-//
-//// ---------------
-//// Route ➜ /note
-//// ---------------
-//router.route('/')
-//
-//  // HTTP GET
-//  .get(function (req, res) {
-//    console.log('GET all list of notes');
-//    NotesSchema.find(function (err, noteList) {
-//      if (err) {
-//        console.log(err);
-//        res.status(404);
-//        return;
-//      }
-//      console.log("   Ok pour lister les notes ");
-//      res.status(200);
-//      res.json(noteList);
-//    });
-//  })
-//
-//  // HTTP POST
-//  .post(function (req, res) {
-//    console.log('POST a note');
-//
-//    var note = new NotesSchema();
-//
-//    // on test l'existence des parametres requis
-//    // !req.body.hasOwnProperty('number')
-//    if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('value') ||
-//      req.body.username === "" || req.body.value === "") {
-//      console.log("   username or value not specified man!");
-//      res.status(400);
-//      res.json({message: "Post syntax incorrect, username or value not specified or empty"});
-//      return;
-//    }
-//
-//    note.username = req.body.username;
-//    note.value = req.body.value;
-//
-//    note.save(function (err, noteSaved) {
-//      if (err) {
-//        res.status(404);
-//        res.send(err);
-//        return;
-//      }
-//      console.log("   Ok pour l'ajout d'une note");
-//      res.status(201);
-//      res.json(noteSaved);
-//    });
-//  });
-//
-//// -----------------------------
-//// Route ➜ /note/:note_id
-//// -----------------------------
+/**
+ * Created by Romain on 11/01/2016.
+ */
+
+var express = require('express');
+var router = express.Router({mergeParams: true});
+
+var PedalSchema = require('../model/schema').getPedaleSchema();
+
+// ---------------------------
+// Middleware for all requests
+// ---------------------------
+router.use(function (req, res, next) {
+  console.log('Middleware called.');
+  // allows requests from angularJS frontend applications
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next(); // go to the next route
+});
+
+// ---------------
+// Route ➜ /pedal/:pedalId/notes
+// ---------------
+router.route('/')
+
+  // HTTP GET
+  .get(function (req, res) {
+    console.log('GET all notes of pedal');
+
+    PedalSchema.findOne(
+      {"notes": { $exists: true }, "_id": req.params.pedalId },
+      {"notes": 1},
+      function(err, pedal) {
+        if (err) {
+          console.log(err);
+          res.status(404);
+          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        }
+        res.status(200);
+        return res.json(pedal.notes);
+      }
+    );
+  })
+
+  // HTTP POST TODO : note déjà posée par un user
+  .post(function (req, res) {
+    console.log('POST a note');
+
+    var pedal = new PedalSchema();
+
+    // on test l'existence des parametres requis
+    // !req.body.hasOwnProperty('number')
+    if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('note') ||
+      req.body.author === "" || req.body.note.NaN) {
+      res.status(400);
+      return res.json({message: "Post syntax incorrect, author or note value not specified or empty"});
+    }
+
+    var note = {
+      _id: req.body.author,
+      note: req.body.note
+    };
+
+    pedal.notes.push(note);
+
+    pedal.save(function (err, noteSaved) {
+      if (err) {
+        res.status(404);
+        return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+      }
+      res.status(201);
+      return res.json(noteSaved);
+    });
+  });
+
+// -----------------------------
+// Route ➜ /note/:note_id
+// -----------------------------
 //router.route('/:note_id')
 //  // HTTP GET ID
 //  .get(function (req, res) {
@@ -140,5 +144,5 @@
 //      res.json({message: 'Successfully deleted'});
 //    });
 //  });
-//
-//module.exports = router;
+
+module.exports = router;
