@@ -161,7 +161,7 @@ describe('Routing test', function () {
         .put(URL_NOTE + id_created)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code accepted
+        .expect(400)
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -315,13 +315,13 @@ describe('Routing test', function () {
     });
 
     // TEST PUT ERROR
-    it('should not correctly update a note if incorrect values', function (done) {
+    it('should not correctly update a comment if incorrect values', function (done) {
       commentBody.username = 4;
       request(URL)
         .put(URL_COMMENT + id_created)
         .send(commentBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code accepted
+        .expect(400)
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -333,7 +333,7 @@ describe('Routing test', function () {
     });
 
     // TEST DELETE ERROR
-    it('should not correctly delete a note', function (done) {
+    it('should not correctly delete a comment', function (done) {
       request(URL)
         .delete(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
         .expect('Content-type', 'application/json; charset=utf-8')
