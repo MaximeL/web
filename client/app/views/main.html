@@ -1,76 +1,70 @@
+<div class="row">
+  <!--<div class="modal" ng-class="{'show': logged, hide: logged }">-->
+    <!--<div class="modal-dialog" role="document">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<h3 class="modal-title">Sign In:</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--<div class="container">-->
+            <!--<div class="row">-->
+              <!--<div class="col-md-6 col-md-offset-2">-->
+                <!--<label for="loginPseudo">Pseudo</label>-->
+                <!--<input type="text" id="loginPseudo" name="username" ng-model="login.username" required/>-->
 
-  <div class="modal" ng-class="{'show': logged, hide: logged }" >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title">Sign In:</h3>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 col-md-offset-2">
-                    <label for="loginPseudo" >
-                      Pseudo
-                    </label>
-                    <br>
-                    <input type="text" id="loginPseudo" name="username" ng-model="login.username" required />
-                    <br>
-                    <label for="loginPassword" >
-                      password
-                    </label>
-                    <br>
-                    <input type="password" id="loginPassword" name="password" ng-model="login.password" required />
+                <!--<label for="loginPassword"><password></password></label>-->
+                <!--<input type="password" id="loginPassword" name="password" ng-model="login.password" required/>-->
 
-                    <br>
-                    <br>
-                    <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()">
-                    </span>Sign In
+                <!--<span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()"></span>Sign In-->
+                <!--<a href="#/signup">-->
+                  <!--<span class="btn   btn-info btn-lg glyphicon glyphicon-plus-sign">Sign Up</span>-->
+                <!--</a>-->
 
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
-
-
-                 <a href="#/signup">
-                 <span class="btn   btn-info btn-lg glyphicon glyphicon-plus-sign">
-                    </span>
-                  </a>
-                   Sign Up
-                   </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-          </div>
-      </div>
-    </div>
-</div>
-
-
-  <div>
-  <a  class="btn btn-info btn-lg " ng-click="created=false" style="padding-left: 10%">
-    <span class="glyphicon glyphicon-new-window" ></span> New Pedale
-  </a>
+  <!--My pedals-->
+  <div class="col-md-6">
+    <h2>My pedals</h2>
+      <button class="btn btn-info btn-lg " ng-click="created=false">
+        <span class="glyphicon glyphicon-new-window"></span> New Pedale
+      </button>
   </div>
 
-  <div class="overlay" ng-if=true>
+<!--
+  <div class="col-md-6">
+    <h2>Shared with me</h2>
+  </div>
+-->
 
-    <fieldset class="col-sm-6 col-md-6 col-lg-6">
-          <legend>My Pedals </legend>
-        <div class="pedal">
-          datat
-          <a class="btn btn-info pull-right">
-            <span class="glyphicon glyphicon-share" ng-click="share()"></span> Share
-          </a>
-        </div>
-      </fieldset>
-    <fieldset class="col-sm-6 col-md-6 col-lg-6">
-          <legend> Pedals shared</legend>
+  <!--<div class="overlay" ng-if=true>-->
 
-      <div class="pedal"> pedals shared</div>
-      </fieldset>
-</div>
+    <!--<fieldset class="col-sm-6 col-md-6 col-lg-6">-->
+      <!--<legend>My Pedals</legend>-->
+      <!--<div class="pedal">-->
+        <!--datat-->
+        <!--<a class="btn btn-info pull-right">-->
+          <!--<span class="glyphicon glyphicon-share" ng-click="share()"></span> Share-->
+        <!--</a>-->
+      <!--</div>-->
+    <!--</fieldset>-->
+    <!--<fieldset class="col-sm-6 col-md-6 col-lg-6">-->
+      <!--<legend> Pedals shared</legend>-->
+
+      <!--<div cla<!--
+  al"> pedals shared</div>-->
+    <!--</fieldset>-->
+  <!--</div>-->
 
 
-  <div class="modal" ng-class="{'show': !created, hide: created }" >
+  <div class="modal" ng-class="{'show': !created, hide: created }">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -81,104 +75,92 @@
             <div class="row">
               <div class="col-md-6 col-md-offset-2">
                 <div class="col-md-6 col-md-offset-2">
+                  <label for="nom">Nom</label>
+                  <input type="text" id="nom" name="nom" ng-model="pedal.nom" required/>
 
-                  <input type="text" id="nom" name="nom"  ng-model="pedal.nom" required />
-                  <label for="nom" >
-                    Nom
-                  </label>
-                  <br>
+                  <label for="description">description</label>
+                  <input type="text" id="description" name="description" ng-model="pedal.description" required/>
 
-                  <input type="text" id="description" name="description" ng-model="pedal.description" required />
-                  <label for="description" >
-                    description
-                  </label>
-                  <br>
+                  <input type="text" id="type" name="type" ng-model="pedal.effets[0].type" required/>
+                  <label for="description">type</label>
 
-                  <input type="text" id="type" name="type" ng-model="pedal.effets[0].type" required />
-                  <label for="description" >
-                    type
-                  </label>
-                  <br>
+                  <label for="suivant">suivant</label>
+                  <input type="text" id="suivant" name="suivant" ng-model="pedal.effets[0].suivant" required/>
 
-                  <input type="text" id="suivant" name="suivant" ng-model="pedal.effets[0].suivant" required />
-                  <label for="suivant" >
-                    suivant
-                  </label>
-                  <br>
+                  <label for="precedent">precedent</label>
+                  <input type="text" id="precedent" name="precedent" ng-model="pedal.effets.precedent" required/>
 
-                  <input type="text" id="precedent" name="precedent" ng-model="pedal.effets.precedent" required />
-                  <label for="precedent" >
-                    precedent
-                  </label>
-                  <br>
-                  <br>
-                    <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="newPedal() ; created=true">Create
-                    </span>
+                  <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="newPedal() ; created=true">Create</span>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-        </div>
+        <div class="modal-footer"></div>
       </div>
     </div>
   </div>
 
   <div id="myNav" class="overlay">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <div class="overlay-content" >
+    <div class="overlay-content">
       <section ng-repeat="pedal in myPedals">
-
         <div class="btn-group">
-            <a>{{pedal}}
+          <a>{{pedal}}
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
               <section ng-repeat="user in users | filter: _id != login._id">
-                  <button type="button" class="btn btn-primary dropdown-toggle" ng-click="share(user._id, pedal)">user</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" ng-click="share(user._id, pedal)">user</button>
               </section>
             </ul>
-            </a>
+          </a>
         </div>
       </section>
     </div>
   </div>
   <div id="myNav2" class="overlay">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">×</a>
-    <div class="overlay-content" >
+    <div class="overlay-content">
       <section ng-repeat="pedal in pedalsShared">
-
-          <div class="btn-group">
-            <a>{{pedal}}</a>
-          </div>
+        <div class="btn-group">
+          <a>{{pedal}}</a>
+        </div>
       </section>
     </div>
   </div>
-<div class="row">
-  <div class="col-sm-6 col-md-6 col-lg-6">
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">☰ MyPedals</span>
+
+
+
+
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">☰ MyPedals</span>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav2()">☰ SharedWithMe</span>
+    </div>
   </div>
-  <div class="col-sm-6 col-md-6 col-lg-6">
-  <span style="font-size:30px;cursor:pointer" onclick="openNav2()">☰ SharedWithMe</span>
-  </div>
+
+
+
 </div>
 
-  <script>
-    function openNav() {
-      document.getElementById("myNav").style.height = "100%";
-    }
-    function openNav2() {
-      document.getElementById("myNav2").style.height = "100%";
-    }
 
-    function closeNav() {
-      document.getElementById("myNav").style.height = "0%";
-    }
-    function closeNav2() {
-      document.getElementById("myNav2").style.height = "0%";
-    }
-  </script>
+<script>
+  function openNav() {
+    document.getElementById("myNav").style.height = "100%";
+  }
+  function openNav2() {
+    document.getElementById("myNav2").style.height = "100%";
+  }
+
+  function closeNav() {
+    document.getElementById("myNav").style.height = "0%";
+  }
+  function closeNav2() {
+    document.getElementById("myNav2").style.height = "0%";
+  }
+</script>
 
