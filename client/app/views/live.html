@@ -1,15 +1,11 @@
 <div id="live-page">
   <div ng-if="ready">
 
-      <audio-node ng-repeat="node in live.audionodes"
-                  id="{{node.id}}"
-                  type="{{node.type}}"
-                  posx="{{node.posx}}"
-                  posy="{{node.posy}}"
-                  value="{{node.value}}"
-                  precedent="{{node.precedent}}"
-                  suivant="{{node.suivant}}">
+      <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
+                  nid="node.id"
+                  type="node.type">
       </audio-node>
+
   </div>
   <div ng-if="!ready">
     <h1>ite dosehant worque véri waile</h1>

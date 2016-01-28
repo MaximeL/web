@@ -38,7 +38,13 @@ router.route('/')
     pedale.owner = req.body.owner;
 
     if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
-      pedale.effets = req.body.effets;
+      pedale.effets = [];
+      for(var i = 0; i < req.body.effets.length; i++) {
+        pedale.effets[i] = {};
+        pedale.effets[i].suivant = req.body.effets[i].suivant;
+        pedale.effets[i].precedent = req.body.effets[i].precedent;
+        pedale.effets[i].type = req.body.effets[i].type;
+      }
     } else {
       pedale.effets = [];
     }
@@ -49,7 +55,8 @@ router.route('/')
         res.send(err);
         return;
       }
-      res.status(201);
+      //res.status(201);
+      res.status(200);
       return res.send(pedaleSaved);
     });
   });
