@@ -8,32 +8,30 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('LowPass', function () {
+  .factory('LowPass', function (AbstractSoundnode) {
     // Service logic
-    function Gain() {}
-    Gain.prototype = Object.create(AbstractSoundnode.prototype);
+    function LowPass() {}
+    LowPass.prototype = Object.create(AbstractSoundnode.prototype);
 
-    Gain.prototype.type = 'gain';
+    LowPass.prototype.type = 'lowpass';
 
-    Gain.prototype.initNode = function(audioContext) {
+    LowPass.prototype.initNode = function(audioContext) {
       this.output = audioContext.createGain();
       this.input = audioContext.createGain();
 
-      this.gain = audioContext.createGain();
+      this.lowpass = audioContext.createBiquadFilter();
+      this.lowpass.type = 0;
 
-      this.input.connect(this.gain);
-      this.gain.connect(this.output);
+      this.input.connect(this.lowpass);
+      this.lowpass.connect(this.output);
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
-      this.gain.gain.value = 1;
-    };
 
-    Gain.prototype.setVolume = function (val) {
-      //for the moment, no control over val but after we must keep it between 0 and 1
-      this.gain.gain.value = val;
+      this.lowpass.frequency.value = 440;
+      this.lowpass.Q.value = 0;
     };
 
     // Public API here
-    return Gain;
+    return LowPass;
   });

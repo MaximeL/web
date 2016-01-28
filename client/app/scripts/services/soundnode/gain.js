@@ -29,11 +29,6 @@ angular.module('webClientSideApp')
       this.gain.gain.value = 1;
     };
 
-    Gain.prototype.setVolume = function (val) {
-      //for the moment, no control over val but after we must keep it between 0 and 1
-      this.gain.gain.value = val;
-    };
-
     // Public API here
     return Gain;
   });

@@ -60,6 +60,11 @@ angular.module('webClientSideApp')
       gain.id = 3;
       gain.type = 'gain';
       $scope.nodeStorage.addNode(gain);
+
+      var filter = angular.copy(defaultNode);
+      filter.id = 6;
+      filter.type = 'highpass';
+      $scope.nodeStorage.addNode(filter);
     };
     init();
 
