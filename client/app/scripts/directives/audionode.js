@@ -14,9 +14,6 @@ angular.module('webClientSideApp')
         nodeType: '=type'
       },
       restrict: 'EA',
-      templateUrl: function(elem, attr) {
-        return 'views/templates/audionode/basicnode.html';
-      },
       controller: ['$scope', '$log', function($scope, $log) {
       }],
       link: function postLink(scope, element, attrs) {

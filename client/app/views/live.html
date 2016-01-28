@@ -4,6 +4,24 @@
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
                   nid="node.id"
                   type="node.type">
+        <div>
+          <div> {{node.type}} </div>
+
+          <div ng-switch="node.type">
+
+            <div ng-switch-when="gain">
+              <input type="range"
+                     min="0"
+                     max="1"
+                     step="0.01"
+                     ng-model="node.gain.gain.value"/>
+            </div>
+
+            <div ng-switch-default>
+            </div>
+          </div>
+        </div>
+
       </audio-node>
 
   </div>

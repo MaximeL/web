@@ -80,6 +80,16 @@ angular.module('webClientSideApp')
 
     $scope.isUndefined = function(item) {
       return (typeof item !== 'undefined');
-    }
+    };
+
+    $scope.test = 'coucou';
+    $scope.testNoArg = function() {
+      $log.debug('in testNoArg');
+      return 'salut';
+    };
+    $scope.testArg = function(arg) {
+      $log.debug('in testNoArg');
+      $log.debug('in testArg');
+    };
 
   });
