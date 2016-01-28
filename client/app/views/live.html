@@ -134,6 +134,21 @@
                      ng-model="node.notch.Q.value"/>
             </div>
 
+            <div ng-switch-when="allpass">
+              Frequency
+              <input type="range"
+                     min="20"
+                     max="20000"
+                     step="1"
+                     ng-model="node.allpass.frequency.value"/>
+              Quality
+              <input type="range"
+                     min="0.01"
+                     max="1"
+                     step="0.01"
+                     ng-model="node.allpass.Q.value"/>
+            </div>
+
             <div ng-switch-default>
             </div>
           </div>
