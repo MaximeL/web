@@ -1,7 +1,7 @@
 <div id="live-page">
   <div ng-if="ready">
 
-      <audio-node ng-repeat="node in getNodeStorageArray()"
+      <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
                   nid="node.id"
                   type="node.type">
       </audio-node>

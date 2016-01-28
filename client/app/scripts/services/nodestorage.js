@@ -12,7 +12,7 @@ angular.module('webClientSideApp')
     // Service logic
     function NodeStorage() {}
 
-    NodeStorage.prototype.storage = {};
+    NodeStorage.prototype.storage = [];
 
     NodeStorage.prototype.addNode = function(node) {
       var soundnode = audionodeSelector.getAudionode(node.type);
@@ -27,7 +27,7 @@ angular.module('webClientSideApp')
       this.storage[node.id] = soundnode;
     };
     NodeStorage.prototype.removeNode = function(id) {
-      delete this.storage[id];
+      this.storage[id] = null;
     };
     NodeStorage.prototype.connect = function(inputId, outputId) {
       this.storage[inputId].connect(this.storage[outputId]);

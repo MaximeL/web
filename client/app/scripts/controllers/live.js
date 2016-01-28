@@ -10,7 +10,7 @@
 angular.module('webClientSideApp')
   .controller('LiveCtrl', function ($scope, $log, NodeStorage) {
     var vm = this;
-    var nodeStorage = new NodeStorage();
+    $scope.nodeStorage = new NodeStorage();
 
     $scope.ready = false;
     var intput = {
@@ -39,16 +39,6 @@ angular.module('webClientSideApp')
       suivant: null
     };
 
-    $scope.getNodeStorageArray = function() {
-      var result = [];
-      for (var n in nodeStorage.storage) {
-        // skip loop if the property is from prototype
-        if(!nodeStorage.storage.hasOwnProperty(n)) continue;
-        result.push(nodeStorage.storage[n]);
-      }
-      return result;
-    };
-
     var init = function() {
       $log.info('begin init');
       navigator.getUserMedia = (navigator.getUserMedia ||
@@ -63,13 +53,13 @@ angular.module('webClientSideApp')
         $scope.ready = false;
       }
 
-      nodeStorage.addNode(intput);
-      nodeStorage.addNode(output);
+      $scope.nodeStorage.addNode(intput);
+      $scope.nodeStorage.addNode(output);
 
       var gain = angular.copy(defaultNode);
       gain.id = 3;
       gain.type = 'gain';
-      nodeStorage.addNode(gain);
+      $scope.nodeStorage.addNode(gain);
     };
     init();
 
@@ -79,13 +69,17 @@ angular.module('webClientSideApp')
       jsPlumb.bind('connection', function(info) {
         var inputId = info.sourceId;
         var outputId = info.targetId;
-        nodeStorage.connect(inputId, outputId);
+        $scope.nodeStorage.connect(inputId, outputId);
       });
       jsPlumb.bind('connectionDetached', function(info) {
         var inputId = info.sourceId;
         var outputId = info.targetId;
-        nodeStorage.disconnect(inputId, outputId);
+        $scope.nodeStorage.disconnect(inputId, outputId);
       });
     });
+
+    $scope.isUndefined = function(item) {
+      return (typeof item !== 'undefined');
+    }
 
   });

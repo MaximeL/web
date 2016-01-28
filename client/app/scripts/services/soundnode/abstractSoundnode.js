@@ -44,7 +44,7 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.isDisconnected = function () {
       this.precedent = null;
     };
-    AbstractSoundnode.prototype.initPlumb = function() {
+    /*AbstractSoundnode.prototype.initPlumb = function() {
       jsPlumb.addEndpoint("soundnode"+this.id, {
         anchor:"Right"
       }, {
@@ -69,7 +69,7 @@ angular.module('webClientSideApp')
         connectorStyle:{ strokeStyle:"red", lineWidth:1 },
         connectorHoverStyle:{ lineWidth:2 }
       });
-    };
+    };*/
     AbstractSoundnode.prototype.init = function(audioContext, id, type, posx, posy, value, precedent, suivant) {
       this.id = id;
       this.type = type;
