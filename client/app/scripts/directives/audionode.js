@@ -7,7 +7,7 @@
  * # audioNode
  */
 angular.module('webClientSideApp')
-  .directive('audioNode', function ($log, audionodeSelector, audiocontext) {
+  .directive('audioNode', function ($log, $window, audionodeSelector, audiocontext) {
     return {
       scope: {
         nodeId: '=nid',
@@ -21,6 +21,10 @@ angular.module('webClientSideApp')
         element.addClass("soundnode");
         element.addClass(scope.nodeType);
         element.attr('id', scope.nodeId);
+
+        angular.element($window).bind('resize', function() {
+          jsPlumb.repaintEverything();
+        });
 
         if(scope.nodeType !== 'output') {
           jsPlumb.addEndpoint("" + scope.nodeId, {

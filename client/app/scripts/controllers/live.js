@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $log, NodeStorage) {
+  .controller('LiveCtrl', function ($scope, $window, $log, NodeStorage) {
     var vm = this;
     $scope.nodeStorage = new NodeStorage();
 
@@ -38,6 +38,11 @@ angular.module('webClientSideApp')
       precedent: null,
       suivant: null
     };
+
+    angular.element($window).bind('resize', function() {
+      jsPlumb.repaintEverything();
+      $scope.apply();
+    });
 
     var init = function() {
       $log.info('begin init');
