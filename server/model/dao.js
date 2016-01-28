@@ -12,7 +12,7 @@ var db = {
 };
 
 var getDao = function() {
-  return mongoose.connect(db[process.env.type]);
+  return mongoose.connect(db[app.get('env')]);
 };
 
 exports.getDao = getDao;
