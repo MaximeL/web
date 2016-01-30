@@ -1,15 +1,25 @@
+<style>
+  .container-fluid {
+    padding: 0;
+  }
+  .footer {
+    padding: 0;
+  }
+</style>
 <div id="live-page">
-  <div ng-if="ready">
+  <div id="live-page-pedals">
+    <div ng-if="ready">
 
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
                   nid="node.id"
-                  type="node.type">
+                  type="node.type"
+                  ng-style="{'left': node.posx+'%', 'top': node.posy+'%' }">
         <div>
           <div> {{node.type}} </div>
 
           <div ng-switch="node.type">
 
-            <div ng-switch-when="gain">
+            <div ng-switch-when="gain" >
               Level :
               <input type="range"
                      min="0"
@@ -156,8 +166,16 @@
 
       </audio-node>
 
+    </div>
+    <div ng-if="!ready">
+      <h1>ite dosehant worque véri waile</h1>
+    </div>
   </div>
-  <div ng-if="!ready">
-    <h1>ite dosehant worque véri waile</h1>
+  <div id="live-sidebar">
+    <div class="effect-element" ng-repeat="effect in effects">
+      <div class="effect-button" ng-click="addEffect(effect)">
+        {{effect}}
+      </div>
+    </div>
   </div>
 </div>

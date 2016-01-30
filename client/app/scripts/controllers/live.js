@@ -13,7 +13,7 @@ angular.module('webClientSideApp')
     $scope.nodeStorage = new NodeStorage();
 
     $scope.ready = false;
-    var intput = {
+    var input = {
         id: 0,
         type: 'input',
         posx: null,
@@ -29,6 +29,13 @@ angular.module('webClientSideApp')
         value: null,
         precedent: null
       };
+
+    //this should be filled with data from server
+    //To get what to save use : $scope.nodeStorage.backup()
+    var backup = [];
+    backup.push(input);
+    backup.push(output);
+
     var defaultNode ={
       id: null,
       type: null,
@@ -39,9 +46,28 @@ angular.module('webClientSideApp')
       suivant: null
     };
 
+    $scope.effects = [
+      'gain',
+      'allpass',
+      'bandpass',
+      'highpass',
+      'highshelf',
+      'lowpass',
+      'lowshelf',
+      'notch',
+      'peaking'
+    ];
+
+    $scope.addEffect = function(type) {
+      var effect = angular.copy(defaultNode);
+      effect.type = type;
+      effect.posx = 50;
+      effect.posy = 50;
+      $scope.nodeStorage.addNode(effect);
+    };
+
     angular.element($window).bind('resize', function() {
       jsPlumb.repaintEverything();
-      $scope.apply();
     });
 
     var init = function() {
@@ -58,18 +84,7 @@ angular.module('webClientSideApp')
         $scope.ready = false;
       }
 
-      $scope.nodeStorage.addNode(intput);
-      $scope.nodeStorage.addNode(output);
-
-      var gain = angular.copy(defaultNode);
-      gain.id = 3;
-      gain.type = 'gain';
-      $scope.nodeStorage.addNode(gain);
-
-      var filter = angular.copy(defaultNode);
-      filter.id = 6;
-      filter.type = 'allpass';
-      $scope.nodeStorage.addNode(filter);
+      $scope.nodeStorage.setup(backup);
     };
     init();
 
@@ -101,5 +116,4 @@ angular.module('webClientSideApp')
       $log.debug('in testNoArg');
       $log.debug('in testArg');
     };
-
   });
