@@ -10,13 +10,15 @@
   <div id="live-page-pedals">
     <div ng-if="ready">
 
+      <!-- effects added and printed to the screen -->
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
                   nid="node.id"
                   type="node.type"
                   ng-style="{'left': node.posx+'%', 'top': node.posy+'%' }">
         <div>
           <div> {{node.type}} </div>
-
+          <div class="delete-node" ng-click="deleteEffect(node.id)"></div>
+<!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
           <div ng-switch="node.type">
 
             <div ng-switch-when="gain" >
@@ -160,6 +162,7 @@
             </div>
 
             <div ng-switch-default>
+              <!-- told you it was long... -->
             </div>
           </div>
         </div>
@@ -171,6 +174,7 @@
       <h1>ite dosehant worque véri waile</h1>
     </div>
   </div>
+  <!-- side menu to add effects -->
   <div id="live-sidebar">
     <div class="effect-element" ng-repeat="effect in effects">
       <div class="effect-button" ng-click="addEffect(effect)">

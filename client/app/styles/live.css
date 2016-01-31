@@ -51,3 +51,21 @@
   border: 1px solid #000000;
 }
 
+.delete-node {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 5px;
+}
+
+.input .delete-node {
+  visibility: hidden;
+}
+
+.output .delete-node {
+  visibility: hidden;
+}
+

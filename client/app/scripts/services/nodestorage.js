@@ -32,9 +32,15 @@ angular.module('webClientSideApp')
         node.precedent,
         node.suivant);
       this.storage[node.id] = soundnode;
+      return node.id;
     };
     NodeStorage.prototype.removeNode = function(id) {
-      this.storage[id] = null;
+      $log.info("deleting node with id : "+id);
+      jsPlumb.detachAllConnections(''+id);
+      var nodeElement = angular.element.find('#'+id)[0];
+      jsPlumb.deleteEndpoint(nodeElement.nodeOutput);
+      jsPlumb.deleteEndpoint(nodeElement.nodeInput);
+      this.storage[id] = undefined;
     };
     NodeStorage.prototype.connect = function(inputId, outputId) {
       this.storage[inputId].connect(this.storage[outputId]);

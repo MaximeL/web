@@ -17,17 +17,27 @@ angular.module('webClientSideApp')
       controller: ['$scope', '$log', function($scope, $log) {
       }],
       link: function postLink(scope, element, attrs) {
+        //setting id and class
         $log.info('ceating node of type : '+scope.nodeType);
         element.addClass("soundnode");
         element.addClass(scope.nodeType);
         element.attr('id', scope.nodeId);
 
-        angular.element($window).bind('resize', function() {
-          jsPlumb.repaintEverything();
+        //This is for refresh the position of the endpoints on each move
+        //TODO : refresh locally on the endpoints concerned. here it refresh all the endpoints. That's heavy
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            console.log(mutation.type);
+            jsPlumb.repaintEverything();
+          });
         });
+        // configuration of the observer:
+        var config = { attributes: true, childList: true, characterData: true };
+        observer.observe(angular.element.find('#'+scope.nodeId)[0], config);
 
+        //adding the endpoints
         if(scope.nodeType !== 'output') {
-          jsPlumb.addEndpoint("" + scope.nodeId, {
+          angular.element.find('#'+scope.nodeId)[0].nodeOutput = jsPlumb.addEndpoint("" + scope.nodeId, {
             anchor: "Right"
           }, {
             isSource: true,
@@ -41,7 +51,7 @@ angular.module('webClientSideApp')
           });
         }
         if(scope.nodeType !== 'input') {
-          jsPlumb.addEndpoint("" + scope.nodeId, {
+          angular.element.find('#'+scope.nodeId)[0].nodeInput = jsPlumb.addEndpoint("" + scope.nodeId, {
             anchor: "Left"
           }, {
             isSource: false,

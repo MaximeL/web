@@ -63,7 +63,13 @@ angular.module('webClientSideApp')
       effect.type = type;
       effect.posx = 50;
       effect.posy = 50;
-      $scope.nodeStorage.addNode(effect);
+      var id = $scope.nodeStorage.addNode(effect);
+      jsPlumb.repaintEverything();
+    };
+
+    $scope.deleteEffect = function(id) {
+      $scope.nodeStorage.removeNode(id);
+      jsPlumb.repaintEverything();
     };
 
     angular.element($window).bind('resize', function() {
@@ -103,17 +109,8 @@ angular.module('webClientSideApp')
       });
     });
 
+    //Prevent ngRepeat from try to print undefined elements
     $scope.isUndefined = function(item) {
       return (typeof item !== 'undefined');
-    };
-
-    $scope.test = 'coucou';
-    $scope.testNoArg = function() {
-      $log.debug('in testNoArg');
-      return 'salut';
-    };
-    $scope.testArg = function(arg) {
-      $log.debug('in testNoArg');
-      $log.debug('in testArg');
     };
   });
