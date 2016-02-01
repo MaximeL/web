@@ -29,6 +29,8 @@ module.exports = function(config) {
       'bower_components/jsPlumb/dist/js/jsPlumb-2.0.5.js',
       'bower_components/ngnotification/notification.js',
       'bower_components/angular-crypto/angular-crypto.js',
+      'bower_components/angular-animate/angular-animate.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

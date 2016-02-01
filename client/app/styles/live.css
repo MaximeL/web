@@ -1,11 +1,20 @@
 #live-page {
   position: relative;
+  height: 90vh;
   width: 100%;
-  height: 80vh;
+}
+
+#live-page-pedals {
+  position: relative;
+  height: 90vh;
+  width: 90%;
 }
 
 .soundnode {
   background-color: #f4f4f4;
+  border-radius: 5px;
+  position: absolute;
+  width: 10%;
 }
 
 .input {
@@ -24,19 +33,39 @@
   width: 5%;
 }
 
-.gain {
+#live-sidebar {
   position: absolute;
-  top: 50%;
-  left: 30%;
+  height: 100%;
   width: 10%;
-  /*height: 10%;*/
+  right: 0;
+  top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.allpass {
+.effect-button {
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+  background: #f1f1f4;
+  border: 1px solid #000000;
+}
+
+.delete-node {
   position: absolute;
-  top: 50%;
-  right: 30%;
-  width: 10%;
-  /*height: 10%;*/
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 5px;
+}
+
+.input .delete-node {
+  visibility: hidden;
+}
+
+.output .delete-node {
+  visibility: hidden;
 }
 

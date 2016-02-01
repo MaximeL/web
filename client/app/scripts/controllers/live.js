@@ -8,12 +8,12 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $log, NodeStorage) {
+  .controller('LiveCtrl', function ($scope, $window, $log, NodeStorage) {
     var vm = this;
     $scope.nodeStorage = new NodeStorage();
 
     $scope.ready = false;
-    var intput = {
+    var input = {
         id: 0,
         type: 'input',
         posx: null,
@@ -29,6 +29,13 @@ angular.module('webClientSideApp')
         value: null,
         precedent: null
       };
+
+    //this should be filled with data from server
+    //To get what to save use : $scope.nodeStorage.backup()
+    var backup = [];
+    backup.push(input);
+    backup.push(output);
+
     var defaultNode ={
       id: null,
       type: null,
@@ -38,6 +45,36 @@ angular.module('webClientSideApp')
       precedent: null,
       suivant: null
     };
+
+    $scope.effects = [
+      'gain',
+      'allpass',
+      'bandpass',
+      'highpass',
+      'highshelf',
+      'lowpass',
+      'lowshelf',
+      'notch',
+      'peaking'
+    ];
+
+    $scope.addEffect = function(type) {
+      var effect = angular.copy(defaultNode);
+      effect.type = type;
+      effect.posx = 50;
+      effect.posy = 50;
+      var id = $scope.nodeStorage.addNode(effect);
+      jsPlumb.repaintEverything();
+    };
+
+    $scope.deleteEffect = function(id) {
+      $scope.nodeStorage.removeNode(id);
+      jsPlumb.repaintEverything();
+    };
+
+    angular.element($window).bind('resize', function() {
+      jsPlumb.repaintEverything();
+    });
 
     var init = function() {
       $log.info('begin init');
@@ -53,23 +90,12 @@ angular.module('webClientSideApp')
         $scope.ready = false;
       }
 
-      $scope.nodeStorage.addNode(intput);
-      $scope.nodeStorage.addNode(output);
-
-      var gain = angular.copy(defaultNode);
-      gain.id = 3;
-      gain.type = 'gain';
-      $scope.nodeStorage.addNode(gain);
-
-      var filter = angular.copy(defaultNode);
-      filter.id = 6;
-      filter.type = 'allpass';
-      $scope.nodeStorage.addNode(filter);
+      $scope.nodeStorage.setup(backup);
     };
     init();
 
     $scope.$on('$viewContentLoaded', function(){
-      jsPlumb.setContainer("live-page");
+      jsPlumb.setContainer("live-page-pedals");
 
       jsPlumb.bind('connection', function(info) {
         var inputId = info.sourceId;
@@ -83,18 +109,8 @@ angular.module('webClientSideApp')
       });
     });
 
+    //Prevent ngRepeat from try to print undefined elements
     $scope.isUndefined = function(item) {
       return (typeof item !== 'undefined');
     };
-
-    $scope.test = 'coucou';
-    $scope.testNoArg = function() {
-      $log.debug('in testNoArg');
-      return 'salut';
-    };
-    $scope.testArg = function(arg) {
-      $log.debug('in testNoArg');
-      $log.debug('in testArg');
-    };
-
   });
