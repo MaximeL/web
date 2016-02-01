@@ -25,6 +25,8 @@ angular.module('webClientSideApp')
     $rootScope.uu = "";
     $scope.created = true;
 
+    $scope.list1 = {title: 'AngularJS - Drag Me'};
+    $scope.list2 = {};
 
     $scope.login = {
       username : "",
@@ -59,6 +61,23 @@ angular.module('webClientSideApp')
     $scope.pedalsShared = [];
     $scope.myPedals.push("pedal00");
     $scope.pedalsShared.push("pedal111");
+    $scope.users = [];
+
+
+    $scope.allowDrop = function(ev) {
+      ev.preventDefault();
+    }
+
+    $scope.drag = function(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    $scope.drop = function(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+
 
    /**
       une manière d'encrypter les données du user : nom , mot de passe , email ......
@@ -78,12 +97,14 @@ angular.module('webClientSideApp')
      * retrieve list to all of users
      */
     $http.get("http://localhost:3000/api/user/")
-      .success(function(data){
-        $scope.users = data;
-      })
-      .error(function(data){
-        console.log("ouuups");
-      })
+      .then(function(response){
+        for(var i=0; i < response.data.length ; i++)
+        {
+          $scope.users[i] = response.data[i];
+        }
+        console.log($scope.users[0]);
+      });
+
 
       /**
       chech login befor signin
@@ -121,12 +142,9 @@ angular.module('webClientSideApp')
     $scope.getMyPedals = function(){
       for (var i=0 ; i < $scope.login.pedals.length; i++){
         $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
-          .success(function(data){
-            $scope.myPedals.push(data);
-          })
-          .error(function(data){
-            console.log("ouuups");
-          })
+          .then(function(response){
+            $scope.myPedals.push(response.data);
+          });
       }
     }
     /**
@@ -136,21 +154,19 @@ angular.module('webClientSideApp')
      * @param pedal
        */
     $scope.share = function(id , pedal){
-      $http.get("http://localhost:3000/api/pedal/"+id)
-        .success(function(data){
-        var elt = {_id:id , right:true};
-          /**
-           * add pedal shared into my list of pedals
-           */
-          data.pedal.push(elt);
-          /**
-           * update user
-           */
-          $http.put("http://localhost:3000/api/user", data)
-        })
-        .error(function(data){
-          console.log("ouuups");
-        })
+      $http.get("http://localhost:3000/api/user/"+id)
+        .then(function(response){
+            var elt = {_id:id , right:true};
+            /**
+             * add pedal shared into my list of pedals
+             */
+            //response.data.pedals.push(elt);
+            console.log(response.data);
+            /**
+             * update user
+             */
+            $http.put("http://localhost:3000/api/user", response.data)
+        });
     }
 
 

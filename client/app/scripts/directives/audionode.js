@@ -35,6 +35,8 @@ angular.module('webClientSideApp')
             connectorStyle: {strokeStyle: "blue", lineWidth: 1},
             connectorHoverStyle: {lineWidth: 2}
           });
+
+          jsPlumb.draggable("" + scope.nodeId);
         }
         if(scope.nodeType !== 'input') {
           jsPlumb.addEndpoint("" + scope.nodeId, {
