@@ -598,8 +598,7 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           console.log(res.body);
           res.body.should.have.property('_id');
-          res.body.note.should.containEql({note: 5});
-          res.body.nom.should.equal('Ma pédale modifée');
+          res.body.notes.should.containDeep([{note: 5}]);
           done();
         });
     });
@@ -623,20 +622,21 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           console.log(res.body);
           res.body.should.have.property('_id');
-          res.body.note.should.containEql({content: "Lorem ipsum"});
-          res.body.nom.should.equal('Ma pédale modifée');
+          res.body.comments.should.containDeep([{comment: "Lorem ipsum"}]);
           done();
         });
     });
 
     // TEST PUT users
     it('should correctly update users of a pedal', function (done) {
-      var userBody = { // TODO
-
-      };
+      console.log(URL_PEDAL + id_created + URL_PEDAL_USER);
+      var userBody = [ // TODO
+        id_created,
+        "aazeazeaeza"
+      ];
       // TODO
       request(URL)
-        .put(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
+        .put(URL_PEDAL + id_created + URL_PEDAL_USER)
         .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
@@ -644,12 +644,13 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
+          res.body.should.containDeep([{_id: id_created}]);
           done();
         });
     });
 
     // TEST GET Find USERS
-    it('should not find a user', function (done) {
+    it('should find users of pedal', function (done) {
       request(URL)
         .get(URL_PEDAL + id_created + URL_PEDAL_USER)
         .send()
@@ -659,6 +660,7 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
+          res.body.should.be.instanceof(Array);
           // TODO : Should contains array ...
           //res.body.should.contains
           // Should.js fluent syntax applied
@@ -669,23 +671,17 @@ describe('Routing test', function () {
     });
 
     // TEST Change user of pedal TODO :
-    it('should not find a user', function (done) {
-      var userBody = {
-
-      };
+    it('should not update users of pedal', function (done) {
+      var userBody = {};
       request(URL)
-        .put(URL_PEDAL + 1 + URL_PEDAL_USER)
+        .put(URL_PEDAL + id_created + URL_PEDAL_USER)
         .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(200) //Status code bas request
+        .expect(400) //Status code bas request
         .end(function (err, res) {
           if (err) {
             throw err;
           }
-          // TODO : Should containsEqual user data
-          // Should.js fluent syntax applied
-          //res.body.should.not.have.property('_id');
-          //res.body.creationDate.should.not.equal(null);
           done();
         });
     });
@@ -713,24 +709,6 @@ describe('Routing test', function () {
         });
     });
 
-    // TEST DELETE
-    it('should correctly delete a pedal', function (done) {
-      request(URL)
-        .delete(URL_PEDAL + id_created)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(200) //Status code success
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          // Should.js fluent syntax applied
-          res.body.should.not.have.property('_id');
-          res.body.should.have.property('message');
-          res.body.message.should.equal('Successfully deleted');
-          done();
-        });
-    });
-
     /**
      *  Gestions des erreurs pour les Pedales
      *  __________________________________________ */
@@ -738,7 +716,7 @@ describe('Routing test', function () {
       // TEST POST ERROR
     it('should not post a new comment, properties not specified', function (done) {
       request(URL)
-        .post(URL_PEDAL)
+        .post(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
         .send({})
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(400) //Status code bas request
@@ -746,9 +724,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          // Should.js fluent syntax applied
-          res.body.should.not.have.property('_id');
-          //res.body.creationDate.should.not.equal(null);
           done();
         });
     });
@@ -759,7 +734,7 @@ describe('Routing test', function () {
         .get(URL_PEDAL + 1 + URL_PEDAL_USER)
         .send()
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code bas request
+        .expect(404) //Status code bas request
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -772,7 +747,7 @@ describe('Routing test', function () {
     });
 
     // TEST Change user of pedal TODO :
-    it('should not find a user', function (done) {
+    it('should not update users of a pedal', function (done) {
       var userBody = {
 
       };
@@ -795,14 +770,13 @@ describe('Routing test', function () {
     // TEST GET PAR ID ERROR
     it('should return 404 with an incorrect ID', function (done) {
       request(URL)
-        .get(URL_PEDAL + '5693bf9ebd2747dc23xxxxxx')
+        .get(URL_PEDAL + 1)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404) //Status code error
         .end(function (err, res) {
           if (err) {
             throw err;
           }
-          res.body.message.should.equal('Invalid comment');
           done();
         });
     });
@@ -810,7 +784,7 @@ describe('Routing test', function () {
     // TEST POST Note invalid schema
     it('should correctly deny bad note schema', function (done) {
       var noteBody = {
-        author: "aze",
+        author: "",
         note: 5
       };
 
@@ -847,7 +821,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('message');
           done();
         });
@@ -864,7 +837,7 @@ describe('Routing test', function () {
         .post(URL_PEDAL + 1 + URL_PEDAL_NOTE)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code success
+        .expect(404) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -920,15 +893,32 @@ describe('Routing test', function () {
     // TEST DELETE ERROR
     it('should not correctly delete a pedal', function (done) {
       request(URL)
-        .delete(URL_PEDAL + '5693bf9ebd2747dc23xxxxxx')
+        .delete(URL_PEDAL + '12')
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
           }
+          done();
+        });
+    });
+
+
+    // TEST DELETE
+    it('should correctly delete a pedal', function (done) {
+      request(URL)
+        .delete(URL_PEDAL + id_created)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
           // Should.js fluent syntax applied
-          res.body.message.should.equal('Not found');
+          res.body.should.not.have.property('_id');
+          res.body.should.have.property('message');
+          res.body.message.should.equal('Successfully deleted');
           done();
         });
     });

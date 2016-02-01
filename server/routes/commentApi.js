@@ -47,16 +47,15 @@ router.route('/')
     // !req.body.hasOwnProperty('number')
     if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('content') ||
       req.body.author === "" || req.body.content === "") {
-      console.log("   username or content not specified!");
+      console.log("   auhtor or content not specified!");
       res.status(400);
       return res.json({message: "Post syntax incorrect, author or content not specified or empty"});
     }
 
-    var comment = {
-      _id: req.body.username,
-      content: req.body.content
-    };
-    pedal.comments.push(comment);
+    pedal.comments.push({
+      _id: req.body.author,
+      comment: req.body.content
+    });
 
     pedal.save(function (err, commentSaved) {
       if (err) {

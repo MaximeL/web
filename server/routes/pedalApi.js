@@ -71,19 +71,19 @@ router.route('/:id')
   .get(function (req, res) {
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
-        console.log(err);
         res.status(404);
-        return;
+        return res.json({message: "Unknowned pedal"});
       }
       res.status(200);
       return res.send(pedale);
     });
   })
   .put(function (req, res) {
+
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
-          console.log(err);
-          return;
+          res.status(404);
+          return res.json({message: "unknowned pedal."});
         }
 
         if (req.body.nom !== undefined) {
@@ -162,16 +162,19 @@ router.route('/:id')
   })
   .delete(function (req, res) {
     PedaleSchema.remove({_id: req.params.id}, function (err) {
-      if (err)
-        res.send(err);
-      res.json({message: 'Successfully deleted'});
-      return res.end();
+      console.log(err);
+      if (err) {
+        res.status(404);
+        return res.json({message: "unknowned pedal"});
+      }
+      res.status(200);
+      return res.json({message: 'Successfully deleted'});
     });
   });
 router.route('/:id/users')
   .get(function (req, res) {
-    PedalSchema.findOne(
-      {"users": {$exists: true}, "_id": req.params.pedalId},
+    PedaleSchema.findOne(
+      {"users": {$exists: true}, "_id": req.params.id},
       {"users": 1},
       function (err, pedal) {
         if (err) {
@@ -180,25 +183,33 @@ router.route('/:id/users')
           return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
         }
         res.status(200);
-        return res.json(pedal.users);
+        return res.send(pedal.users);
       }
     );
   })
   .put(function (req, res) {
-    // TODO #palafoi
-    //
-    //PedalSchema.findOne(
-    //  {"users": {$exists: true}, "_id": req.params.pedalId},
-    //  {"users": 1},
-    //  function (err, pedal) {
-    //    if (err) {
-    //      console.log(err);
-    //      res.status(404);
-    //      return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
-    //    }
-    //    res.status(200);
-    //    return res.json(pedal.users);
-    //  }
-    //);
+    if (req.body.constructor !== Array) {
+      res.status(400);
+      return res.json({message: "Put syntax incorrect"});
+    }
+
+    PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
+        if (err) {
+          console.log(err);
+          res.status(404);
+          return res.json({message: "Unknowned pedal"});
+        }
+
+        pedale.users = req.body;
+        pedale.save(function (err, pedale) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "This pedal doesn't exists."});
+          }
+          res.status(200);
+          return res.send(pedale);
+        });
+      }
+    );
   });
 module.exports = router;
