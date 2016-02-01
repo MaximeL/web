@@ -36,6 +36,7 @@ angular.module('webClientSideApp')
     };
     NodeStorage.prototype.removeNode = function(id) {
       $log.info("deleting node with id : "+id);
+      $log.debug(this.storage[id].posx);
       jsPlumb.detachAllConnections(''+id);
       var nodeElement = angular.element.find('#'+id)[0];
       jsPlumb.deleteEndpoint(nodeElement.nodeOutput);

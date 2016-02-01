@@ -95,7 +95,7 @@ angular.module('webClientSideApp')
     init();
 
     $scope.$on('$viewContentLoaded', function(){
-      jsPlumb.setContainer("live-page");
+      jsPlumb.setContainer("live-page-pedals");
 
       jsPlumb.bind('connection', function(info) {
         var inputId = info.sourceId;

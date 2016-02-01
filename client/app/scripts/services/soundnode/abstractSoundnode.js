@@ -18,7 +18,6 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.type = null;
     AbstractSoundnode.prototype.posx = null;
     AbstractSoundnode.prototype.posy =  null;
-    AbstractSoundnode.prototype.value = null;
     AbstractSoundnode.prototype.precedent = null;
     AbstractSoundnode.prototype.suivant = null;
     AbstractSoundnode.prototype.output = null;
