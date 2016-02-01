@@ -16,6 +16,7 @@ router.use(function (req, res, next) {
 router.route('/')
   // Liste des utilisateurs
   .get(function (req, res) {
+    console.log('GET all users');
     var query = UserSchema.find({}).select('-password');
     query.exec(function (err, users) {
       if (err) {
@@ -29,6 +30,7 @@ router.route('/')
   })
   // Inscription
   .post(function (req, res) {
+    console.log('POST a user');
     if (req.body.username === undefined && req.body.password === undefined) {
       // TODO : Error
     }
@@ -40,10 +42,8 @@ router.route('/')
 
     user.save(function (err, user) {
       if (err) {
-        res.status(404);
-        res.send(err);
-        console.log(err);
-        return;
+        res.status(400);
+        return res.json({message: "Invalid syntax"});
       }
       user.password = undefined;
       res.status(201);
@@ -54,6 +54,7 @@ router.route('/')
 router.route('/auth')
   // Connection
   .post(function (req, res) {
+    console.log('POST user authentification');
     var query = UserSchema.findOne({'username': req.body.username, 'password': req.body.password}).select('-password');
     query.exec(function (err, user) {
       if (err) {
@@ -71,10 +72,11 @@ router.route('/auth')
 
 // Update d'un user
 router.put('/:id', function (req, res) {
+  console.log('PUT a user');
   UserSchema.findOne({'_id': req.params.id}, function (err, user) {
       if (err) {
-        console.log(err);
-        return;
+        res.status(404);
+        return res.json({message: "User unknowned"});
       }
 
       if (req.body.username !== undefined) {
@@ -110,11 +112,10 @@ router.put('/:id', function (req, res) {
 
       user.save(function (err, user) {
         if (err) {
-          console.log(err);
-          return;
+          res.stats(400);
+          return res.json({message: "Invalid syntax"});
         }
         user.password = undefined;
-        console.log(user);
         res.status(200);
         return res.send(user);
       });

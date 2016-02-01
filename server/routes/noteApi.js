@@ -29,9 +29,9 @@ router.route('/')
     console.log('GET all notes of pedal');
 
     PedalSchema.findOne(
-      {"notes": { $exists: true }, "_id": req.params.pedalId },
+      {"notes": {$exists: true}, "_id": req.params.pedalId},
       {"notes": 1},
-      function(err, pedal) {
+      function (err, pedal) {
         if (err) {
           console.log(err);
           res.status(404);
@@ -47,29 +47,34 @@ router.route('/')
   .post(function (req, res) {
     console.log('POST a note');
 
-    var pedal = new PedalSchema();
-
-    // on test l'existence des parametres requis
-    if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('note') ||
-        req.body.author == "" || req.body.note.NaN || req.body.note > 5 || req.body.note < 0) {
-      res.status(400);
-      return res.json({message: "Post syntax incorrect, users are not specified, empty or invalid"});
-    }
-
-    pedal.notes.push({
-      _id: req.body.author,
-      note: req.body.note
-    });
-
-    pedal.save(function (err, pedalSaved) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedal) {
       if (err) {
         res.status(404);
-        return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        return res.json({message: "Unknowned pedal"});
       }
-      res.status(201);
-      return res.json(pedalSaved);
+      // on test l'existence des parametres requis
+      if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('note') ||
+        req.body.author == "" || req.body.note.NaN || req.body.note > 5 || req.body.note < 0) {
+        res.status(400);
+        return res.json({message: "Post syntax incorrect, users are not specified, empty or invalid"});
+      }
+
+      pedal.notes.push({
+        _id: req.body.author,
+        note: req.body.note
+      });
+
+      pedal.save(function (err, pedalSaved) {
+        if (err) {
+          res.status(404);
+          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        }
+        res.status(201);
+        return res.json(pedalSaved);
+      });
     });
-  });
+  })
+;
 
 // -----------------------------
 // Route ➜ /note/:note_id

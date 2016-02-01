@@ -28,12 +28,12 @@ router.route('/')
       {"comments": 1},
       function (err, pedal) {
         if (err) {
-          console.log(err);
-          res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          res.status(500);
+          return res.json({message: "Can't get all users"});
         }
         console.log("   Ok pour lister les commentaires");
-        return res.json(pedal.comments);
+        res.status(200);
+        return res.send(pedal.comments);
       });
   })
 
@@ -44,7 +44,6 @@ router.route('/')
     var pedal = new PedalSchema();
 
     // on test l'existence des parametres requis
-    // !req.body.hasOwnProperty('number')
     if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('content') ||
       req.body.author === "" || req.body.content === "") {
       console.log("   auhtor or content not specified!");
@@ -64,7 +63,7 @@ router.route('/')
       }
       console.log("   Ok pour l'ajout d'un commentaire");
       res.status(201);
-      res.json(commentSaved);
+      return res.send(commentSaved);
     });
   });
 

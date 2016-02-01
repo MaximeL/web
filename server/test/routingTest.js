@@ -462,8 +462,8 @@ describe('Routing test', function () {
 
     // TEST GET PAR ID ERROR
     it('should return 404 with an incorrect ID', function (done) {
-      request(URL_USER)
-        .get(URL_PEDAL_NOTE + '5693bf9ebd2747dc23xxxxxx')
+      request(URL)
+        .get(URL_USER + 1)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404) //Status code error
         .end(function (err, res) {
@@ -596,7 +596,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('_id');
           res.body.notes.should.containDeep([{note: 5}]);
           done();
@@ -620,7 +619,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('_id');
           res.body.comments.should.containDeep([{comment: "Lorem ipsum"}]);
           done();
@@ -629,7 +627,6 @@ describe('Routing test', function () {
 
     // TEST PUT users
     it('should correctly update users of a pedal', function (done) {
-      console.log(URL_PEDAL + id_created + URL_PEDAL_USER);
       var userBody = [ // TODO
         id_created,
         "aazeazeaeza"
@@ -798,7 +795,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('message');
           done();
         });
@@ -843,7 +839,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('message');
           done();
         });
@@ -866,7 +861,6 @@ describe('Routing test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          console.log(res.body);
           res.body.should.have.property('message');
           done();
         });
