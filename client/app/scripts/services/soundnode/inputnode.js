@@ -16,27 +16,12 @@ angular.module('webClientSideApp')
 
     Inputnode.prototype.type = 'input';
 
-    Inputnode.prototype.initPlumb = function() {
-      $log.info('inputnode initplumb');
-      $log.debug(this.id);
-      jsPlumb.addEndpoint("soundnode"+this.id, {
-        anchor:"Right"
-      }, {
-        isSource:true,
-        isTarget:false,
-        connector:"Straight",
-        endpoint:"Dot",
-        paintStyle:{ fillStyle:"blue", outlineColor:"blue", outlineWidth:1 },
-        hoverPaintStyle:{ fillStyle:"blue" },
-        connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
-        connectorHoverStyle:{ lineWidth:2 }
-      });
-    };
     Inputnode.prototype.initNode = function(audioContext) {
       var self = this;
       navigator.getUserMedia(
         {audio: true},
         function(stream) {
+          $log.info('output from node input created');
           self.output = audioContext.createMediaStreamSource(stream);
         },
         function(err) {

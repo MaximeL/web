@@ -11,7 +11,9 @@
 angular
   .module('webClientSideApp', [
     'ngRoute',
-    'notifications'
+    'notifications',
+    'ngAnimate',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider, $compileProvider) {
     $routeProvider
