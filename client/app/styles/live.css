@@ -11,6 +11,13 @@
 }
 
 .soundnode {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   background-color: #f4f4f4;
   border-radius: 5px;
   position: absolute;
@@ -69,3 +76,5 @@
   visibility: hidden;
 }
 
+.jsplumb-drag-select * {
+}

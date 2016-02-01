@@ -12,8 +12,7 @@
 
       <!-- effects added and printed to the screen -->
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
-                  snode="node"
-                  ng-style="{'left': node.posx+'%', 'top': node.posy+'%' }">
+                  snode="node">
         <div>
           <div> {{node.type}} </div>
           <div class="delete-node" ng-click="deleteEffect(node.id)"></div>

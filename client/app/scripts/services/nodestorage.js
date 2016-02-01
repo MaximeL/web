@@ -36,7 +36,6 @@ angular.module('webClientSideApp')
     };
     NodeStorage.prototype.removeNode = function(id) {
       $log.info("deleting node with id : "+id);
-      $log.debug(this.storage[id].posx);
       jsPlumb.detachAllConnections(''+id);
       var nodeElement = angular.element.find('#'+id)[0];
       jsPlumb.deleteEndpoint(nodeElement.nodeOutput);
@@ -48,8 +47,13 @@ angular.module('webClientSideApp')
       this.storage[outputId].isConnected(this.storage[inputId]);
     };
     NodeStorage.prototype.disconnect = function(inputId, outputId) {
-      this.storage[inputId].disconnect();
-      this.storage[outputId].isDisconnected()
+      this.storage[inputId].disconnect(this.storage[outputId]);
+      this.storage[outputId].isDisconnected(this.storage[inputId]);
+      //on reconnecte les autres nodes.
+      for(var i = 0; i < this.storage[inputId].suivants.length; i++) {
+        //en gros c'est input.connect(output)
+        this.storage[inputId].output.connect(this.storage[this.storage[inputId].suivants[i]].input);
+      }
     };
     NodeStorage.prototype.setup = function(backup) {
       for(var i = 0; i < backup.length; i++) {
