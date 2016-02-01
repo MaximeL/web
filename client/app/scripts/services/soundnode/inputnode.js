@@ -16,7 +16,20 @@ angular.module('webClientSideApp')
 
     Inputnode.prototype.type = 'input';
 
+    Inputnode.prototype.connect = function(output) {
+      this.output.connect(output.input);
+      this.playSound.connect(output.input);
+      this.suivants.push(output.id);
+    };
+    Inputnode.prototype.disconnect = function (output) {
+      this.output.disconnect();
+      this.playSound.disconnect();
+      this.suivants.splice(this.suivants.indexOf(output.id), 1);
+    };
     Inputnode.prototype.initNode = function(audioContext) {
+      this.ready = false;
+      this.play = false;
+      this.playSound = audioContext.createBufferSource();
       var self = this;
       navigator.getUserMedia(
         {audio: true},
@@ -28,6 +41,27 @@ angular.module('webClientSideApp')
           console.log('The following gUM error occured: ' + err);
         }
       );
+      this.music;
+      var getSound = new XMLHttpRequest(); // Load the Sound with XMLHttpRequest
+      getSound.open("GET", "sound/Aerosmith__Cryin.mp3", true); // Path to Audio File
+      getSound.responseType = "arraybuffer"; // Read as Binary Data
+      getSound.onload = function() {
+        audioContext.decodeAudioData(getSound.response, function(buffer){
+          self.music = buffer;
+          self.ready = true;
+        });
+      };
+      getSound.send();
+    };
+    Inputnode.prototype.buttonMusic = function() {
+      if(this.ready) {
+        if(this.play) {
+          this.playSound.stop(0);
+        } else {
+          this.playSound.buffer = this.music;
+          this.playSound.start(0);
+        }
+      }
     };
 
     // Public API here

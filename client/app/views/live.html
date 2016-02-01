@@ -16,8 +16,13 @@
         <div>
           <div> {{node.type}} </div>
           <div class="delete-node" ng-click="deleteEffect(node.id)"></div>
+
 <!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
           <div ng-switch="node.type">
+
+            <div ng-switch-when="input">
+              <div ng-click="node.buttonMusic()">PLAY</div>
+            </div>
 
             <div ng-switch-when="gain" >
               Level :

@@ -80,6 +80,7 @@ angular.module('webClientSideApp')
       }
       return backup;
     };
+
     // Public API here
     return NodeStorage;
   });
