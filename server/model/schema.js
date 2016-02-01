@@ -37,6 +37,7 @@ var Schema = Dao.Schema;
  */
 var UserSchema = new Schema({
   username: {type: String, unique: true, required: true},
+  email: String,
   password: String,
   pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal'}],
   shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedal'}, right: Boolean}]
