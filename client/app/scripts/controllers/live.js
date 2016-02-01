@@ -19,7 +19,7 @@ angular.module('webClientSideApp')
         posx: null,
         posy: null,
         value: null,
-        suivant: null
+        suivant: []
       };
     var output = {
         id: 1,
@@ -27,7 +27,7 @@ angular.module('webClientSideApp')
         posx: null,
         posy: null,
         value: null,
-        precedent: null
+        precedent: []
       };
 
     //this should be filled with data from server
@@ -42,8 +42,8 @@ angular.module('webClientSideApp')
       posx: null,
       posy: null,
       value: null,
-      precedent: null,
-      suivant: null
+      precedent: [],
+      suivant: []
     };
 
     $scope.effects = [

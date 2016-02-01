@@ -7,7 +7,7 @@
  * # audioNode
  */
 angular.module('webClientSideApp')
-  .directive('audioNode', function ($log, $window, audionodeSelector, audiocontext) {
+  .directive('audioNode', function ($log) {
     return {
       scope: {
         node: '=snode'
@@ -16,7 +16,6 @@ angular.module('webClientSideApp')
       controller: ['$scope', '$log', function($scope, $log) {
       }],
       link: function postLink(scope, element, attrs) {
-        $log.debug(scope);
         //setting id and class
         $log.info('ceating node of type : '+scope.node.type);
         element.addClass("soundnode");
@@ -27,7 +26,6 @@ angular.module('webClientSideApp')
         //TODO : refresh locally on the endpoints concerned. here it refresh all the endpoints. That's heavy
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
-            console.log(mutation.type);
             jsPlumb.repaintEverything();
           });
         });
@@ -47,7 +45,8 @@ angular.module('webClientSideApp')
             paintStyle: {fillStyle: "blue", outlineColor: "blue", outlineWidth: 1},
             hoverPaintStyle: {fillStyle: "blue"},
             connectorStyle: {strokeStyle: "blue", lineWidth: 1},
-            connectorHoverStyle: {lineWidth: 2}
+            connectorHoverStyle: {lineWidth: 2},
+            maxConnections: 6
           });
 
         //  jsPlumb.draggable(element);
@@ -63,11 +62,13 @@ angular.module('webClientSideApp')
             paintStyle: {fillStyle: "red", outlineColor: "red", outlineWidth: 1},
             hoverPaintStyle: {fillStyle: "red"},
             connectorStyle: {strokeStyle: "red", lineWidth: 1},
-            connectorHoverStyle: {lineWidth: 2}
+            connectorHoverStyle: {lineWidth: 2},
+            maxConnections: 20
           });
+        }
+        if(scope.node.type !== 'input' && scope.node.type !== 'output') {
           jsPlumb.draggable("" + scope.node.id);
-          element.bind("click", function(){
-            console.log(element.position());
+          element.bind("click", function () {
             scope.node.posy = element.position().top;
             scope.node.posx = element.position().left;
           });

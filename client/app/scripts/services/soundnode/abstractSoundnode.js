@@ -18,8 +18,8 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.type = null;
     AbstractSoundnode.prototype.posx = null;
     AbstractSoundnode.prototype.posy =  null;
-    AbstractSoundnode.prototype.precedent = null;
-    AbstractSoundnode.prototype.suivant = null;
+    AbstractSoundnode.prototype.precedents = [];
+    AbstractSoundnode.prototype.suivants = [];
     AbstractSoundnode.prototype.output = null;
     AbstractSoundnode.prototype.input = null;
 
@@ -31,17 +31,17 @@ angular.module('webClientSideApp')
     };
     AbstractSoundnode.prototype.connect = function(output) {
       this.output.connect(output.input);
-      this.suivant = output.id;
+      this.suivants.push(output.id);
     };
     AbstractSoundnode.prototype.isConnected = function (input) {
-      this.precedent = input.id;
+      this.precedents.push(input.id);
     };
-    AbstractSoundnode.prototype.disconnect = function () {
+    AbstractSoundnode.prototype.disconnect = function (output) {
       this.output.disconnect();
-      this.suivant = null;
+      this.suivants.splice(this.suivants.indexOf(output.id), 1);
     };
-    AbstractSoundnode.prototype.isDisconnected = function () {
-      this.precedent = null;
+    AbstractSoundnode.prototype.isDisconnected = function (input) {
+      this.precedents.splice(this.precedents.indexOf(input.id), 1);
     };
     AbstractSoundnode.prototype.init = function(audioContext, id, type, posx, posy, value, precedent, suivant) {
       this.id = id;
@@ -49,8 +49,8 @@ angular.module('webClientSideApp')
       this.posx = posx;
       this.posy=  posy;
       this.value = value;
-      this.precedent = precedent;
-      this.suivant = suivant;
+      this.precedents = precedent;
+      this.suivants = suivant;
 
       this.initNode(audioContext);
     };

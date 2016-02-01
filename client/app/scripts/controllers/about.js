@@ -16,4 +16,13 @@ angular.module('webClientSideApp')
       'Karma'
     ];
 
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
+
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+    }
+
   }]);
