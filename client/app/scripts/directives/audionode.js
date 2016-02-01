@@ -36,7 +36,7 @@ angular.module('webClientSideApp')
             connectorHoverStyle: {lineWidth: 2}
           });
 
-          jsPlumb.draggable("" + scope.nodeId);
+        //  jsPlumb.draggable(element);
         }
         if(scope.nodeType !== 'input') {
           jsPlumb.addEndpoint("" + scope.nodeId, {
@@ -51,6 +51,8 @@ angular.module('webClientSideApp')
             connectorStyle: {strokeStyle: "red", lineWidth: 1},
             connectorHoverStyle: {lineWidth: 2}
           });
+
+          jsPlumb.draggable(element);
         }
       }
     };
