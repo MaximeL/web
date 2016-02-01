@@ -37,6 +37,12 @@ angular.module('webClientSideApp')
     NodeStorage.prototype.removeNode = function(id) {
       $log.info("deleting node with id : "+id);
       jsPlumb.detachAllConnections(''+id);
+      while(this.storage[id].precedents.length !== 0) {
+        this.disconnect(this.storage[id].precedents[0], id);
+      }
+      while(this.storage[id].suivants.length !== 0) {
+        this.disconnect(id, this.storage[id].suivants[0]);
+      }
       var nodeElement = angular.element.find('#'+id)[0];
       jsPlumb.deleteEndpoint(nodeElement.nodeOutput);
       jsPlumb.deleteEndpoint(nodeElement.nodeInput);
@@ -50,9 +56,12 @@ angular.module('webClientSideApp')
       this.storage[inputId].disconnect(this.storage[outputId]);
       this.storage[outputId].isDisconnected(this.storage[inputId]);
       //on reconnecte les autres nodes.
-      for(var i = 0; i < this.storage[inputId].suivants.length; i++) {
+      this.restaureConnections(inputId);
+    };
+    NodeStorage.prototype.restaureConnections = function(id) {
+      for(var i = 0; i < this.storage[id].suivants.length; i++) {
         //en gros c'est input.connect(output)
-        this.storage[inputId].output.connect(this.storage[this.storage[inputId].suivants[i]].input);
+        this.storage[id].output.connect(this.storage[this.storage[id].suivants[i]].input);
       }
     };
     NodeStorage.prototype.setup = function(backup) {
@@ -71,7 +80,6 @@ angular.module('webClientSideApp')
       }
       return backup;
     };
-
     // Public API here
     return NodeStorage;
   });
