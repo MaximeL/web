@@ -22,9 +22,14 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
+      .when('/pedal', {
         templateUrl: 'views/pedal.html',
         controller: 'AboutCtrl',
+        controllerAs: 'pedal'
+      })
+      .when('/about', {
+        templateUrl: 'views/about.html',
+        controller: 'MainCtrl',
         controllerAs: 'about'
       })
       .when('/live', {

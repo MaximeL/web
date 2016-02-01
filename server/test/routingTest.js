@@ -14,8 +14,9 @@ describe('Routing test', function () {
 
   var URL = 'http://localhost:3000';
   var TEST_DB = 'dbsound_test';
-  var URL_NOTE = '/api/note/';
-  var URL_COMMENT = '/api/comment/';
+  var URL_PEDAL_NOTE = '/notes/';
+  var URL_PEDAL_COMMENT = '/comments/';
+  var URL_PEDAL_USER = '/users/';
   var URL_USER = '/api/user/';
   var URL_USER_AUTH = URL_USER + 'auth/';
   var URL_PEDAL = '/api/pedal/';
@@ -442,7 +443,7 @@ describe('Routing test', function () {
     /**
      //   *  Gestions des erreurs pour les Users
      //   *  ____________________________________ */
-     // TEST POST ERROR
+      // TEST POST ERROR
     it('should not post a new user, username already used', function (done) {
       request(URL)
         .post(URL_USER)
@@ -462,7 +463,7 @@ describe('Routing test', function () {
     // TEST GET PAR ID ERROR
     it('should return 404 with an incorrect ID', function (done) {
       request(URL_USER)
-        .get(URL_NOTE + '5693bf9ebd2747dc23xxxxxx')
+        .get(URL_PEDAL_NOTE + '5693bf9ebd2747dc23xxxxxx')
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404) //Status code error
         .end(function (err, res) {
@@ -578,40 +579,117 @@ describe('Routing test', function () {
         });
     });
 
-    // TEST PUT 2
-    it('should correctly add comments and note to a pedal', function (done) {
-      pedalBody.comment = {
+    // TEST POST Note
+    it('should correctly add a note to a pedal', function (done) {
+      var noteBody = {
         author: id_owner,
-        content: "Test"
+        note: 5
       };
 
-      pedalBody.note = {
-        author: id_owner,
-        value: 5
-      };
-
-      pedalBody.users = [{
-        _id: id_owner,
-        right: false
-      }];
-
-      console.log(URL + URL_PEDAL + id_created);
-      console.log(pedalBody);
       request(URL)
-        .put(URL_PEDAL + id_created)
-        .send(pedalBody)
+        .post(URL_PEDAL + id_created + URL_PEDAL_NOTE)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(201) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('_id');
+          res.body.note.should.containEql({note: 5});
+          res.body.nom.should.equal('Ma pédale modifée');
+          done();
+        });
+    });
+
+    // TEST POST Comment
+    it('should correctly add a comment to a pedal', function (done) {
+      var commentBody = {
+        author: id_owner,
+        content: "Lorem ipsum"
+      };
+
+      request(URL)
+        .post(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(201) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('_id');
+          res.body.note.should.containEql({content: "Lorem ipsum"});
+          res.body.nom.should.equal('Ma pédale modifée');
+          done();
+        });
+    });
+
+    // TEST PUT users
+    it('should correctly update users of a pedal', function (done) {
+      var userBody = { // TODO
+
+      };
+      // TODO
+      request(URL)
+        .put(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
+        .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
           }
-          // Should.js fluent syntax applied
-          res.body.should.have.property('_id');
-          res.body.nom.should.equal('Ma pédale modifée');
           done();
         });
     });
+
+    // TEST GET Find USERS
+    it('should not find a user', function (done) {
+      request(URL)
+        .get(URL_PEDAL + id_created + URL_PEDAL_USER)
+        .send()
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // TODO : Should contains array ...
+          //res.body.should.contains
+          // Should.js fluent syntax applied
+          //res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    // TEST Change user of pedal TODO :
+    it('should not find a user', function (done) {
+      var userBody = {
+
+      };
+      request(URL)
+        .put(URL_PEDAL + 1 + URL_PEDAL_USER)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // TODO : Should containsEqual user data
+          // Should.js fluent syntax applied
+          //res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
 
     // TEST GET PAR ID
     it('should correctly get a pedal', function (done) {
@@ -653,76 +731,207 @@ describe('Routing test', function () {
         });
     });
 
-      /**
-       *  Gestions des erreurs pour les Pedales
-       *  __________________________________________ */
+    /**
+     *  Gestions des erreurs pour les Pedales
+     *  __________________________________________ */
 
-        // TODO : TEST POST ERROR
-      //it('should not post a new comment, properties not specified', function (done) {
-      //  request(URL)
-      //    .post(URL_COMMENT)
-      //    .send({})
-      //    .expect('Content-type', 'application/json; charset=utf-8')
-      //    .expect(400) //Status code bas request
-      //    .end(function (err, res) {
-      //      if (err) {
-      //        throw err;
-      //      }
-      //      // Should.js fluent syntax applied
-      //      res.body.should.not.have.property('_id');
-      //      //res.body.creationDate.should.not.equal(null);
-      //      done();
-      //    });
-      //});
+      // TEST POST ERROR
+    it('should not post a new comment, properties not specified', function (done) {
+      request(URL)
+        .post(URL_PEDAL)
+        .send({})
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
 
-      // TODO : TEST GET PAR ID ERROR
-      //it('should return 404 with an incorrect ID', function (done) {
-      //  request(URL)
-      //    .get(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
-      //    .expect('Content-type', 'application/json; charset=utf-8')
-      //    .expect(404) //Status code error
-      //    .end(function (err, res) {
-      //      if (err) {
-      //        throw err;
-      //      }
-      //      res.body.message.should.equal('Invalid comment');
-      //      done();
-      //    });
-      //});
+    // TEST GET Find USER
+    it('should not find a user', function (done) {
+      request(URL)
+        .get(URL_PEDAL + 1 + URL_PEDAL_USER)
+        .send()
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
 
-      // TODO : TEST PUT ERROR
-      //it('should not correctly update a note if incorrect values', function (done) {
-      //  commentBody.username = 4;
-      //  request(URL)
-      //    .put(URL_COMMENT + id_created)
-      //    .send(commentBody)
-      //    .expect('Content-type', 'application/json; charset=utf-8')
-      //    .expect(400) //Status code accepted
-      //    .end(function (err, res) {
-      //      if (err) {
-      //        throw err;
-      //      }
-      //      // Should.js fluent syntax applied
-      //      res.body.message.should.equal('Username is not a string');
-      //      done();
-      //    });
-      //});
+    // TEST Change user of pedal TODO :
+    it('should not find a user', function (done) {
+      var userBody = {
 
-      // TODO : TEST DELETE ERROR
-      //it('should not correctly delete a note', function (done) {
-      //  request(URL)
-      //    .delete(URL_COMMENT + '5693bf9ebd2747dc23xxxxxx')
-      //    .expect('Content-type', 'application/json; charset=utf-8')
-      //    .expect(404) //Status code success
-      //    .end(function (err, res) {
-      //      if (err) {
-      //        throw err;
-      //      }
-      //      // Should.js fluent syntax applied
-      //      res.body.message.should.equal('Not found');
-      //      done();
-      //    });
-      //});
+      };
+      request(URL)
+        .put(URL_PEDAL + id_created + URL_PEDAL_USER)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code bas request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          //res.body.creationDate.should.not.equal(null);
+          done();
+        });
+    });
+
+    // TEST GET PAR ID ERROR
+    it('should return 404 with an incorrect ID', function (done) {
+      request(URL)
+        .get(URL_PEDAL + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code error
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.message.should.equal('Invalid comment');
+          done();
+        });
+    });
+
+    // TEST POST Note invalid schema
+    it('should correctly deny bad note schema', function (done) {
+      var noteBody = {
+        author: "aze",
+        note: 5
+      };
+
+      request(URL)
+        .post(URL_PEDAL + id_created + URL_PEDAL_NOTE)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    // TEST POST Comment invalid schema
+    it('should correctly deny bad comment schema', function (done) {
+      var commentBody = {
+        author: id_owner,
+        comment: ""
+      };
+
+      request(URL)
+        .post(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    // TEST POST Note invalid id
+    it('should correctly deny bad id for add a note to a pedal', function (done) {
+      var noteBody = {
+        author: id_owner,
+        note: 5
+      };
+
+      request(URL)
+        .post(URL_PEDAL + 1 + URL_PEDAL_NOTE)
+        .send(noteBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    // TEST POST Comment invalid id
+    it('should correctly deny bad comment schema', function (done) {
+      var commentBody = {
+        author: id_owner,
+        content: "Lorem ipsum"
+      };
+
+      request(URL)
+        .post(URL_PEDAL + 1 + URL_PEDAL_COMMENT)
+        .send(commentBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(400) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          console.log(res.body);
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+
+    // TODO : TEST PUT ERROR
+    //it('should not correctly update a note if incorrect values', function (done) {
+    //  commentBody.username = 4;
+    //  request(URL)
+    //    .put(URL_COMMENT + id_created)
+    //    .send(commentBody)
+    //    .expect('Content-type', 'application/json; charset=utf-8')
+    //    .expect(400) //Status code accepted
+    //    .end(function (err, res) {
+    //      if (err) {
+    //        throw err;
+    //      }
+    //      // Should.js fluent syntax applied
+    //      res.body.message.should.equal('Username is not a string');
+    //      done();
+    //    });
+    //});
+
+    // TEST DELETE ERROR
+    it('should not correctly delete a pedal', function (done) {
+      request(URL)
+        .delete(URL_PEDAL + '5693bf9ebd2747dc23xxxxxx')
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.message.should.equal('Not found');
+          done();
+        });
+    });
   });
 
   after(function (done) {

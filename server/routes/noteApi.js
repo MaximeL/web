@@ -50,27 +50,20 @@ router.route('/')
     var pedal = new PedalSchema();
 
     // on test l'existence des parametres requis
-    // !req.body.hasOwnProperty('number')
-    if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('note') ||
-      req.body.author === "" || req.body.note.NaN) {
+    if (!req.body.hasOwnProperty('users') || req.body.users.constructor === Array) {
       res.status(400);
-      return res.json({message: "Post syntax incorrect, author or note value not specified or empty"});
+      return res.json({message: "Post syntax incorrect, users are not specified, empty or invalid"});
     }
 
-    var note = {
-      _id: req.body.author,
-      note: req.body.note
-    };
+    pedal.users = req.body.users;
 
-    pedal.notes.push(note);
-
-    pedal.save(function (err, noteSaved) {
+    pedal.save(function (err, pedalSaved) {
       if (err) {
         res.status(404);
         return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
       }
-      res.status(201);
-      return res.json(noteSaved);
+      res.status(200);
+      return res.json(pedalSaved);
     });
   });
 
