@@ -225,7 +225,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          console.log(res.body);
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           // recupere l'id du post pour tester le get par id
@@ -319,7 +318,6 @@ describe('Routing test', function () {
           if (err) {
             throw err;
           }
-          console.log(res.body);
           res.body.users.should.containDeep([{_id: id_created}]);
           done();
         });
@@ -476,28 +474,6 @@ describe('Routing test', function () {
         });
     });
 
-    // TEST POST Comment invalid schema
-    it('should correctly deny bad comment schema', function (done) {
-      var commentBody = {
-        author: id_owner,
-        content: ""
-      };
-
-      request(URL)
-        .post(URL_PEDAL + id_created + URL_PEDAL_COMMENT)
-        .send(commentBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code success
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          // Should.js fluent syntax applied
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-
     // TEST POST Note invalid id
     it('should correctly deny bad id for add a note to a pedal', function (done) {
       var noteBody = {
@@ -521,17 +497,17 @@ describe('Routing test', function () {
     });
 
     // TEST POST Comment invalid id
-    it('should correctly deny bad comment schema', function (done) {
+    it('should correctly deny bad id for comment', function (done) {
       var commentBody = {
         author: id_owner,
         content: "Lorem ipsum"
       };
 
       request(URL)
-        .post(URL_PEDAL + 1 + URL_PEDAL_COMMENT)
+        .post(URL_PEDAL + "aze" + URL_PEDAL_COMMENT)
         .send(commentBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code success
+        //.expect(400) //Status code success
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -542,24 +518,24 @@ describe('Routing test', function () {
         });
     });
 
-    // TEST PUT Node invalid id
+    // TEST POST Node invalid id
     it('should not correctly update a note if incorrect values', function (done) {
       var noteBody = {
-        author: 4,
+        author: "aze",
         note: 5
       };
 
       request(URL)
-        .put(URL_PEDAL + id_created + URL_PEDAL_NOTE)
+        .post(URL_PEDAL + id_created + URL_PEDAL_NOTE)
         .send(noteBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code accepted
+        .expect(404) //Status code accepted
         .end(function (err, res) {
           if (err) {
             throw err;
           }
           // Should.js fluent syntax applied
-          res.body.message.should.equal('Username is not a string');
+          res.body.should.have.property('message');
           done();
         });
     });

@@ -41,12 +41,6 @@ router.route('/')
   .post(function (req, res) {
     console.log('POST a comment');
 
-    var pedal = new PedalSchema();
-
-    console.log(req.body);
-    console.log(!req.body.hasOwnProperty('content'));
-    console.log(req.body.content === "");
-
     // on test l'existence des parametres requis
     if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('content') ||
       req.body.author === "" || req.body.content === "") {
@@ -55,19 +49,26 @@ router.route('/')
       return res.json({message: "Post syntax incorrect, author or content not specified or empty"});
     }
 
-    pedal.comments.push({
-      _id: req.body.author,
-      comment: req.body.content
-    });
-
-    pedal.save(function (err) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        return res.json({message: "Unknowned pedal"});
       }
-      console.log("   Ok pour l'ajout d'un commentaire");
-      res.status(201);
-      return res.send(pedal);
+
+      pedale.comments.push({
+        _id: req.body.author,
+        comment: req.body.content
+      });
+
+      pedale.save(function (err) {
+        if (err) {
+          res.status(404);
+          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+        }
+        console.log("   Ok pour l'ajout d'un commentaire");
+        res.status(201);
+        return res.send(pedale);
+      });
     });
   });
 
