@@ -10,7 +10,7 @@ var extScope;
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope , $rootScope, $notification , user, pedal, $http) {
+  .controller('MainCtrl', function ($scope, $log, $rootScope, $notification, $window, $location, user, pedal, $http) {
     extScope = $scope;
 
     $scope.signup = {
@@ -102,7 +102,7 @@ angular.module('webClientSideApp')
         {
           $scope.users[i] = response.data[i];
         }
-        console.log($scope.users[0]);
+        $log.debug($scope.users[0]);
       });
 
 
@@ -134,9 +134,14 @@ angular.module('webClientSideApp')
     };
 
     $scope.newPedal = function(){
-      $scope.pedal.owner = $scope.login._id;
-      pedal.createPedal($scope.pedal , $scope.login);
-      user.updateUser($scope.login);
+      $scope.pedal.owner = $scope.users[0]._id;
+      $scope.pedal.effets = undefined;
+      pedal.createPedal($scope.pedal , $scope.login).then(function() {
+        $log.debug('pedal : ');
+        $log.debug($scope.pedal);
+        user.updateUser($scope.login);
+        $location.path( '/live/'.concat($scope.pedal._id) );
+      });
     };
 
     $scope.getMyPedals = function(){
@@ -146,7 +151,7 @@ angular.module('webClientSideApp')
             $scope.myPedals.push(response.data);
           });
       }
-    }
+    };
     /**
      * shared pedals with other users
      *

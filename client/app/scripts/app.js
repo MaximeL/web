@@ -32,7 +32,7 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'about'
       })
-      .when('/live', {
+      .when('/live/:id', {
         templateUrl: 'views/live.html',
         controller: 'LiveCtrl',
         controllerAs: 'live'
