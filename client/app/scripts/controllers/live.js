@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, NodeStorage) {
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout, NodeStorage, wsEffects) {
     var vm = this;
     $scope.nodeStorage = new NodeStorage();
 
@@ -61,8 +61,6 @@ angular.module('webClientSideApp')
     $scope.addEffect = function(type) {
       var effect = angular.copy(defaultNode);
       effect.type = type;
-      effect.posx = 50;
-      effect.posy = 50;
       var id = $scope.nodeStorage.addNode(effect);
       jsPlumb.repaintEverything();
     };
@@ -76,23 +74,17 @@ angular.module('webClientSideApp')
       jsPlumb.repaintEverything();
     });
 
-    var init = function() {
-      $log.info('begin init');
-      navigator.getUserMedia = (navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-      if (navigator.getUserMedia) {
-        console.log('getUserMedia supported.');
-        $scope.ready = true;
-      } else {
-        $scope.ready = false;
-      }
-
-      $scope.nodeStorage.setup(backup);
-    };
-    init();
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+      $scope.ready = true;
+    } else {
+      $scope.ready = false;
+    }
 
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");
@@ -107,6 +99,19 @@ angular.module('webClientSideApp')
         var outputId = info.targetId;
         $scope.nodeStorage.disconnect(inputId, outputId);
       });
+
+      /*var backup = wsEffects.get().then(function(response) {
+          $log.info('get effect succes : ' + response);
+          $timeout(function() {
+            $scope.nodeStorage.setup(response.data);
+          }, 100);
+        },
+        function(response) {
+          $log.error('get request on effect failed : '+response);
+        });*/
+      $timeout(function() {
+        $scope.nodeStorage.setup(backup);
+      }, 100);
     });
 
     //Prevent ngRepeat from try to print undefined elements
