@@ -110,7 +110,7 @@ router.put('/:id', function (req, res) {
         }
       }
 
-      user.save(function (err, user) {
+      user.save(function (err) {
         if (err) {
           res.stats(400);
           return res.json({message: "Invalid syntax"});

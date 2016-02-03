@@ -5,33 +5,6 @@
 var Dao = require('../model/dao').getDao();
 var Schema = Dao.Schema;
 
-
-/**
- * Comments
- */
-//var CommentsSchema = new Schema({
-//  username: String,
-//  content: String
-//}, {collection: 'comment', versionKey: false});
-//
-//var getCommentsSchema = function () {
-//  return Dao.model('Comment', CommentsSchema);
-//};
-
-
-/**
- * Notes
- */
-//var NotesSchema = new Schema({
-//  username: String,
-//  value: Number
-//}, {collection: 'note', versionKey: false});
-//
-//var getNotesSchema = function () {
-//  return Dao.model('Note', NotesSchema);
-//};
-
-
 /**
  * User
  */
@@ -55,9 +28,7 @@ var PedaleSchema = new Schema({
   description: String,
   effets: [
     {
-      type: String,
-      precedent: String,
-      suivant: String
+      data: String
     }
   ],
   notes: [
@@ -85,8 +56,5 @@ var getPedaleSchema = function () {
   return Dao.model('Pedale', PedaleSchema);
 };
 
-
-//exports.getCommentsSchema = getCommentsSchema;
-//exports.getNotesSchema = getNotesSchema;
 exports.getUserSchema = getUserSchema;
 exports.getPedaleSchema = getPedaleSchema;

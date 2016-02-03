@@ -42,27 +42,22 @@ router.route('/')
 
     if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
       for (var i = 0; i < req.body.effets.length; i++) {
-        var elem = req.body.effets[i];
-        var keys = Object.keys(elem);
-
-        pedale.effets[i] = {};
-        for (var j = 0; j < keys.length; j++) {
-          pedale.effets[i][keys[j]] = elem[keys[j]];
-        }
+        pedale.effets.push({
+          data: req.body.effets[i].data
+        });
       }
 
     } else {
       pedale.effets = [];
     }
 
-    pedale.save(function (err, pedaleSaved) {
+    pedale.save(function (err) {
       if (err) {
-        res.status(404);
-        res.send(err);
-        return;
+        res.status(400);
+        return res.json(err);
       }
       res.status(201);
-      return res.send(pedaleSaved);
+      return res.send(pedale);
     });
   });
 
@@ -98,58 +93,13 @@ router.route('/:id')
           pedale.effets = [];
 
           for (var i = 0; i < req.body.effets.length; i++) {
-            var elem = req.body.effets[i];
-            var keys = Object.keys(elem);
-
-            pedale.effets[i] = {};
-            for (var j = 0; j < keys.length; j++) {
-              pedale.effets[i][keys[j]] = elem[keys[j]];
-            }
+            pedale.effets.push({
+              data: req.body.effets[i].data
+            });
           }
         }
 
-        //if (req.body.note !== undefined) {
-        //  if (req.body.note.author != undefined && req.body.note.value != undefined && req.body.note.value <= 5 && req.body.note.value > 0) {
-        //    var found = false;
-        //    for (var i = 0; i < pedale.notes.length; i++) {
-        //      if (pedale.notes[i].author == req.body.note.author) {
-        //        pedale.notes[i].note = req.body.note.value;
-        //        found = true;
-        //        break;
-        //      }
-        //    }
-        //    if (!found) {
-        //      var item = {};
-        //      item.author = req.body.note.author;
-        //      item.value = req.body.note.value;
-        //      pedale.notes.push(item);
-        //    }
-        //  }
-        //}
-
-        //if (req.body.comment != undefined) {
-        //  if (req.body.comment.author != undefined && req.body.comment.content != undefined) {
-        //    var item = {};
-        //    item.author = req.body.comment.author;
-        //    item.content = req.body.comment.content;
-        //    pedale.comments.push(item);
-        //  }
-        //}
-
-        // TODO : Ici ça marche pas
-        //  if (req.body.users !== undefined) {
-        //    if (req.body.users.constructor === Array) {
-        //      pedale.users = [];
-        //      for (var j = 0; j < req.body.users.length; j++) {
-        //        pedale.users[j] = {};
-        //
-        //        pedale.users[j]._id = req.body.users[j]._id;
-        //        pedale.users[j].right = req.body.users[j].right;
-        //      }
-        //    }
-        //  }
-
-        pedale.save(function (err, pedale) {
+        pedale.save(function (err) {
           if (err) {
             console.log(err);
             return;
@@ -172,7 +122,7 @@ router.route('/:id')
       return res.json({message: 'Successfully deleted'});
     });
   });
-router.route('/:id/users')
+router.route('/:id/users/')
   .get(function (req, res) {
     console.log('GET users of pedal');
     PedaleSchema.findOne(
@@ -190,28 +140,32 @@ router.route('/:id/users')
   })
   .put(function (req, res) {
     console.log('PUT users of pedal');
-    if (req.body.constructor !== Array) {
+    if (req.body.constructor !== Array || req.body.length == 0) {
       res.status(400);
       return res.json({message: "Put syntax incorrect"});
     }
 
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
-        if (err) {
-          console.log(err);
-          res.status(404);
-          return res.json({message: "Unknowned pedal"});
-        }
-
-        pedale.users = req.body;
-        pedale.save(function (err, pedale) {
-          if (err) {
-            res.status(404);
-            return res.json({message: "This pedal doesn't exists."});
-          }
-          res.status(200);
-          return res.send(pedale);
-        });
+      if (err) {
+        res.status(404);
+        return res.json({message: "Unknowned pedal"});
       }
-    );
+
+      pedale.users = [];
+      for (var i = 0; i < req.body.length; i++) {
+        pedale.users.push({
+          _id: req.body[i]
+        })
+      }
+
+      pedale.save(function (err) {
+        if (err) {
+          res.status(404);
+          return res.json({message: "This pedal doesn't exists."});
+        }
+        res.status(200);
+        return res.send(pedale);
+      });
+    });
   });
 module.exports = router;

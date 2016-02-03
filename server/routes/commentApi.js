@@ -43,6 +43,10 @@ router.route('/')
 
     var pedal = new PedalSchema();
 
+    console.log(req.body);
+    console.log(!req.body.hasOwnProperty('content'));
+    console.log(req.body.content === "");
+
     // on test l'existence des parametres requis
     if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('content') ||
       req.body.author === "" || req.body.content === "") {
@@ -56,82 +60,15 @@ router.route('/')
       comment: req.body.content
     });
 
-    pedal.save(function (err, commentSaved) {
+    pedal.save(function (err) {
       if (err) {
         res.status(404);
         return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
       }
       console.log("   Ok pour l'ajout d'un commentaire");
       res.status(201);
-      return res.send(commentSaved);
+      return res.send(pedal);
     });
   });
-
-// -----------------------------
-// Route ➜ /comment/:comment_id
-// -----------------------------
-//router.route('/:comment_id')
-//  // HTTP GET
-//  .get(function (req, res) {
-//    console.log('# GET a comment by id');
-//    CommentsSchema.findOne({_id: req.params.comment_id}, function (err, comment) {
-//      if (err) {
-//        console.log(err);
-//        res.status(404);
-//        return;
-//      }
-//      if (comment == null) {
-//        res.status(404);
-//        res.send({message: 'Invalid comment'});
-//        return;
-//      }
-//      console.log('---> Comment ' + req.params.comment_id + ' liste via ' + req.url);
-//      res.json(comment);
-//    });
-//  })
-//  // HTTP PUT
-//  .put(function (req, res) {
-//    console.log('# PUT an comment by id');
-//
-//    CommentsSchema.findById(req.params.comment_id, function (err, comment) {
-//      if (err)
-//        res.send(err);
-//
-//      if (typeof req.body.username !== 'string') {
-//        res.status(400);
-//        res.send({message: 'Username is not a string'});
-//        return;
-//      }
-//
-//      comment.username = req.body.username;
-//      comment.content = req.body.content;
-//
-//      comment.save(function (err) {
-//        if (err)
-//          res.send(err);
-//        console.log('---> Comment ' + req.params.comment_id + ' mise a jour via ' + req.url);
-//        res.json(comment);
-//      });
-//    });
-//  })
-//
-//  // HTTP DELETE
-//  // TODO preciser une url pour permettre la suppression
-//  .delete(function (req, res) {
-//    console.log('# DELETE a comment by id');
-//    CommentsSchema.remove({_id: req.params.comment_id}, function (err, comment) {
-//      if (err)
-//        res.send(err);
-//
-//      if (comment.result.n === 0) {    // aucune colonne affectee
-//        res.status(404);
-//        res.send({message: "Not found"});
-//        return;
-//      }
-//
-//      console.log('---> Comment ' + req.params.comment_id + ' supprimee via ' + req.url);
-//      res.json({message: 'Successfully deleted'});
-//    });
-//  });
 
 module.exports = router;
