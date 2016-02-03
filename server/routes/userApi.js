@@ -31,14 +31,18 @@ router.route('/')
   // Inscription
   .post(function (req, res) {
     console.log('POST a user');
-    if (req.body.username === undefined && req.body.password === undefined) {
-      // TODO : Error
+
+    if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('email') ||
+      req.body.username === "" || req.body.password === "" || req.body.email === "") {
+      res.status(400);
+      return res.json({message: "Post syntax incorrect"});
     }
 
     var user = new UserSchema();
 
     user.username = req.body.username;
     user.password = req.body.password;
+    user.email = req.body.email;
 
     user.save(function (err, user) {
       if (err) {

@@ -37,7 +37,8 @@ describe('Routing test', function () {
     var id_created;
     var userBody = {
       username: "test",
-      password: "alligator3"
+      password: "alligator3",
+      email: "test@test.fr"
     };
 
     // TEST POST
@@ -137,39 +138,6 @@ describe('Routing test', function () {
           done();
         });
     });
-
-    // TEST GET PAR ID ERROR
-    it('should return 404 with an incorrect ID', function (done) {
-      request(URL)
-        .get(URL_USER + "azeaze")
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(404) //Status code error
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          res.body.message.should.equal('Invalid user');
-          done();
-        });
-    });
-
-    // TEST PUT Invalid username
-    it('should not correctly update a user if incorrect values', function (done) {
-      userBody.username = "aze";
-      request(URL)
-        .put(URL_USER + id_created)
-        .send(userBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400) //Status code accepted
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          // Should.js fluent syntax applied
-          res.body.message.should.equal('Incorrect values');
-          done();
-        });
-    });
   });
 
   /** ---------------------------------------------------------------------------------------
@@ -195,7 +163,8 @@ describe('Routing test', function () {
     before(function (done) {
       var userBody = {
         username: "test",
-        password: "alligator3"
+        password: "alligator3",
+        email: "test@test.fr"
       };
 
       request(URL)
