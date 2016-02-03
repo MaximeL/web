@@ -37,7 +37,8 @@ describe('Routing test', function () {
     var id_created;
     var userBody = {
       username: "test",
-      password: "alligator3"
+      password: "alligator3",
+      email: "test@test.fr"
     };
 
     // TEST POST
@@ -162,7 +163,8 @@ describe('Routing test', function () {
     before(function (done) {
       var userBody = {
         username: "test",
-        password: "alligator3"
+        password: "alligator3",
+        email: "test@test.fr"
       };
 
       request(URL)

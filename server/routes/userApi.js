@@ -33,7 +33,7 @@ router.route('/')
     console.log('POST a user');
 
     if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('email') ||
-      req.body.username == "" || req.body.password == "" || req.body.email == "") {
+      req.body.username === "" || req.body.password === "" || req.body.email === "") {
       res.status(400);
       return res.json({message: "Post syntax incorrect"});
     }
