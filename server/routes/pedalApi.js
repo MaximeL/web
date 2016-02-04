@@ -36,19 +36,19 @@ router.route('/')
     console.log('POST a pedal');
     var pedale = new PedaleSchema();
 
-    pedale.nom = req.body.nom;
+    pedale.name = req.body.name;
     pedale.description = req.body.description;
     pedale.owner = req.body.owner;
 
-    if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
-      for (var i = 0; i < req.body.effets.length; i++) {
-        pedale.effets.push({
-          data: req.body.effets[i].data
+    if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
+      for (var i = 0; i < req.body.effects.length; i++) {
+        pedale.effects.push({
+          data: req.body.effects[i].data
         });
       }
 
     } else {
-      pedale.effets = [];
+      pedale.effects = [];
     }
 
     pedale.save(function (err) {
@@ -82,19 +82,19 @@ router.route('/:id')
           return res.json({message: "unknowned pedal."});
         }
 
-        if (req.body.nom !== undefined) {
-          pedale.nom = req.body.nom;
+        if (req.body.name !== undefined) {
+          pedale.name = req.body.name;
         }
         if (req.body.description !== undefined) {
           pedale.description = req.body.description;
         }
 
-        if (req.body.effets !== undefined && req.body.effets.constructor === Array) {
-          pedale.effets = [];
+        if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
+          pedale.effects = [];
 
-          for (var i = 0; i < req.body.effets.length; i++) {
-            pedale.effets.push({
-              data: req.body.effets[i].data
+          for (var i = 0; i < req.body.effects.length; i++) {
+            pedale.effects.push({
+              data: req.body.effects[i].data
             });
           }
         }

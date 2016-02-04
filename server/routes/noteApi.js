@@ -29,15 +29,15 @@ router.route('/')
     console.log('GET all notes of pedal');
 
     PedalSchema.findOne(
-      {"notes": {$exists: true}, "_id": req.params.pedalId},
-      {"notes": 1},
+      {"rating": {$exists: true}, "_id": req.params.pedalId},
+      {"rating": 1},
       function (err, pedal) {
         if (err) {
           res.status(404);
           return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
         }
         res.status(200);
-        return res.json(pedal.notes);
+        return res.json(pedal.rating);
       }
     );
   })
@@ -51,15 +51,15 @@ router.route('/')
         return res.json({message: "Unknowned pedal"});
       }
       // on test l'existence des parametres requis
-      if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('note') ||
-        req.body.author == "" || req.body.note.NaN || req.body.note > 5 || req.body.note < 0) {
+      if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
+        req.body.author == "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
         res.status(400);
         return res.json({message: "Post syntax incorrect, note is not specified, empty or invalid"});
       }
 
-      pedale.notes.push({
+      pedale.rating.push({
         _id: req.body.author,
-        note: req.body.note
+        rate: req.body.rate
       });
 
       pedale.save(function (err) {

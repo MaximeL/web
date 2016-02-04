@@ -24,17 +24,17 @@ var getUserSchema = function () {
  * Pedale
  */
 var PedaleSchema = new Schema({
-  nom: String,
+  name: String,
   description: String,
-  effets: [
+  effects: [
     {
       data: String
     }
   ],
-  notes: [
+  rating: [
     {
       _id: {type: Schema.Types.ObjectId, ref: 'User'},
-      note: Number
+      rate: Number
     }
   ],
   comments: [
