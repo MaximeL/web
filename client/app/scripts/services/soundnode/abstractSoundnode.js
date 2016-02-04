@@ -20,6 +20,7 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.posy =  null;
     AbstractSoundnode.prototype.precedents = [];
     AbstractSoundnode.prototype.suivants = [];
+    AbstractSoundnode.prototype.value = [];
     AbstractSoundnode.prototype.output = null;
     AbstractSoundnode.prototype.input = null;
 
@@ -53,6 +54,8 @@ angular.module('webClientSideApp')
       this.suivants = suivant;
 
       this.initNode(audioContext);
+    };
+    AbstractSoundnode.prototype.setValue = function() {
     };
     // Public API here
     return AbstractSoundnode;

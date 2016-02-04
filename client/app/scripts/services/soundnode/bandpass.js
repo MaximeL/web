@@ -28,8 +28,22 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      this.bandpass.frequency.value = 440;
-      this.bandpass.Q.value = 0;
+      if(typeof this.value.frequency === 'undefined' || this.value.frequency === null) {
+        this.bandpass.frequency.value = 440;
+        this.value.frequency = 440;
+      } else {
+        this.bandpass.frequency.value = this.value.frequency;
+      }
+      if(typeof this.value.Q === 'undefined' && this.value.Q === null) {
+        this.bandpass.Q.value = 0;
+        this.value.Q = 0;
+      } else {
+        this.bandpass.Q.value = this.value.Q;
+      }
+    };
+    BandPass.prototype.setValue = function() {
+      this.value.frequency = this.bandpass.frequency.value;
+      this.value.Q = this.bandpass.Q.value;
     };
 
     // Public API here

@@ -28,8 +28,22 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      this.lowshelf.frequency.value = 440;
-      this.lowshelf.gain.value = 0;
+      if(typeof this.value.frequency === 'undefined' && this.value.frequency === null) {
+        this.lowshelf.frequency.value = 440;
+        this.value.frequency = 440;
+      } else {
+        this.lowshelf.frequency.value = this.value.frequency;
+      }
+      if(typeof this.value.gain === 'undefined' || this.value.gain === null) {
+        this.lowshelf.gain.value = 0;
+        this.value.gain = 0;
+      } else {
+        this.lowshelf.gain.value = this.value.gain;
+      }
+    };
+    LowShelf.prototype.setValue = function() {
+      this.value.frequency = this.lowshelf.frequency.value;
+      this.value.gain = this.lowshelf.gain.value;
     };
 
     // Public API here

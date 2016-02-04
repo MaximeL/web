@@ -28,8 +28,22 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      this.notch.frequency.value = 440;
-      this.notch.Q.value = 0;
+      if(typeof this.value.frequency === 'undefined' && this.value.frequency === null) {
+        this.notch.frequency.value = 440;
+        this.value.frequency = 440;
+      } else {
+        this.notch.frequency.value = this.value.frequency;
+      }
+      if(typeof this.value.Q === 'undefined' || this.value.Q === null) {
+        this.notch.Q.value = 0;
+        this.value.Q = 0;
+      } else {
+        this.notch.Q.value = this.value.Q;
+      }
+    };
+    Notch.prototype.setValue = function() {
+      this.value.frequency = this.notch.frequency.value;
+      this.value.Q = this.notch.Q.value;
     };
 
     // Public API here

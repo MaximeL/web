@@ -26,7 +26,16 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
-      this.gain.gain.value = 1;
+
+      if(typeof this.value.gain === 'undefined'  || this.value.gain === null) {
+        this.gain.gain.value = 1;
+        this.value.gain = 1;
+      } else {
+        this.gain.gain.value = this.value.gain;
+      }
+    };
+    Gain.prototype.setValue = function() {
+      this.value.gain = this.gain.gain.value;
     };
 
     // Public API here

@@ -24,7 +24,7 @@ angular.module('webClientSideApp')
       type: null,
       posx: null,
       posy: null,
-      value: null,
+      value: {},
       precedents: [],
       suivants: []
     };
@@ -95,8 +95,9 @@ angular.module('webClientSideApp')
       wsEffects.get($routeParams.id).then(function(response) {
         $log.debug('response');
         $log.debug(response);
+        $scope.nodeStorage.setup(response.effects);
         $timeout(function() {
-          $scope.nodeStorage.setup(response.effets);
+          $scope.nodeStorage.redoConnections();
         }, 1000);
       }, function() {
         $location.path('/');

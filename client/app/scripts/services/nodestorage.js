@@ -87,7 +87,9 @@ angular.module('webClientSideApp')
       this.addNode(output);
       for(var i = 0; i < backup.length; i++) {
         if(typeof backup[i] !== 'undefined') {
-          this.addNode(angular.fromJson(backup[i]));
+          $log.debug('angular.fromJson(backup[i].data)');
+          $log.debug(angular.fromJson(backup[i].data));
+          this.addNode(angular.fromJson(backup[i].data));
         }
       }
     };
@@ -95,10 +97,26 @@ angular.module('webClientSideApp')
       var backup = [];
       for(var i = 2; i < this.storage.length; i++) {
         if(typeof this.storage[i] !== 'undefined') {
+          $log.debug(i);
+          this.storage[i].setValue();
+          $log.debug(this.storage[i]);
           backup.push({ data: angular.toJson(this.storage[i], false) });
         }
       }
       return backup;
+    };
+    NodeStorage.prototype.redoConnections = function() {
+      jsPlumb.detachEveryConnection();
+      for(var idNode = 0; idNode < this.storage.length; idNode++) {
+        if(typeof this.storage[idNode] !== 'undefined' && this.storage[idNode] !== null) {
+          if(idNode !== 1) {
+            this.restaureConnections(idNode);
+            for (var idNext = 0; idNext < this.storage[idNode].suivants.length; idNext++) {
+              jsPlumb.connect({source: '' + idNode, target: '' + idNext});
+            }
+          }
+        }
+      }
     };
 
     var get = function() {
