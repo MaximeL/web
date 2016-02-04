@@ -52,23 +52,6 @@ angular.module('webClientSideApp')
       var soundRequest = new XMLHttpRequest();
       soundRequest.open('GET', 'http://localhost:3000/api/file/56b31666805a445a3138ccf0', true);
       soundRequest.responseType = "arraybuffer";
-
-      //56b31666805a445a3138ccf0
-      /*$http({
-        method: 'GET',
-        url: 'http://localhost:3000/api/file/56b31666805a445a3138ccf0'
-      }).then(function (response) {
-          $log.info('get sound succes : ');
-          $log.info(response);
-          //resolve(response.data);
-        },
-        function (response) {
-          $log.error('get sound failed : ');
-          $log.error(response);
-          //$notification.error("Pedal", "");
-          //reject();
-        });*/
-
       soundRequest.onload = function() {
         $log.info('soundRequest');
         $log.debug(soundRequest);

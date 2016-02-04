@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects) {
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState) {
     var vm = this;
     $scope.nodeStorage = NodeStorage.get();
 
@@ -62,6 +62,14 @@ angular.module('webClientSideApp')
       jsPlumb.repaintEverything();
     });
 
+    var saveCycle = function() {
+      $timeout(function() {
+        saveState.save();
+        return saveCycle();
+      }, 60000);
+    };
+    saveCycle();
+
     navigator.getUserMedia = (navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -89,9 +97,11 @@ angular.module('webClientSideApp')
       });
 
       wsEffects.get($routeParams.id).then(function(response) {
-          $log.debug('response');
-          $log.debug(response);
+        $log.debug('response');
+        $log.debug(response);
+        $timeout(function() {
           $scope.nodeStorage.setup(response.effets);
+        }, 1000);
       }, function() {
         $location.path('/');
       });
