@@ -8,10 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PedalDesignCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('PedalDesignCtrl', ['config', '$routeParams', '$http', function (config, $routeParams, $http) {
+    console.log($routeParams.id);
+    console.log(config.apiURL);
+  }]);
