@@ -47,6 +47,11 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'createPedal'
       })
+      .when('/pedal-design', {
+        templateUrl: 'views/pedal-design.html',
+        controller: 'PedalDesignCtrl',
+        controllerAs: 'pedalDesign'
+      })
       .otherwise({
         templateUrl: '404.html'
       });
