@@ -21,7 +21,9 @@
   background-color: #f4f4f4;
   border-radius: 5px;
   position: absolute;
-  width: 10%;
+  min-width: 10%;
+  max-width: 30%;
+  min-height: 10%;
 }
 
 .input {
@@ -30,6 +32,7 @@
   top: 0;
   left: 0;
   width: 5%;
+  min-width: 5%;
 }
 
 .output {
@@ -38,6 +41,7 @@
   top: 0;
   right: 0;
   width: 5%;
+  min-width: 5%;
 }
 
 #live-sidebar {

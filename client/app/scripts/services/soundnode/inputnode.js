@@ -53,16 +53,11 @@ angular.module('webClientSideApp')
       soundRequest.open('GET', 'http://localhost:3000/api/file/56b31666805a445a3138ccf0', true);
       soundRequest.responseType = "arraybuffer";
       soundRequest.onload = function() {
-        $log.info('soundRequest');
-        $log.debug(soundRequest);
         var audioData = soundRequest.response;
-        $log.info('audiodata');
-        $log.debug(audioData);
         audioContext.decodeAudioData(audioData, function(decodedData) {
           self.playSound.buffer = decodedData;
           self.playSound.loop = true;
           self.ready = true;
-          $log.info('buffer loaded');
         });
       };
       soundRequest.send();

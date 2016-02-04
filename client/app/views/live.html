@@ -138,33 +138,37 @@
             </div>
 
             <div ng-switch-when="notch">
-              Frequency
-              <input type="range"
+              Frequency <input type="range"
                      min="20"
                      max="20000"
                      step="1"
-                     ng-model="node.notch.frequency.value"/>
-              Quality
-              <input type="range"
+                     ng-model="node.notch.frequency.value"/> {{node.notch.frequency.value}}
+              Quality <input type="range"
                      min="0.01"
                      max="1"
                      step="0.01"
-                     ng-model="node.notch.Q.value"/>
+                     ng-model="node.notch.Q.value"/> {{node.notch.Q.value}}
             </div>
 
             <div ng-switch-when="allpass">
-              Frequency
-              <input type="range"
+              Frequency <input type="range"
                      min="20"
                      max="20000"
                      step="1"
-                     ng-model="node.allpass.frequency.value"/>
-              Quality
-              <input type="range"
+                     ng-model="node.allpass.frequency.value"/>{{node.allpass.frequency.value}}
+              Quality <input type="range"
                      min="0.01"
                      max="1"
                      step="0.01"
-                     ng-model="node.allpass.Q.value"/>
+                     ng-model="node.allpass.Q.value"/>{{node.allpass.Q.value}}
+            </div>
+
+            <div ng-switch-when="delay">
+              Frequency <input type="range"
+                     min="0"
+                     max="10"
+                     step="0.01"
+                     ng-model="node.delay.delayTime.value"/> {{node.delay.delayTime.value}}
             </div>
 
             <div ng-switch-default>

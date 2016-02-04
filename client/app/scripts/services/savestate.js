@@ -13,15 +13,20 @@ angular.module('webClientSideApp')
     var debounce = 60000;
     var time;
 
-    var save = function() {
+    var save = function(id) {
       $log.info('in save');
       $log.debug(NodeStorage.get().storage);
+      var body = {};
+      body.effects = NodeStorage.get().backup();
+      $log.debug('body');
+      $log.debug(body);
+      wsEffects.put(body, id);
     };
 
     // Public API here
     return {
-      save: function () {
-        return save();
+      save: function (id) {
+        return save(id);
       }
     };
   });

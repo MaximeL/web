@@ -35,8 +35,6 @@ angular.module('webClientSideApp')
 
         //adding the endpoints
         if(scope.node.type !== 'output') {
-          $log.debug('angular.element.find("#"+scope.node.id)');
-          $log.debug(angular.element.find('#'+scope.node.id));
           angular.element.find('#'+scope.node.id)[0].nodeOutput = jsPlumb.addEndpoint("" + scope.node.id, {
             anchor: "Right"
           }, {
@@ -53,8 +51,6 @@ angular.module('webClientSideApp')
         //  jsPlumb.draggable(element);
         }
         if(scope.node.type !== 'input') {
-          $log.debug('angular.element.find("#"+scope.node.id)');
-          $log.debug(angular.element.find('#'+scope.node.id));
           angular.element.find('#'+scope.node.id)[0].nodeInput = jsPlumb.addEndpoint("" + scope.node.id, {
             anchor: "Left"
           }, {

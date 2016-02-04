@@ -11,10 +11,6 @@ angular.module('webClientSideApp')
   .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState) {
     var vm = this;
     $scope.nodeStorage = NodeStorage.get();
-
-    $log.debug('$routeParams');
-    $log.debug($routeParams);
-
     $scope.ready = false;
 
     //this should be filled with data from server
@@ -49,7 +45,7 @@ angular.module('webClientSideApp')
     $scope.addEffect = function(type) {
       var effect = angular.copy(defaultNode);
       effect.type = type;
-      var id = $scope.nodeStorage.addNode(effect);
+      $scope.nodeStorage.addNode(effect);
       jsPlumb.repaintEverything();
     };
 
@@ -64,9 +60,9 @@ angular.module('webClientSideApp')
 
     var saveCycle = function() {
       $timeout(function() {
-        saveState.save();
+        saveState.save($routeParams.id);
         return saveCycle();
-      }, 60000);
+      }, 10000);
     };
     saveCycle();
 

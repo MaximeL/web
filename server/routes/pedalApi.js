@@ -70,6 +70,7 @@ router.route('/:id')
         res.status(404);
         return res.json({message: "Unknowned pedal"});
       }
+      console.log(pedale);
       res.status(200);
       return res.send(pedale);
     });
@@ -77,6 +78,7 @@ router.route('/:id')
   .put(function (req, res) {
     console.log('PUT a pedal');
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
+      console.log(req.body);
         if (err) {
           res.status(404);
           return res.json({message: "unknowned pedal."});
