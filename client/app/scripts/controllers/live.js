@@ -8,33 +8,20 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, NodeStorage) {
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects) {
     var vm = this;
     $scope.nodeStorage = new NodeStorage();
 
+    $log.debug('$routeParams');
+    $log.debug($routeParams);
+
     $scope.ready = false;
-    var input = {
-        id: 0,
-        type: 'input',
-        posx: null,
-        posy: null,
-        value: null,
-        suivant: []
-      };
-    var output = {
-        id: 1,
-        type: 'output',
-        posx: null,
-        posy: null,
-        value: null,
-        precedent: []
-      };
 
     //this should be filled with data from server
     //To get what to save use : $scope.nodeStorage.backup()
-    var backup = [];
-    backup.push(input);
-    backup.push(output);
+    /*var backup = [];
+     backup.push(input);
+     backup.push(output);*/
 
     var defaultNode ={
       id: null,
@@ -42,8 +29,8 @@ angular.module('webClientSideApp')
       posx: null,
       posy: null,
       value: null,
-      precedent: [],
-      suivant: []
+      precedents: [],
+      suivants: []
     };
 
     $scope.effects = [
@@ -61,8 +48,6 @@ angular.module('webClientSideApp')
     $scope.addEffect = function(type) {
       var effect = angular.copy(defaultNode);
       effect.type = type;
-      effect.posx = 50;
-      effect.posy = 50;
       var id = $scope.nodeStorage.addNode(effect);
       jsPlumb.repaintEverything();
     };
@@ -76,23 +61,17 @@ angular.module('webClientSideApp')
       jsPlumb.repaintEverything();
     });
 
-    var init = function() {
-      $log.info('begin init');
-      navigator.getUserMedia = (navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-      if (navigator.getUserMedia) {
-        console.log('getUserMedia supported.');
-        $scope.ready = true;
-      } else {
-        $scope.ready = false;
-      }
-
-      $scope.nodeStorage.setup(backup);
-    };
-    init();
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+      $scope.ready = true;
+    } else {
+      $scope.ready = false;
+    }
 
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");
@@ -106,6 +85,14 @@ angular.module('webClientSideApp')
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.disconnect(inputId, outputId);
+      });
+
+      wsEffects.get($routeParams.id).then(function(response) {
+          $log.debug('response');
+          $log.debug(response);
+          $scope.nodeStorage.setup(response.effets);
+      }, function() {
+        $location.path('/');
       });
     });
 

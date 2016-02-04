@@ -10,10 +10,26 @@
 angular.module('webClientSideApp')
   .factory('NodeStorage', function ($log, audionodeSelector, audiocontext) {
     // Service logic
+    var input = {
+      id: 0,
+      type: 'input',
+      posx: null,
+      posy: null,
+      value: null,
+      suivants: []
+    };
+    var output = {
+      id: 1,
+      type: 'output',
+      posx: null,
+      posy: null,
+      value: null,
+      precedents: []
+    };
+
     function NodeStorage() {}
 
     NodeStorage.prototype.storage = [];
-
     NodeStorage.prototype.nextId = 0;
 
     NodeStorage.prototype.addNode = function(node) {
@@ -65,17 +81,19 @@ angular.module('webClientSideApp')
       }
     };
     NodeStorage.prototype.setup = function(backup) {
+      this.addNode(input);
+      this.addNode(output);
       for(var i = 0; i < backup.length; i++) {
         if(typeof backup[i] !== 'undefined') {
-          this.addNode(backup[i]);
+          this.addNode(angular.fromJson(backup[i]));
         }
       }
     };
     NodeStorage.prototype.backup = function() {
       var backup = [];
-      for(var i = 0; i < this.storage.length; i++) {
+      for(var i = 2; i < this.storage.length; i++) {
         if(typeof this.storage[i] !== 'undefined') {
-          backup.push(this.storage[i]);
+          backup.push(angular.toJson(this.storage[i], false));
         }
       }
       return backup;
