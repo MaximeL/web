@@ -148,9 +148,9 @@ describe('Routing test', function () {
     var id_owner;
     var id_created;
     var pedalBody = {
-      nom: "Ma pédale",
+      name: "Ma pédale",
       description: "Celle de Tonton",
-      effets: [
+      effects: [
         {
           data: "{precedent: [\"1\", \"2\", \"3\"],suivant: [\"1\", \"2\", \"3\"],type: \"aze\"}"
         },
@@ -189,7 +189,7 @@ describe('Routing test', function () {
         .post(URL_PEDAL)
         .send(pedalBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        //.expect(201) //Status code created
+        .expect(201) //Status code created
         .end(function (err, res) {
           if (err) {
             throw err;
@@ -199,17 +199,17 @@ describe('Routing test', function () {
           // recupere l'id du post pour tester le get par id
           id_created = res.body._id;
           res.body.owner.should.equal(id_owner);
-          res.body.nom.should.equal("Ma pédale");
+          res.body.name.should.equal("Ma pédale");
           res.body.description.should.equal("Celle de Tonton");
           res.body.should.have.property("users");
-          res.body.should.have.property("effets");
+          res.body.should.have.property("effects");
           done();
         });
     });
 
     // TEST PUT
     it('should correctly update a pedal', function (done) {
-      pedalBody.nom = 'Ma pédale modifée';
+      pedalBody.name = 'Ma pédale modifée';
       request(URL)
         .put(URL_PEDAL + id_created)
         .send(pedalBody)
@@ -222,7 +222,7 @@ describe('Routing test', function () {
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
           res.body._id.should.equal(id_created);
-          res.body.nom.should.equal('Ma pédale modifée');
+          res.body.name.should.equal('Ma pédale modifée');
           done();
         });
     });
@@ -231,7 +231,7 @@ describe('Routing test', function () {
     it('should correctly add a note to a pedal', function (done) {
       var noteBody = {
         author: id_owner,
-        note: 5
+        rate: 5
       };
 
       request(URL)
@@ -245,7 +245,7 @@ describe('Routing test', function () {
           }
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
-          res.body.notes.should.containDeep([{note: 5}]);
+          res.body.rating.should.containDeep([{rate: 5}]);
           done();
         });
     });
@@ -343,9 +343,9 @@ describe('Routing test', function () {
           res.body.should.have.property('_id');
           res.body._id.should.equal(id_created);
           res.body.owner.should.equal(id_owner);
-          res.body.nom.should.equal("Ma pédale modifée");
+          res.body.name.should.equal("Ma pédale modifée");
           res.body.description.should.equal("Celle de Tonton");
-          res.body.should.have.property("effets");
+          res.body.should.have.property("effects");
           res.body.should.have.property("users");
           done();
         });
@@ -491,7 +491,7 @@ describe('Routing test', function () {
     it('should not correctly update a note if incorrect values', function (done) {
       var noteBody = {
         author: "aze",
-        note: 5
+        rate: 5
       };
 
       request(URL)
