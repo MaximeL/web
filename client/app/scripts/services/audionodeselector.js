@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
   .factory('audionodeSelector',
-    function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass, BandPass, LowShelf, HighShelf, Peaking, Notch, AllPass) {
+    function ($log, Inputnode, Outputnode, Gain, LowPass, HighPass, BandPass, LowShelf, HighShelf, Peaking, Notch, AllPass, Convolver) {
 
     // Service logic
     var selectNode = function(type) {
@@ -35,6 +35,8 @@ angular.module('webClientSideApp')
         return new Notch();
       if(type === 'allpass')
         return new AllPass();
+      if(type === 'convolver')
+        return new Convolver();
       return null;
     };
 

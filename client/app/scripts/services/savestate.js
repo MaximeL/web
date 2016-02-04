@@ -14,7 +14,8 @@ angular.module('webClientSideApp')
     var time;
 
     var save = function() {
-      //effects =
+      $log.info('in save');
+      $log.debug(NodeStorage.get().storage);
     };
 
     // Public API here

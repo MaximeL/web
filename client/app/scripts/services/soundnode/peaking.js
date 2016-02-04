@@ -19,18 +19,18 @@ angular.module('webClientSideApp')
       this.output = audioContext.createGain();
       this.input = audioContext.createGain();
 
-      this.lowshelf = audioContext.createBiquadFilter();
-      this.lowshelf.type = 'peaking';
+      this.peaking = audioContext.createBiquadFilter();
+      this.peaking.type = 'peaking';
 
-      this.input.connect(this.lowshelf);
-      this.lowshelf.connect(this.output);
+      this.input.connect(this.peaking);
+      this.peaking.connect(this.output);
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      this.lowshelf.frequency.value = 440;
-      this.lowshelf.Q.value = 0;
-      this.lowshelf.gain.value = 0;
+      this.peaking.frequency.value = 440;
+      this.peaking.Q.value = 0;
+      this.peaking.gain.value = 0;
     };
 
     // Public API here

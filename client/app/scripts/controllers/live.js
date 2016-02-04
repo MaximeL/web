@@ -10,7 +10,7 @@
 angular.module('webClientSideApp')
   .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects) {
     var vm = this;
-    $scope.nodeStorage = new NodeStorage();
+    $scope.nodeStorage = NodeStorage.get();
 
     $log.debug('$routeParams');
     $log.debug($routeParams);
@@ -42,7 +42,8 @@ angular.module('webClientSideApp')
       'lowpass',
       'lowshelf',
       'notch',
-      'peaking'
+      'peaking'//,
+      //'convolver'
     ];
 
     $scope.addEffect = function(type) {

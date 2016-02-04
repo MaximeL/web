@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('NodeStorage', function ($log, audionodeSelector, audiocontext) {
+  .factory('NodeStorage', function ($rootScope, $log, audionodeSelector, audiocontext) {
     // Service logic
     var input = {
       id: 0,
@@ -33,6 +33,7 @@ angular.module('webClientSideApp')
     NodeStorage.prototype.nextId = 0;
 
     NodeStorage.prototype.addNode = function(node) {
+      $log.info('Storing node of type : ' + node.type);
       if(node.id === null || typeof node.id === 'undefined')
         node.id = this.nextId;
       if(node.id >= this.nextId)
@@ -45,13 +46,14 @@ angular.module('webClientSideApp')
         node.posx,
         node.posy,
         node.value,
-        node.precedent,
-        node.suivant);
+        node.precedents,
+        node.suivants);
       this.storage[node.id] = soundnode;
       return node.id;
     };
     NodeStorage.prototype.removeNode = function(id) {
       $log.info("deleting node with id : "+id);
+      $log.info(this.storage[id]);
       jsPlumb.detachAllConnections(''+id);
       while(this.storage[id].precedents.length !== 0) {
         this.disconnect(this.storage[id].precedents[0], id);
@@ -99,6 +101,19 @@ angular.module('webClientSideApp')
       return backup;
     };
 
+    var get = function() {
+      if(typeof $rootScope.nodeStorage === 'undefined' || $rootScope.nodeStorage === null) {
+        $rootScope.nodeStorage = new NodeStorage();
+        return $rootScope.nodeStorage;
+      } else {
+        return $rootScope.nodeStorage;
+      }
+    };
+
     // Public API here
-    return NodeStorage;
+    return {
+      get: function() {
+        return get();
+      }
+    };
   });
