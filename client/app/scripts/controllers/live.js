@@ -40,7 +40,7 @@ angular.module('webClientSideApp')
       'lowshelf',
       'notch',
       'peaking',
-      //'convolver',
+      'convolver',
       'delay',
       'distorsion'
     ];
