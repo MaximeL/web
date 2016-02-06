@@ -7,9 +7,50 @@
 
 body {
   padding: 0;
-  background-color: #c0c0c0;
+  background-color: #FFF;
   color: #404040;
 }
+h2 {
+  text-align: center;
+  padding-bottom: 20px;
+}
+h3 {
+  color: #393939;
+
+}
+blockquote{
+  background-color: #FFF;
+  color: #393939;
+  font-size: 15px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.mypedals {
+  border-left: 6px solid #ffd790;
+  border-right: 1px solid #ffd790;
+  border-bottom: 1px solid #ffd790;
+  border-top: 1px solid #ffd790;
+}
+.sharedPedals {
+  border-left: 6px solid #aed4ff;
+  border-right: 1px solid #aed4ff;
+  border-bottom: 1px solid #aed4ff;
+  border-top: 1px solid #aed4ff;
+}
+
+.description_block{
+  width: 85%;
+}
+.rating {
+  font-size: 1.7em;
+}
+.rating i {
+  padding-right: 4px;
+}
+i {
+  color: gold;
+}
+
 .pedal {
   background: #9acfea;
   border: 1px solid #9acfea;
@@ -32,17 +73,22 @@ body {
 .pedal-left-container .pedal{
   cursor:move;
 }
+
+
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
   padding-left: 15px;
   padding-right: 15px;
+  bottom: 0;
+  text-align: center;
 }
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
+  /*border-bottom: 1px solid #e5e5e5;*/
 }
 /* Make the masthead heading the same height as the navigation */
 .header h3 {

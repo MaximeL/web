@@ -26,23 +26,19 @@ router.use(function (req, res, next) {
 // POST > Route ➜ /api/file
 // ---------------------------
 router.post('/', function (req, res) {
-
   console.log("POST a file");
 
-  console.log(res);
-  console.log("-------------------------------");
-  console.log(req);
-
   var fileToSave = req.files.filefield;    // champ à renseigner
-  console.log("Contenu du fichier \n" + fileToSave);
 
   // on cree une connexion avec la BD
-  var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+  var dbname = (process.env.NODE_ENV == 'test') ? 'dbsound_test' : 'dbsound';
+  var conn = mongoose.createConnection('localhost', dbname, 27017);
 
   // check les erreurs
   conn.on('error', function (err) {
     if (err) {
       console.log(err);
+      res.status(404);
       return;
     }
   });
@@ -59,7 +55,7 @@ router.post('/', function (req, res) {
 
     writeStream.on('close', function () {
       return res.status(201).send({
-        message: 'Upload success'
+        "message": "File uploaded"
       });
     });
 
@@ -69,17 +65,19 @@ router.post('/', function (req, res) {
 });
 
 // ----------------------------------
-// GET > Route ➜ /api/file/:filename
+// GET > Route ➜ /api/file/:musicname
 // ----------------------------------
-router.get('/:filename', function (req, res) {
+router.get('/:musicname', function (req, res) {
 
   // on cree une connexion avec la BD
-  var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+  var dbname = (process.env.NODE_ENV == 'test') ? 'dbsound_test' : 'dbsound';
+  var conn = mongoose.createConnection('localhost', dbname, 27017);
 
   // check les erreurs
   conn.on('error', function (err) {
     if (err) {
       console.log(err);
+      res.status(404);
       return;
     }
   });
@@ -88,7 +86,7 @@ router.get('/:filename', function (req, res) {
   conn.once('open', function () {
     var gfs = Grid(conn.db);
 
-    var musicName = req.params.filename + ".ogg";
+    var musicName = req.params.musicname + ".ogg";
 
     gfs.findOne({filename: musicName}, function (err, file) {
       if (err) return res.status(400).send(err);
@@ -100,18 +98,19 @@ router.get('/:filename', function (req, res) {
       res.set('Content-Type', file.contentType);
       res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
 
-      console.log(file._id);
+      //console.log(file._id);
 
       var readStream = gfs.createReadStream({
-          _id: file._id
-          // mode: 'r'
+        _id: file._id
+        // mode: 'r'
       });
 
-      readStream.on('error', function(err) {
-          console.log('Error while processing stream' + err);
-          throw err;
+      readStream.on('error', function (err) {
+        console.log('Error while processing stream' + err);
+        throw err;
       });
 
+      res.status(200);
       readStream.pipe(res);
     });
   });
@@ -138,8 +137,8 @@ router.post('/form/', function (req, res) {
       console.log('File type: ' + files.file.type);
       console.log('File size: ' + files.file.size);
 
-      Grid.mongo = mongoose.mongo;
-      var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
+      var dbname = (process.env.NODE_ENV == 'test') ? 'dbsound_test' : 'dbsound';
+      var conn = mongoose.createConnection('localhost', dbname, 27017);
 
       conn.once('open', function () {
         var gfs = Grid(conn.db);

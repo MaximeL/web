@@ -1,0 +1,43 @@
+<div class="col-md-6">
+  <h2>My pedals</h2>
+  <div ng-repeat="pedal in myPedals">
+    <div class="alert alert-warning">
+      <div class="pull-right rating">
+        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+        class="fa fa-star"></i>
+      </div>
+      <div class="pull-left" style="margin-left: 62%">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </div>
+        <div class="clearfix"/>
+      </div>
+      <h3 style="padding-top: 14px;">{{pedal.nom}}</h3>
+      <div class="pull-left description_block">
+        <blockquote class="mypedals">{{pedal.description}}</blockquote>
+      </div>
+      <div class="pull-right">
+        <button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span>
+        </button>
+        <button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span>
+        </button>
+      </div>
+      <div class="clearfix"/>
+      <ul class="list-inline pull-right">
+        <li ng-repeat="user in pedal.users">
+          <!-- hash de l'email -->
+          <img src="http://www.gravatar.com/avatar/{{hashEmail(user.email)}}.jpg?s=30&d=retro"/>
+        </li>
+      </ul>
+      <div class="clearfix"/>
+    </div>
+  </div>
+</div>
