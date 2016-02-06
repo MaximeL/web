@@ -62,7 +62,6 @@ router.post('/', function(req, res) {
     });
 });
 
-
 // -------------------------------
 // POST > Route ➜ /api/form/file
 // commenter line 8 et 9 de app.js
@@ -104,7 +103,7 @@ router.post('/form/', function(req, res) {
 // -------------------------------
 // GET > Route ➜ /api/file/:fileid
 // -------------------------------
-router.get('/:fileid', function(req, res) {
+router.get('/:filename', function(req, res) {
 
     // on cree une connexion avec la BD
     var conn = mongoose.createConnection('localhost', 'dbsound', 27017);
@@ -120,24 +119,33 @@ router.get('/:fileid', function(req, res) {
     // recupere le ficher via la connexion
     conn.once('open', function() {
         var gfs = Grid(conn.db);
-        gfs.findOne({ _id: req.params.fileid }, function(err, file) {
+
+        var musicName = req.params.filename + ".ogg";
+
+        gfs.findOne({ filename: musicName }, function(err, file) {
             if(err) return res.status(400).send(err);
             if(!file) return res.status(404).send(err);
 
-            res.set('Content-Type', file.contentType);
-            res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+            res.status(200);
+            return res.json({"id": file._id});
 
-            var readStream = gfs.createReadStream({
-                _id: file._id
-                // mode: 'r'
-            });
-
-            readStream.on('error', function(err) {
-                console.log('Error while processing stream' + err);
-                throw err;
-            });
-
-            readStream.pipe(res);
+            //res.set('Content-Type', file.contentType);
+            //res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+            //
+            //console.log(file._id);
+            //
+            //var readStream = gfs.createReadStream({
+            //    _id: file._id
+            //    // mode: 'r'
+            //});
+            //
+            //readStream.on('error', function(err) {
+            //    console.log('Error while processing stream' + err);
+            //    throw err;
+            //});
+            //
+            //readStream.pipe(res);
+            //res.json({"id": file_id});
         });
     });
 });
