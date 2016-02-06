@@ -1,8 +1,9 @@
 <template>
 
 	 <div class="container">
-	 	<div class="gain">
-            
+	 	<div class="gain">   
+        </div>
+        <div class="level">   
         </div>
 	 </div>
 
@@ -17,6 +18,7 @@
         var template = document._currentScript.ownerDocument.querySelector('template');
         //Create a prototype for this component
         var proto = Object.create(HTMLElement.prototype);
+        var proto2 = Object.create(HTMLElement.prototype);
 
         //Register a createdCallback
         proto.createdCallback = function() {
@@ -27,25 +29,42 @@
             this.$container = this.shadowRoot.querySelector('.container');
         
             this.$gain = this.shadowRoot.querySelector('.gain');
-
             //Call the draw function initially
-            this.draw();
+            this.draw(this.$gain);
            
 
         };
+        proto2.createdCallback = function() {
+                    var clone = document.importNode(template.content, true);
+                    this.createShadowRoot().appendChild(clone);
 
-        proto.draw = function() {
-            this.$gain.innerHTML = "<input id=gain type=range  min=0 max=10 step=0.01>"
+                    //Grab the elements from the shadow root
+                   
+                    this.$level = this.shadowRoot.querySelector('.level');
+
+                    //Call the draw function initially
+                    proto.draw(this.$level);
+                   
+
+                };
+
+        proto.draw = function(elt) {
+            elt.innerHTML = "<input id=level type=range  min=0 max=10 step=0.01>"
         };
+      
 
 
         //When the element is attached to the DOM populate the select
         proto.attachedCallback = function() {
 
         };
+        proto2.attachedCallback = function() {
+
+        };
 
         //Register the element with the document
         document.registerElement('pedal-gain', {prototype: proto});
+        document.registerElement('pedal-level', {prototype: proto2});
 
     }());
 </script>
