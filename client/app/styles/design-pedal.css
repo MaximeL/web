@@ -1,0 +1,20 @@
+.metal {
+  background-image: url('/images/background-metal.jpg')
+}
+
+.carbon {
+  background-image: url('/images/background-carbon.png')
+}
+
+.pedal-potar {
+  display: inline-block;
+  height:150px;
+  width:100px;
+}
+
+#demo {
+  border: 1px solid black;
+
+  height: 400px;
+  width:210px;
+}
