@@ -12,12 +12,12 @@ var UserSchema = new Schema({
   username: {type: String, unique: true, required: true},
   email: String,
   password: String,
-  pedals: [{type: Schema.Types.ObjectId, ref: 'Pedal'}],
-  shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedal'}, right: Boolean}]
-}, {collection: 'user', versionKey: false});
+  pedals: [{type: Schema.Types.ObjectId, ref: 'Pedals'}],
+  shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedals'}, right: Boolean}]
+}, {collection: 'users', versionKey: false});
 
 var getUserSchema = function () {
-  return Dao.model('User', UserSchema);
+  return Dao.model('Users', UserSchema);
 };
 
 /**
@@ -33,27 +33,27 @@ var PedaleSchema = new Schema({
   ],
   rating: [
     {
-      _id: {type: Schema.Types.ObjectId, ref: 'User'},
+      _id: {type: Schema.Types.ObjectId, ref: 'Users'},
       rate: Number
     }
   ],
   comments: [
     {
-      _id: {type: Schema.Types.ObjectId, ref: 'User'},
+      _id: {type: Schema.Types.ObjectId, ref: 'Users'},
       comment: String
     }
   ],
-  owner: {type: Schema.Types.ObjectId, ref: 'User'},
+  owner: {type: Schema.Types.ObjectId, ref: 'Users'},
   users: [
     {
-      _id: {type: Schema.Types.ObjectId, ref: 'User'},
+      _id: {type: Schema.Types.ObjectId, ref: 'Users'},
       right: Boolean
     }
   ]
-}, {collection: 'pedale', versionKey: false});
+}, {collection: 'pedals', versionKey: false});
 
 var getPedaleSchema = function () {
-  return Dao.model('Pedale', PedaleSchema);
+  return Dao.model('Pedals', PedaleSchema);
 };
 
 exports.getUserSchema = getUserSchema;
