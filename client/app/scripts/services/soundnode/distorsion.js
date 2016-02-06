@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Distorsion', function ($log, AbstractSoundnode) {
+  .factory('Distorsion', function ($log, AbstractSoundnode, NodeParameter) {
     // Service logic
     function Distorsion() {}
     Distorsion.prototype = Object.create(AbstractSoundnode.prototype);
@@ -26,6 +26,12 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      this.parameters[0] = new NodeParameter();
+      this.parameters[0].name = 'curveValue';
+      this.parameters[0].min = 0;
+      this.parameters[0].max = 600;
+      this.parameters[0].step = 1;
 
       if(typeof this.value.curveValue === 'undefined' || this.value.curveValue === null) {
         this.curveValue = 400;

@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Delay', function (AbstractSoundnode) {
+  .factory('Delay', function (AbstractSoundnode, NodeParameter) {
     // Service logic
     function Delay() {}
     Delay.prototype = Object.create(AbstractSoundnode.prototype);
@@ -26,6 +26,12 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      this.parameters[0] = new NodeParameter();
+      this.parameters[0].name = 'delayTime';
+      this.parameters[0].min = 0;
+      this.parameters[0].max = 10;
+      this.parameters[0].step = 0.1;
 
       if(typeof this.value.delayTime === 'undefined' || this.value.delayTime === null) {
         this.delay.delayTime.value = 0;

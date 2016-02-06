@@ -96,13 +96,6 @@ angular.module('webClientSideApp')
         }
       }
     };
-    NodeStorage.prototype.setupDesign = function(backup) {
-      for(var i = 0; i < backup.length; i++) {
-        if(typeof backup[i] !== 'undefined') {
-          this.addNode(angular.fromJson(backup[i].data));
-        }
-      }
-    };
     NodeStorage.prototype.backup = function() {
       var backup = [];
       for(var i = 2; i < this.storage.length; i++) {

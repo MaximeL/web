@@ -20,168 +20,21 @@
           <div> {{node.name}} </div>
           <div class="delete-node" ng-click="deleteEffect(node.id)"></div>
 
-<!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
-          <div ng-switch="node.type">
-
-            <div ng-switch-when="input">
-              <div ng-click="node.buttonMusic()">PLAY</div>
+          <!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
+          <div>
+            <div ng-switch="node.type">
+              <div ng-switch-when="input">
+                <div ng-click="node.buttonMusic()">PLAY</div>
+              </div>
             </div>
 
-            <div ng-switch-when="gain" >
-              Level :
+            <div ng-repeat="param in node.parameters">
+              {{param.name}}
               <input type="range"
-                     min="0"
-                     max="1"
-                     step="0.01"
-                     ng-model="node.gain.gain.value"/>{{node.gain.gain.value}}
-            </div>
-
-            <div ng-switch-when="lowpass">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.lowpass.frequency.value"/>{{node.lowpass.frequency.value}}
-
-              Quality
-              <input type="range"
-                     min="1"
-                     max="100"
-                     step="1"
-                     ng-model="node.lowpass.Q.value"/>{{node.lowpass.Q.value}}
-            </div>
-
-            <div ng-switch-when="highpass">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.highpass.frequency.value"/>{{node.highpass.frequency.value}}
-
-              Quality
-              <input type="range"
-                     min="1"
-                     max="100"
-                     step="1"
-                     ng-model="node.highpass.Q.value"/>{{node.highpass.Q.value}}
-            </div>
-
-            <div ng-switch-when="bandpass">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.bandpass.frequency.value"/>{{node.bandpass.frequency.value}}
-
-              Quality
-              <input type="range"
-                     min="0.01"
-                     max="1"
-                     step="0.01"
-                     ng-model="node.bandpass.Q.value"/>{{node.bandpass.Q.value}}
-            </div>
-
-            <div ng-switch-when="lowshelf">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.lowshelf.frequency.value"/>{{node.lowshelf.frequency.value}}
-
-              Gain
-              <input type="range"
-                     min="0"
-                     max="40"
-                     step="1"
-                     ng-model="node.lowshelf.gain.value"/>{{node.lowshelf.gain.value}}
-            </div>
-
-            <div ng-switch-when="highshelf">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.highshelf.frequency.value"/>{{node.highshelf.frequency.value}}
-
-              Gain
-              <input type="range"
-                     min="0"
-                     max="40"
-                     step="1"
-                     ng-model="node.highshelf.gain.value"/>{{node.highshelf.gain.value}}
-            </div>
-
-            <div ng-switch-when="peaking">
-              Frequency
-              <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.peaking.frequency.value"/>{{node.peaking.frequency.value}}
-              Quality
-              <input type="range"
-                     min="0.01"
-                     max="1"
-                     step="0.01"
-                     ng-model="node.peaking.Q.value"/>{{node.peaking.Q.value}}
-              Gain
-              <input type="range"
-                     min="0"
-                     max="40"
-                     step="1"
-                     ng-model="node.peaking.gain.value"/> {{node.peaking.gain.value}}
-            </div>
-
-            <div ng-switch-when="notch">
-              Frequency <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.notch.frequency.value"/> {{node.notch.frequency.value}}
-              Quality <input type="range"
-                     min="0.01"
-                     max="1"
-                     step="0.01"
-                     ng-model="node.notch.Q.value"/> {{node.notch.Q.value}}
-            </div>
-
-            <div ng-switch-when="allpass">
-              Frequency <input type="range"
-                     min="20"
-                     max="20000"
-                     step="1"
-                     ng-model="node.allpass.frequency.value"/>{{node.allpass.frequency.value}}
-              Quality <input type="range"
-                     min="0.01"
-                     max="1"
-                     step="0.01"
-                     ng-model="node.allpass.Q.value"/>{{node.allpass.Q.value}}
-            </div>
-
-            <div ng-switch-when="delay">
-              Frequency <input type="range"
-                     min="0"
-                     max="10"
-                     step="0.01"
-                     ng-model="node.delay.delayTime.value"/> {{node.delay.delayTime.value}}
-            </div>
-
-            <div ng-switch-when="distorsion">
-              Frequency <input type="range"
-                               min="0"
-                               max="500"
-                               step="1"
-                               ng-model="node.curveValue"
-                               ng-change="node.setDistortionCurve()"/> {{node.curveValue}}
-            </div>
-
-            <div ng-switch-default>
-              <!-- told you it was long... -->
+                     min="{{param.min}}"
+                     max="{{param.max}}"
+                     step="{{param.step}}"
+                     ng-model="node[node.type][param.name].value"/>{{node[node.type][param.name].value}}
             </div>
           </div>
         </div>

@@ -16,6 +16,8 @@ angular.module('webClientSideApp')
     Convolver.prototype.type = 'convolver';
 
     Convolver.prototype.initNode = function(audioContext) {
+      var self = this;
+
       this.output = audioContext.createGain();
       this.input = audioContext.createGain();
 
@@ -27,21 +29,16 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      /*$http.get()
-      var ajaxRequest = new XMLHttpRequest();
-      ajaxRequest.open('GET', 'concert-crowd.ogg', true);
-      ajaxRequest.responseType = 'arraybuffer';
-
-      ajaxRequest.onload = function() {
-        var audioData = ajaxRequest.response;
-        audioCtx.decodeAudioData(audioData, function(buffer) {
-          concertHallBuffer = buffer;
-          soundSource = audioCtx.createBufferSource();
-          soundSource.buffer = concertHallBuffer;
-        }, function(e){"Error with decoding audio data" + e.err});
-      }*/
-
-      //ajaxRequest.send();
+      var soundRequest = new XMLHttpRequest();
+      soundRequest.open('GET', 'http://localhost:3000/api/file/irHall', true);
+      soundRequest.responseType = "arraybuffer";
+      soundRequest.onload = function() {
+        var audioData = soundRequest.response;
+        audioContext.decodeAudioData(audioData, function(decodedData) {
+          self.convolver.buffer = decodedData;
+        });
+      };
+      soundRequest.send();
     };
 
     // Public API here
