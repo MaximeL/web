@@ -77,6 +77,7 @@ angular.module('webClientSideApp')
       this.restaureConnections(inputId);
     };
     NodeStorage.prototype.restaureConnections = function(id) {
+      this.storage[id].output.disconnect();
       for(var i = 0; i < this.storage[id].suivants.length; i++) {
         //en gros c'est input.connect(output)
         this.storage[id].output.connect(this.storage[this.storage[id].suivants[i]].input);
@@ -107,15 +108,41 @@ angular.module('webClientSideApp')
     };
     NodeStorage.prototype.redoConnections = function() {
       jsPlumb.detachEveryConnection();
-      for(var idNode = 0; idNode < this.storage.length; idNode++) {
+      //Going through the node from BD
+      for(var idNode = 2; idNode < this.storage.length; idNode++) {
+        //check for undefined
         if(typeof this.storage[idNode] !== 'undefined' && this.storage[idNode] !== null) {
-          if(idNode !== 1) {
-            this.restaureConnections(idNode);
-            for (var idNext = 0; idNext < this.storage[idNode].suivants.length; idNext++) {
-              jsPlumb.connect({source: '' + idNode, target: '' + idNext});
+          //If node 0 (input) is in precedents, link it
+          if(this.storage[idNode].precedents.indexOf(0) !== -1) {
+            //this trigger the connection and its event
+            jsPlumb.connect({
+              source: angular.element.find('#0')[0].nodeOutput,
+              target: angular.element.find('#' + idNode)[0].nodeInput
+            });
+            //Has the event add 0 in precedent we must remove it
+            this.storage[idNode].precedents.splice(this.storage[idNode].precedents.indexOf(0), 1);
+          }
+          //Connection of all element, taking suivants
+          for (var idNext = 0; idNext < this.storage[idNode].suivants.length; idNext++) {
+            if(typeof this.storage[idNode].suivants[idNext] !== 'undefined' && this.storage[idNode].suivants[idNext] !== null) {
+              jsPlumb.connect({
+                source: angular.element.find('#' + idNode)[0].nodeOutput,
+                target: angular.element.find('#' + this.storage[idNode].suivants[idNext])[0].nodeInput
+              });
+              this.storage[idNode].suivants.splice(this.storage[idNode].suivants.indexOf(this.storage[idNode].suivants[idNext]), 1);
+              if(this.storage[idNode].suivants[idNext] !== 1)
+                this.storage[this.storage[idNode].suivants[idNext]].precedents.splice(this.storage[this.storage[idNode].suivants[idNext]].precedents.indexOf(idNode), 1);
             }
           }
         }
+      }
+    };
+    //weird name... It's for restoring the connection of input after the user has share the mic.
+    NodeStorage.prototype.restoreInputPlaySound = function() {
+      this.storage[0].playSound.disconnect();
+      for(var i = 0; i < this.storage[0].suivants.length; i++) {
+        //en gros c'est input.connect(output)
+        this.storage[0].playSound.connect(this.storage[this.storage[0].suivants[i]].input);
       }
     };
 

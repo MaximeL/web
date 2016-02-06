@@ -21,6 +21,8 @@ angular.module('webClientSideApp')
         element.addClass("soundnode");
         element.addClass(scope.node.type);
         element.attr('id', scope.node.id);
+        angular.element.find('#'+scope.node.id)[0].style.left = scope.node.posx+"px";
+        angular.element.find('#'+scope.node.id)[0].style.top = scope.node.posy+"px";
 
         //This is for refresh the position of the endpoints on each move
         //TODO : refresh locally on the endpoints concerned. here it refresh all the endpoints. That's heavy

@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState) {
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput) {
     var vm = this;
     $scope.nodeStorage = NodeStorage.get();
     $scope.ready = false;
@@ -61,7 +61,7 @@ angular.module('webClientSideApp')
     var saveCycle = function() {
       $timeout(function() {
         saveState.save($routeParams.id);
-        return saveCycle();
+        //return saveCycle();
       }, 10000);
     };
     saveCycle();
@@ -82,6 +82,8 @@ angular.module('webClientSideApp')
       jsPlumb.setContainer("live-page-pedals");
 
       jsPlumb.bind('connection', function(info) {
+        $log.info('connection : ');
+        $log.debug(info);
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.connect(inputId, outputId);
@@ -102,6 +104,17 @@ angular.module('webClientSideApp')
       }, function() {
         $location.path('/');
       });
+
+      InitInput.getMediaInput().then(function(node) {
+        NodeStorage.get().storage[0].output = node;
+        $scope.nodeStorage.restaureConnections(0);
+      }, function(err) {});
+      InitInput.getMediaPlaySound('56b31666805a445a3138ccf0').then(function(node, data) {
+        NodeStorage.get().storage[0].playSound = node;
+        NodeStorage.get().storage[0].music = data;
+        NodeStorage.get().storage[0].ready = true;
+        $scope.nodeStorage.restoreInputPlaySound();
+      }, function() {});
     });
 
     //Prevent ngRepeat from try to print undefined elements
@@ -109,3 +122,5 @@ angular.module('webClientSideApp')
       return (typeof item !== 'undefined');
     };
   });
+
+//56b31666805a445a3138ccf0

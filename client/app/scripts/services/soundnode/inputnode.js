@@ -36,42 +36,17 @@ angular.module('webClientSideApp')
       this.suivants.splice(this.suivants.indexOf(output.id), 1);
     };
     Inputnode.prototype.initNode = function(audioContext) {
-      this.playSound = audioContext.createBufferSource();
-      var self = this;
-      navigator.getUserMedia(
-        {audio: true},
-        function(stream) {
-          $log.info('output from node input created');
-          self.output = audioContext.createMediaStreamSource(stream);
-        },
-        function(err) {
-          console.log('The following gUM error occured: ' + err);
-        }
-      );
-
-      var soundRequest = new XMLHttpRequest();
-      soundRequest.open('GET', 'http://localhost:3000/api/file/56b31666805a445a3138ccf0', true);
-      soundRequest.responseType = "arraybuffer";
-      soundRequest.onload = function() {
-        var audioData = soundRequest.response;
-        audioContext.decodeAudioData(audioData, function(decodedData) {
-          self.playSound.buffer = decodedData;
-          self.playSound.loop = true;
-          self.ready = true;
-        });
-      };
-      soundRequest.send();
     };
     Inputnode.prototype.buttonMusic = function() {
       if(this.ready) {
         if(this.play) {
+          this.labelButton = 'PLAY';
           this.playSound.stop(0);
           this.play = false;
-          this.labelButton = 'PLAY';
         } else {
+          this.labelButton = 'STOP';
           this.playSound.start(0);
           this.play = true;
-          this.labelButton = 'STOP';
         }
       }
     };
