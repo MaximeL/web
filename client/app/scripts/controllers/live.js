@@ -42,7 +42,8 @@ angular.module('webClientSideApp')
       'peaking',
       'convolver',
       'delay',
-      'distorsion'
+      'distorsion',
+      'compressor'
     ];
 
     $scope.addEffect = function(type) {

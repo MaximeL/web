@@ -13,7 +13,6 @@ angular.module('webClientSideApp')
     function NodeParameter() {}
 
     NodeParameter.prototype.name = null;
-    NodeParameter.prototype.value = null;
     NodeParameter.prototype.min = null;
     NodeParameter.prototype.max = null;
     NodeParameter.prototype.step = null;

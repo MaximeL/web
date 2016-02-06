@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Notch', function (AbstractSoundnode) {
+  .factory('Notch', function (AbstractSoundnode, NodeParameter) {
     // Service logic
     function Notch() {}
     Notch.prototype = Object.create(AbstractSoundnode.prototype);
@@ -27,6 +27,18 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      this.parameters[0] = new NodeParameter();
+      this.parameters[0].name = 'frequency';
+      this.parameters[0].min = 20;
+      this.parameters[0].max = 20000;
+      this.parameters[0].step = 1;
+
+      this.parameters[1] = new NodeParameter();
+      this.parameters[1].name = 'Q';
+      this.parameters[1].min = 1;
+      this.parameters[1].max = 1000;
+      this.parameters[1].step = 1;
 
       if(typeof this.value.frequency === 'undefined' || this.value.frequency === null) {
         this.notch.frequency.value = 440;

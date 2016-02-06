@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Gain', function ($log, AbstractSoundnode) {
+  .factory('Gain', function ($log, AbstractSoundnode, NodeParameter) {
     // Service logic
     function Gain() {}
     Gain.prototype = Object.create(AbstractSoundnode.prototype);
@@ -26,6 +26,12 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      this.parameters[0] = new NodeParameter();
+      this.parameters[0].name = 'gain';
+      this.parameters[0].min = 0;
+      this.parameters[0].max = 1;
+      this.parameters[0].step = 0.01;
 
       if(typeof this.value.gain === 'undefined'  || this.value.gain === null) {
         this.gain.gain.value = 1;

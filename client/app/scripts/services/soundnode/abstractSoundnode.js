@@ -22,6 +22,7 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.precedents = [];
     AbstractSoundnode.prototype.suivants = [];
     AbstractSoundnode.prototype.value = [];
+    AbstractSoundnode.prototype.parameters = [];
     AbstractSoundnode.prototype.output = null;
     AbstractSoundnode.prototype.input = null;
 
@@ -58,6 +59,7 @@ angular.module('webClientSideApp')
       this.value = value;
       this.precedents = precedent;
       this.suivants = suivant;
+      this.parameters = [];
 
       this.initNode(audioContext);
     };

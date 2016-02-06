@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Compressor', function ($log, AbstractSoundnode) {
+  .factory('Compressor', function ($log, AbstractSoundnode, NodeParameter) {
     // Service logic
     function Compressor() {}
     Compressor.prototype = Object.create(AbstractSoundnode.prototype);
@@ -28,6 +28,42 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      this.parameters[0] = new NodeParameter();
+      this.parameters[0].name = 'threshold';
+      this.parameters[0].min = -100;
+      this.parameters[0].max = 0;
+      this.parameters[0].step = 1;
+
+      this.parameters[1] = new NodeParameter();
+      this.parameters[1].name = 'knee';
+      this.parameters[1].min = 0;
+      this.parameters[1].max = 40;
+      this.parameters[1].step = 0.1;
+
+      this.parameters[2] = new NodeParameter();
+      this.parameters[2].name = 'ratio';
+      this.parameters[2].min = 1;
+      this.parameters[2].max = 20;
+      this.parameters[2].step = 1;
+
+      this.parameters[3] = new NodeParameter();
+      this.parameters[3].name = 'reduction';
+      this.parameters[3].min = -20;
+      this.parameters[3].max = 0;
+      this.parameters[3].step = 0.1;
+
+      this.parameters[4] = new NodeParameter();
+      this.parameters[4].name = 'attack';
+      this.parameters[4].min = 0;
+      this.parameters[4].max = 1;
+      this.parameters[4].step = 0.01;
+
+      this.parameters[5] = new NodeParameter();
+      this.parameters[5].name = 'release';
+      this.parameters[5].min = 0;
+      this.parameters[5].max = 1;
+      this.parameters[5].step = 0.01;
 
       if(typeof this.value.threshold === 'undefined' || this.value.threshold === null) {
         this.compressor.threshold.value = -24;
