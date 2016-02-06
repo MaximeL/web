@@ -64,7 +64,7 @@ angular.module('webClientSideApp')
     var saveCycle = function() {
       $timeout(function() {
         saveState.save($routeParams.id);
-        //return saveCycle();
+        return saveCycle();
       }, 10000);
     };
     saveCycle();
@@ -85,8 +85,6 @@ angular.module('webClientSideApp')
       jsPlumb.setContainer("live-page-pedals");
 
       jsPlumb.bind('connection', function(info) {
-        $log.info('connection : ');
-        $log.debug(info);
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.connect(inputId, outputId);
@@ -98,8 +96,6 @@ angular.module('webClientSideApp')
       });
 
       wsEffects.get($routeParams.id).then(function(response) {
-        $log.debug('response');
-        $log.debug(response);
         $scope.nodeStorage.setupPedal(response.effects);
         $timeout(function() {
           $scope.nodeStorage.redoConnections();
