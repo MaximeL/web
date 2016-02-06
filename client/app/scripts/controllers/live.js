@@ -21,6 +21,7 @@ angular.module('webClientSideApp')
 
     var defaultNode ={
       id: null,
+      name: null,
       type: null,
       posx: null,
       posy: null,
@@ -38,8 +39,10 @@ angular.module('webClientSideApp')
       'lowpass',
       'lowshelf',
       'notch',
-      'peaking'//,
-      //'convolver'
+      'peaking',
+      //'convolver',
+      'delay',
+      'distorsion'
     ];
 
     $scope.addEffect = function(type) {

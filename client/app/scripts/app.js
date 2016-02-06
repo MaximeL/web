@@ -37,7 +37,7 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'about'
       })
-      .when('/live/:id', {
+      .when('/pedal/:id', {
         templateUrl: 'views/live.html',
         controller: 'LiveCtrl',
         controllerAs: 'live'

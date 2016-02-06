@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Convolver', function (AbstractSoundnode) {
+  .factory('Convolver', function ($http, $log, AbstractSoundnode) {
     // Service logic
     function Convolver() {}
     Convolver.prototype = Object.create(AbstractSoundnode.prototype);
@@ -26,6 +26,22 @@ angular.module('webClientSideApp')
 
       this.output.gain.value = 1;
       this.input.gain.value = 1;
+
+      /*$http.get()
+      var ajaxRequest = new XMLHttpRequest();
+      ajaxRequest.open('GET', 'concert-crowd.ogg', true);
+      ajaxRequest.responseType = 'arraybuffer';
+
+      ajaxRequest.onload = function() {
+        var audioData = ajaxRequest.response;
+        audioCtx.decodeAudioData(audioData, function(buffer) {
+          concertHallBuffer = buffer;
+          soundSource = audioCtx.createBufferSource();
+          soundSource.buffer = concertHallBuffer;
+        }, function(e){"Error with decoding audio data" + e.err});
+      }*/
+
+      //ajaxRequest.send();
     };
 
     // Public API here

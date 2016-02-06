@@ -26,11 +26,11 @@ angular.module('webClientSideApp')
             });
         });
       },
-      getMediaPlaySound: function(id) {
+      getMediaPlaySound: function() {
         return $q(function(resolve, reject) {
           var result = audiocontext.get().createBufferSource();
           var soundRequest = new XMLHttpRequest();
-          soundRequest.open('GET', 'http://localhost:3000/api/file/'+id, true);
+          soundRequest.open('GET', 'http://localhost:3000/api/file/guitar', true);
           soundRequest.responseType = "arraybuffer";
           soundRequest.onload = function() {
             var audioData = soundRequest.response;

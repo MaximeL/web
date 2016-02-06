@@ -66,17 +66,17 @@ angular.module('webClientSideApp')
 
     $scope.allowDrop = function(ev) {
       ev.preventDefault();
-    }
+    };
 
     $scope.drag = function(ev) {
       ev.dataTransfer.setData("text", ev.target.id);
-    }
+    };
 
     $scope.drop = function(ev) {
       ev.preventDefault();
       var data = ev.dataTransfer.getData("text");
       ev.target.appendChild(document.getElementById(data));
-    }
+    };
 
 
    /**
@@ -140,7 +140,7 @@ angular.module('webClientSideApp')
         $log.debug('pedal : ');
         $log.debug($scope.pedal);
         user.updateUser($scope.login);
-        $location.path( '/live/'.concat($scope.pedal._id) );
+        $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
     };
 

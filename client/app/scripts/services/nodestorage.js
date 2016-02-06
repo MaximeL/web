@@ -12,6 +12,7 @@ angular.module('webClientSideApp')
     // Service logic
     var input = {
       id: 0,
+      name: 'input',
       type: 'input',
       posx: null,
       posy: null,
@@ -20,6 +21,7 @@ angular.module('webClientSideApp')
     };
     var output = {
       id: 1,
+      name: 'output',
       type: 'output',
       posx: null,
       posy: null,
@@ -42,6 +44,7 @@ angular.module('webClientSideApp')
       var soundnode = audionodeSelector.getAudionode(node.type);
       soundnode.init(audiocontext.get(),
         node.id,
+        node.name,
         node.type,
         node.posx,
         node.posy,
