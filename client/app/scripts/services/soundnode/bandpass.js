@@ -34,7 +34,7 @@ angular.module('webClientSideApp')
       } else {
         this.bandpass.frequency.value = this.value.frequency;
       }
-      if(typeof this.value.Q === 'undefined' && this.value.Q === null) {
+      if(typeof this.value.Q === 'undefined' || this.value.Q === null) {
         this.bandpass.Q.value = 0;
         this.value.Q = 0;
       } else {

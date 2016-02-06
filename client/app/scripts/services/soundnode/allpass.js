@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('AllPass', function (AbstractSoundnode) {
+  .factory('AllPass', function ($log, AbstractSoundnode) {
     // Service logic
     function AllPass() {}
     AllPass.prototype = Object.create(AbstractSoundnode.prototype);
@@ -28,10 +28,12 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      if(typeof this.value.frequency === 'undefined' && this.value.frequency === null) {
+      if(typeof this.value.frequency === 'undefined' || this.value.frequency === null) {
         this.allpass.frequency.value = 440;
         this.value.frequency = 440;
       } else {
+        $log.debug('this.value.frequency');
+        $log.debug(this.value.frequency);
         this.allpass.frequency.value = this.value.frequency;
       }
       if(typeof this.value.Q === 'undefined' || this.value.Q === null) {

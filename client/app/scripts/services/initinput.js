@@ -33,6 +33,8 @@ angular.module('webClientSideApp')
           soundRequest.open('GET', 'http://localhost:3000/api/file/guitar', true);
           soundRequest.responseType = "arraybuffer";
           soundRequest.onload = function() {
+            $log.info('loading guitar');
+            $log.debug(soundRequest.response);
             var audioData = soundRequest.response;
             audiocontext.get().decodeAudioData(audioData, function(decodedData) {
               result.buffer = decodedData;

@@ -28,13 +28,13 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      if(typeof this.value.frequency === 'undefined' && this.value.frequency === null) {
+      if(typeof this.value.frequency === 'undefined' || this.value.frequency === null) {
         this.peaking.frequency.value = 440;
         this.value.frequency = 440;
       } else {
         this.peaking.frequency.value = this.value.frequency;
       }
-      if(typeof this.value.Q === 'undefined' && this.value.Q === null) {
+      if(typeof this.value.Q === 'undefined' || this.value.Q === null) {
         this.peaking.Q.value = 0;
         this.value.Q = 0;
       } else {

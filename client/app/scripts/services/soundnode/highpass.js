@@ -28,7 +28,7 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      if(typeof this.value.frequency === 'undefined' && this.value.frequency === null) {
+      if(typeof this.value.frequency === 'undefined' || this.value.frequency === null) {
         this.highpass.frequency.value = 440;
         this.value.frequency = 440;
       } else {

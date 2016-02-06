@@ -27,7 +27,7 @@ angular.module('webClientSideApp')
       this.output.gain.value = 1;
       this.input.gain.value = 1;
 
-      if(typeof this.value.curveValue === 'undefined' && this.value.curveValue === null) {
+      if(typeof this.value.curveValue === 'undefined' || this.value.curveValue === null) {
         this.curveValue = 400;
         this.value.curveValue = 400;
       } else {
