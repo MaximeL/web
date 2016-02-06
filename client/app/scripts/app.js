@@ -58,7 +58,7 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'createPedal'
       })
-      .when('/pedal-design/:id', {
+      .when('/pedal/:id/design', {
         templateUrl: 'views/pedal-design.html',
         controller: 'PedalDesignCtrl',
         controllerAs: 'pedalDesign'
@@ -69,3 +69,8 @@ angular
 
     $compileProvider.debugInfoEnabled(true);
   });
+
+nx.onload = function() {
+  nx.colorize("black", "#FFFFFF");
+}	;
+
