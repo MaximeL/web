@@ -15,6 +15,11 @@ angular
     'ngAnimate',
     'ui.bootstrap'
   ])
+  .constant('config',
+    {
+      apiURL: "http://localhost:3000/api/"
+    }
+  )
   .config(function ($routeProvider, $compileProvider) {
     $routeProvider
       .when('/', {
@@ -46,6 +51,11 @@ angular
         templateUrl: 'views/CreatePedal.html',
         controller: 'MainCtrl',
         controllerAs: 'createPedal'
+      })
+      .when('/pedal-design/:id', {
+        templateUrl: 'views/pedal-design.html',
+        controller: 'PedalDesignCtrl',
+        controllerAs: 'pedalDesign'
       })
       .otherwise({
         templateUrl: '404.html'
