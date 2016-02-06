@@ -100,7 +100,7 @@ angular.module('webClientSideApp')
       wsEffects.get($routeParams.id).then(function(response) {
         $log.debug('response');
         $log.debug(response);
-        $scope.nodeStorage.setup(response.effects);
+        $scope.nodeStorage.setupPedal(response.effects);
         $timeout(function() {
           $scope.nodeStorage.redoConnections();
         }, 1000);
@@ -112,7 +112,7 @@ angular.module('webClientSideApp')
         NodeStorage.get().storage[0].output = node;
         $scope.nodeStorage.restaureConnections(0);
       }, function(err) {});
-      InitInput.getMediaPlaySound('56b31666805a445a3138ccf0').then(function(node, data) {
+      InitInput.getMediaPlaySound().then(function(node, data) {
         NodeStorage.get().storage[0].playSound = node;
         NodeStorage.get().storage[0].music = data;
         NodeStorage.get().storage[0].ready = true;

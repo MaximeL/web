@@ -10,6 +10,7 @@
 angular.module('webClientSideApp')
   .factory('NodeStorage', function ($rootScope, $log, audionodeSelector, audiocontext) {
     // Service logic
+
     var input = {
       id: 0,
       name: 'input',
@@ -86,13 +87,18 @@ angular.module('webClientSideApp')
         this.storage[id].output.connect(this.storage[this.storage[id].suivants[i]].input);
       }
     };
-    NodeStorage.prototype.setup = function(backup) {
+    NodeStorage.prototype.setupPedal = function(backup) {
       this.addNode(input);
       this.addNode(output);
       for(var i = 0; i < backup.length; i++) {
         if(typeof backup[i] !== 'undefined') {
-          $log.debug('angular.fromJson(backup[i].data)');
-          $log.debug(angular.fromJson(backup[i].data));
+          this.addNode(angular.fromJson(backup[i].data));
+        }
+      }
+    };
+    NodeStorage.prototype.setupDesign = function(backup) {
+      for(var i = 0; i < backup.length; i++) {
+        if(typeof backup[i] !== 'undefined') {
           this.addNode(angular.fromJson(backup[i].data));
         }
       }
