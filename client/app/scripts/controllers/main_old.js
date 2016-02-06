@@ -22,7 +22,6 @@ angular.module('webClientSideApp')
     };
 
     $rootScope.logged = false;
-    $rootScope.uu = "";
     $scope.created = true;
 
     $scope.list1 = {title: 'AngularJS - Drag Me'};
@@ -59,8 +58,6 @@ angular.module('webClientSideApp')
 
     $scope.myPedals = [];
     $scope.pedalsShared = [];
-    $scope.myPedals.push("pedal00");
-    $scope.pedalsShared.push("pedal111");
     $scope.users = [];
 
 
