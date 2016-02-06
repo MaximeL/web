@@ -7,6 +7,7 @@ var assert = require('assert');
 var request = require('supertest');
 var mongoose = require('mongoose');
 var winston = require('winston');
+var fs = require('fs');
 //var config = require('./config-debug');
 
 
@@ -20,6 +21,7 @@ describe('Routing test', function () {
   var URL_USER = '/api/user/';
   var URL_USER_AUTH = URL_USER + 'auth/';
   var URL_PEDAL = '/api/pedal/';
+  var URL_FILE = '/api/file/';
 
   // connection with the database
   before(function (done) {
@@ -543,11 +545,89 @@ describe('Routing test', function () {
     });
   });
 
+
+  /** ---------------------------------------------------------------------------------------
+   *  Test pour les Fichiers
+   *  --------------------------------------------------------------------------------------- */
+
+  describe('File API testing', function () {
+
+    var musicName = 'music';
+    var filePath = 'test/'+musicName+'.ogg';
+
+    fs.stat(filePath, function(err, stat) {
+      if(err != null)
+      {
+        // creation d'un fichier de test
+        fs.writeFile(filePath, 'un contenu de fichier bidon', function (err) {
+            if (err) throw err;
+        });
+      }
+    });
+
+    // TEST POST
+    it('should correctly post a new file', function (done) {
+
+      request(URL)
+        .post(URL_FILE)
+        .attach('filefield', __dirname+'/music.ogg')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(201) //Status code created
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          res.body.should.have.property("message");
+          res.body.message.should.equal("File uploaded");
+          done();
+        });
+    });
+
+    // TEST GET a file by music name
+    it('should find file with a music name', function (done) {
+      request(URL)
+        .get(URL_FILE + musicName)
+        .expect('Content-type', 'audio/ogg')
+        .expect(200) //Status code ok
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          done();
+        });
+    });
+
+    /**
+     *  Gestions des erreurs pour les Fichiers
+     *  __________________________________________ */
+
+    // TEST GET ERROR with incorrect music name
+    it('should not find file with a music name', function (done) {
+
+      var badName = 'musicc';
+      request(URL)
+        .get(URL_FILE + badName)
+        .expect(404) //Status code bad request
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          done();
+        });
+    });
+  });
+
+
+
   after(function (done) {
+
+    // suppression du fichier creer pour route File
+    fs.unlinkSync('test/music.ogg');
+
+    // on drop la BD de test
     mongoose.connection.db.dropDatabase(function (err, res) {
       console.log("\n" + err);
     });
-
 
     // In our tests we use the dbsound_test
     mongoose.connection.close();
