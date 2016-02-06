@@ -13,7 +13,8 @@ angular
     'ngRoute',
     'notifications',
     'ngAnimate',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angular-md5'
   ])
   .constant('config',
     {
@@ -26,6 +27,11 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
+      })
+      .when('/main_old', {
+        templateUrl: 'views/main_old.html',
+        controller: 'MainOld',
+        controllerAs: 'mainold'
       })
       .when('/pedal', {
         templateUrl: 'views/pedal.html',
