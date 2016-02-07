@@ -5,9 +5,28 @@
 
       <!--pedal header-->
       <div class="pedal-header">
-        <div class="pull-left pedal-name">
-          {{pedal.nom}}
+
+        <div class="pull-left">
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
         </div>
+
+        <div class="pull-left btn-play-edit">
+          <button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span>
+          </button>
+          <button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span>
+          </button>
+        </div>
+
         <div class="pull-right pedal-rating">
           <i class="fa fa-star"></i>
           <i class="fa fa-star"></i>
@@ -15,20 +34,22 @@
           <i class="fa fa-star"></i>
           <i class="fa fa-star"></i>
         </div>
+
         <div class="clearfix"/>
       </div>
 
+      <!--nom de la pedal-->
+      <div class="pull-left">
+        <h3>{{pedal.nom}}</h3>
+      </div>
+      <div class="clearfix"/>
+
       <!--block description et bouton play edit-->
-      <div class="pull-left description_block">
+      <div class="pull-left">
         <blockquote class="mypedals">{{pedal.description}}</blockquote>
       </div>
 
-      <div class="pull-right">
-        <button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span>
-        </button>
-        <button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span>
-        </button>
-      </div>
+
       <div class="clearfix"/>
 
       <ul class="list-inline pull-right">
@@ -38,20 +59,6 @@
         </li>
       </ul>
 
-
-      <div class="pull-left">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </div>
-      </div>
       <div class="clearfix"/>
     </div>
   </div>
