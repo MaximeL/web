@@ -12,15 +12,35 @@ angular.module('webClientSideApp')
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
     $scope.backgrounds = [
-      {name: "Métal", value: "metal"},
-      {name: "", value: "tmp1"},
-      {name: "", value: "tmp2"},
-      {name: "Diamand", value: "diamond1"},
-      {name: "Carbone 1", value: "carbon1"},
-      {name: "Carbone 2", value: "carbon2"},
-      {name: "Carbone 3", value: "carbon3"},
-      {name: "Carbone 4", value: "carbon4"}
+      {name: "Métal 1",         value: "metal1",    selected: true},
+      {name: "Métal 2",         value: "metal2",    selected: false},
+      {name: "Métal 3",         value: "metal3",    selected: false},
+      {name: "Diamant",         value: "diamond1",  selected: false},
+      {name: "Carbone 1",       value: "carbon1",   selected: false},
+      {name: "Carbone 2",       value: "carbon2",   selected: false},
+      {name: "Carbone 3",       value: "carbon3",   selected: false},
+      {name: "Carbone 4",       value: "carbon4",   selected: false},
+      {name: "Cuir",            value: "leather",   selected: false},
+      {name: "Jean",            value: "jean",      selected: false},
+      {name: "Divers - bleu",   value: "misc-blue", selected: false},
+      {name: "Divers - rouge",  value: "misc-red",  selected: false}
     ];
+
+    $scope.updateSelectedBackground = function(background) {
+      $scope.backgrounds.forEach(function (element) {
+        element.selected = background.value == element.value;
+      });
+    };
+
+    $scope.selectedBackground = function () {
+      var background;
+      $scope.backgrounds.forEach(function (item) {
+        if(item.selected) {
+          background = item;
+        }
+      });
+      return background;
+    };
     wsEffects.get($routeParams.id).then(function (response) {
       $scope.nodeStorage.setupPedal(response.effects);
 
@@ -55,7 +75,7 @@ angular.module('webClientSideApp')
       $location.path('/');
     });
 
-    $scope.background = 'metal';
+    //$scope.background = 'metal';
 
     var potarCounter = 0;
     $scope.changePotar = function (el, name) {

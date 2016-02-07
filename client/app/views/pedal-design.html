@@ -2,95 +2,36 @@
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-12">
-        <h2>Choix du fond <small>{{background}}</small></h2>
+        <h2>Choix du fond</h2>
         <div id="pedal-design-background-selector" class="pedal-backgrounds radio">
-          <div class="pedal-background" style="display: inline-block;" ng-repeat="backgroundItem in backgrounds">
-            <div style="text-align: center">
+          <div class="pedal-background" style="display: inline-block;"
+               ng-repeat="background in backgrounds">
+            <div class="text-center">
               <label>
-                <input type="radio" name="background-choice" value="{{backgroundItem.value}}" ng-model="background"> {{backgroundItem.name}}
+                <input type="radio" name="background-choice" ng-value="true"
+                       ng-model="background.selected"
+                       ng-checked="background.selected"
+                       ng-change="updateSelectedBackground(background)"> {{ background.name }}
               </label>
             </div>
-            <div class="{{backgroundItem.value}} img-rounded" style="height: 100px; width: 100px;"></div>
+            <div class="{{ background.value }} img-rounded" style="height: 100px; width: 100px;"></div>
           </div>
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="metal" ng-model="background"> Métal-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="metal img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="rust1" ng-model="background"> Rouille 1-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="rust1 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="diamond1" ng-model="background"> Diamand 1-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="diamond1 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="carbon1" ng-model="background"> Carbonne 1-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="carbon1 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="carbon2" ng-model="background"> Carbonne 2-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="carbon2 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="carbon3" ng-model="background"> Carbonne 3-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="carbon3 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-
-          <!--<div class="pedal-background" style="display: inline-block;">-->
-            <!--<div style="text-align: center">-->
-              <!--<label>-->
-                <!--<input type="radio" name="background-choice" value="carbon4" ng-model="background"> Carbonne 4-->
-              <!--</label>-->
-            <!--</div>-->
-            <!--<div class="carbon4 img-rounded" style="height: 100px; width: 100px;"></div>-->
-          <!--</div>-->
-        <!--</div>-->
+        </div>
       </div>
-    </div>
-    <div class="col-md-12">
-      <h2>Sélection des potars</h2>
-      <div class="checkbox" ng-repeat="effect in effects">
-        <label>
-          <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
-                 value="effect.name"> {{effect.cleanName}}
-        </label>
+      <div class="col-md-12">
+        <h2>Sélection des potars</h2>
+        <div class="checkbox" ng-repeat="effect in effects">
+          <label>
+            <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
+                   value="effect.name"> {{effect.cleanName}}
+          </label>
+        </div>
       </div>
     </div>
   </div>
   <div class="col-md-6">
     <h2>Rendu </h2>
-    <div id="demo" class="{{background}}">
+    <div id="demo" class="{{selectedBackground().value}}">
       <div ng-model="potar1" class="pedal-potar">
         <canvas class="invisible" id="potar1" nx="dial" min="0" max="100" label="value" height="150"
                 width="100"></canvas>
