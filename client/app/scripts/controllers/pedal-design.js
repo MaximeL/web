@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification) {
+  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log) {
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
     wsEffects.get($routeParams.id).then(function (response) {
@@ -96,7 +96,6 @@ angular.module('webClientSideApp')
     };
 
     $scope.$on("$destroy", function(){
-      saveState.save($routeParams.id);
       NodeStorage.get().wipe();
       $log.warn('living design controller !');
     });
