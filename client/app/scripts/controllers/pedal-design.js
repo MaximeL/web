@@ -19,14 +19,23 @@ angular.module('webClientSideApp')
           var el = $scope.nodeStorage.storage[i];
           var keys = Object.keys(el.value);
           for (var j = 0; j < keys.length; j++) {
+            var param;
+            for(var k = 0; k < el.parameters.length; k++) {
+              if(el.parameters[k].name == keys[j]) {
+                param = el.parameters[k];
+                break;
+              }
+            }
+
             var item = {
               cleanName: el.type + ": " + keys[j] + " (" + el.name + ")",
               label: el.type + " (" + keys[j] + ")",
               name: el.name + keys[j],
               used: false,
               value: el.value[keys[j]],
-              min: 0,
-              max: 999
+              min: param.min,
+              max: param.max,
+              step: param.step
             };
             $scope.effects.push(item);
           }
@@ -46,7 +55,7 @@ angular.module('webClientSideApp')
         for(var i = 1; i <= 4; i++) {
           if($scope["potar" + i] == name) {
             $scope["potar" + i] = undefined;
-            // TODO : Hide element
+            document.querySelector("#potar" + i).className += " invisible";
             break;
           }
         }
@@ -81,18 +90,55 @@ angular.module('webClientSideApp')
             break;
           }
         }
-        console.log(item);
-        // TODO : Display
-        //console.log(angular.element.find('#'+potarId)[0]);
+
 
         var potar = nx.widgets[potarId];
-
         potar.val.value = item.value;
         potar.min = item.min;
         potar.max = item.max;
         potar.label = item.label;
+        potar.height="150";
+        potar.width="100";
+
         potar.draw();
+
+        console.log(document.querySelector("#" + potarId).className);
+        document.querySelector("#" + potarId).className = "nx";
       }
+    };
+
+    $scope.saveDesign = function () {
+      var data = {
+        background: $scope.background
+      };
+
+      $scope.effects.forEach(function(effect) {
+        if(effect.name == $scope.potar1) {
+          data.potar1 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar2) {
+          data.potar2 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar3) {
+          data.potar3 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar4) {
+          data.potar4 = JSON.stringify(effect);
+          return;
+        }
+      });
+
+      $http.put(
+        config.apiURL + "pedal/" + $routeParams.id + "/design",
+        data
+      ).then(function(response) {
+        console.log("success")
+      }, function(response) {
+        console.log("error");
+      });
     };
 
     $scope.$on("$destroy", function(){

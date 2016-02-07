@@ -1,70 +1,61 @@
 <div class="row">
-  <h1>Design de ma pédale</h1>
-  <div id="pedal-design-background-selector" class="pedal-backgrounds radio">
-    <div class="pedal-background col-md-2" style="height: 400px;">
-      <div style="text-align: center">
-        <label>
-          <input type="radio" name="background-choice" value="metal" ng-model="background"> Métal
-        </label>
-      </div>
-      <div class="metal" style="border: solid 1px black; height: inherit; width: 100%;"></div>
-    </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Choix du fond</h2>
+        <div id="pedal-design-background-selector" class="pedal-backgrounds radio">
+          <div class="pedal-background" style="display: inline-block;">
+            <div style="text-align: center">
+              <label>
+                <input type="radio" name="background-choice" value="metal" ng-model="background"> Métal
+              </label>
+            </div>
+            <div class="metal img-rounded" style="height: 100px; width: 100px;"></div>
+          </div>
 
-    <div class="pedal-background col-md-2" style="height: 400px;">
-      <div style="text-align: center">
-        <label>
-          <input type="radio" name="background-choice" value="carbon" ng-model="background"> Carbonne
-        </label>
+          <div class="pedal-background" style="display: inline-block;">
+            <div style="text-align: center">
+              <label>
+                <input type="radio" name="background-choice" value="carbon" ng-model="background"> Carbonne
+              </label>
+            </div>
+            <div class="carbon img-rounded" style="height: 100px; width: 100px;"></div>
+          </div>
+        </div>
       </div>
-      <div class="carbon" style="border: solid 1px black; height: inherit; width: 100%;;"></div>
     </div>
-  </div>
-</div>
-<div class="row">
-  <h2>Sélection des potars</h2>
-  <div class="col-md-12">
-    <div class="checkbox">
-      <!--<div ng-repeat="">-->
-      <!--{{effect}}-->
-      <!--<fieldset>-->
-      <!--<legend>{{effect.type}} ({{effect.name}})</legend>-->
-      <!--<div class="checkbox">-->
-      <label ng-repeat="effect in effects">
-        <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
-               value="effect.name"> {{effect.cleanName}}
-        <!--{{effect.type}} ({{name}})-->
-      </label>
-      <!--</div>-->
-      <!--</fieldset>-->
-      <!--</div>-->
-      <!--</div>-->
-    </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12">
-      <h2>Rendu </h2>
-      <div id="demo" class="{{background}}">
-        <div ng-model="potar1" class="pedal-potar">
-          <canvas id="potar1" nx="dial" min="0" max="100" label="value" height="150" width="100"></canvas>
-        </div>
-        <div ng-model="potar2" class="pedal-potar">
-          <canvas id="potar2" nx="dial" min="0" max="100" label="value" height="150" width="100"></canvas>
-        </div>
-        <div ng-model="potar3" class="pedal-potar">
-          <canvas id="potar3" nx="dial" min="0" max="100" label="value" height="150" width="100"></canvas>
-        </div>
-        <div ng-model="potar4" class="pedal-potar">
-          <canvas id="potar4" nx="dial" min="0" max="100" label="value" height="150" width="100"></canvas>
-        </div>
+      <h2>Sélection des potars</h2>
+      <div class="checkbox" ng-repeat="effect in effects">
+        <label>
+          <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
+                 value="effect.name"> {{effect.cleanName}}
+        </label>
       </div>
     </div>
   </div>
-
-
-  <div class="row">
-    <div class="col-md-12 text-right">
-      <button type="button" class="btn btn-success">SAUVEGARDE</button>
+  <div class="col-md-6">
+    <h2>Rendu </h2>
+    <div id="demo" class="{{background}}">
+      <div ng-model="potar1" class="pedal-potar">
+        <canvas class="invisible" id="potar1" nx="dial" min="0" max="100" label="value" height="150"
+                width="100"></canvas>
+      </div>
+      <div ng-model="potar2" class="pedal-potar">
+        <canvas class="invisible" id="potar2" nx="dial" min="0" max="100" label="value" height="150"
+                width="100"></canvas>
+      </div>
+      <div ng-model="potar3" class="pedal-potar">
+        <canvas class="invisible" id="potar3" nx="dial" min="0" max="100" label="value" height="150"
+                width="100"></canvas>
+      </div>
+      <div ng-model="potar4" class="pedal-potar">
+        <canvas class="invisible" id="potar4" nx="dial" min="0" max="100" label="value" height="150"
+                width="100"></canvas>
+      </div>
     </div>
+  </div>
+  <div class="col-md-12 text-right">
+    <button type="button" class="btn btn-success" ng-click="saveDesign();">Sauvegarde</button>
   </div>
 </div>
