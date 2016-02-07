@@ -11,8 +11,6 @@ angular.module('webClientSideApp')
     return {
       restrict: 'E',
       templateUrl: 'views/partials/_signin.html',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the signin directive');
-      }
+
     };
   });
