@@ -19,14 +19,23 @@ angular.module('webClientSideApp')
           var el = $scope.nodeStorage.storage[i];
           var keys = Object.keys(el.value);
           for (var j = 0; j < keys.length; j++) {
+            var param;
+            for(var k = 0; k < el.parameters.length; k++) {
+              if(el.parameters[k].name == keys[j]) {
+                param = el.parameters[k];
+                break;
+              }
+            }
+
             var item = {
               cleanName: el.type + ": " + keys[j] + " (" + el.name + ")",
               label: el.type + " (" + keys[j] + ")",
               name: el.name + keys[j],
               used: false,
               value: el.value[keys[j]],
-              min: 0,
-              max: 999
+              min: param.min,
+              max: param.max,
+              step: param.step
             };
             $scope.effects.push(item);
           }
@@ -95,8 +104,41 @@ angular.module('webClientSideApp')
       }
     };
 
+    $scope.saveDesign = function () {
+      var data = {
+        background: $scope.background
+      };
+
+      $scope.effects.forEach(function(effect) {
+        if(effect.name == $scope.potar1) {
+          data.potar1 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar2) {
+          data.potar2 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar3) {
+          data.potar3 = JSON.stringify(effect);
+          return;
+        }
+        if(effect.name == $scope.potar4) {
+          data.potar4 = JSON.stringify(effect);
+          return;
+        }
+      });
+
+      $http.put(
+        config.apiURL + "pedal/" + $routeParams.id + "/design",
+        data
+      ).then(function(response) {
+        console.log("success")
+      }, function(response) {
+        console.log("error");
+      });
+    };
+
     $scope.$on("$destroy", function(){
-      saveState.save($routeParams.id);
       NodeStorage.get().wipe();
       $log.warn('living design controller !');
     });

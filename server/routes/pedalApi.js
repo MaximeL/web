@@ -26,8 +26,11 @@ router.use(function (req, res, next) {
  */
 var noteRouter = require('./noteApi');
 var commentRouter = require('./commentApi');
+var designRouter = require('./designApi');
+
 router.use('/:pedalId/notes', noteRouter);
 router.use('/:pedalId/comments', commentRouter);
+router.use('/:pedalId/design', designRouter);
 
 //##########POST > Route -> /api/pedale###########
 
@@ -65,11 +68,13 @@ router.route('/')
 router.route('/:id')
   .get(function (req, res) {
     console.log('GET a pedal');
+    console.log(req.params.id);
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         res.status(404);
         return res.json({message: "Unknowned pedal"});
       }
+      console.log(err);
       console.log(pedale);
       res.status(200);
       return res.send(pedale);

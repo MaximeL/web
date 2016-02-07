@@ -49,7 +49,14 @@ var PedaleSchema = new Schema({
       _id: {type: Schema.Types.ObjectId, ref: 'Users'},
       right: Boolean
     }
-  ]
+  ],
+  design: {
+    background: String,
+    potar1: String,
+    potar2: String,
+    potar3: String,
+    potar4: String
+  }
 }, {collection: 'pedals', versionKey: false});
 
 var getPedaleSchema = function () {

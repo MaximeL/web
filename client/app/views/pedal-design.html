@@ -24,20 +24,10 @@
   <h2>Sélection des potars</h2>
   <div class="col-md-12">
     <div class="checkbox">
-      <!--<div ng-repeat="">-->
-      <!--{{effect}}-->
-      <!--<fieldset>-->
-      <!--<legend>{{effect.type}} ({{effect.name}})</legend>-->
-      <!--<div class="checkbox">-->
       <label ng-repeat="effect in effects">
         <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
                value="effect.name"> {{effect.cleanName}}
-        <!--{{effect.type}} ({{name}})-->
       </label>
-      <!--</div>-->
-      <!--</fieldset>-->
-      <!--</div>-->
-      <!--</div>-->
     </div>
   </div>
 
@@ -64,7 +54,7 @@
 
   <div class="row">
     <div class="col-md-12 text-right">
-      <button type="button" class="btn btn-success">SAUVEGARDE</button>
+      <button type="button" class="btn btn-success" ng-click="saveDesign();">SAUVEGARDE</button>
     </div>
   </div>
 </div>
