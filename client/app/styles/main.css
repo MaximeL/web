@@ -18,6 +18,18 @@ h3 {
   color: #393939;
 
 }
+.pedal-header {
+  padding-bottom: 15px;
+}
+.description_block{
+  width: 435px;
+}
+.pedal-rating, .pedal-name {
+  font-size: 1.7em;
+}
+i {
+  color: gold;
+}
 blockquote{
   background-color: #FFF;
   color: #393939;
@@ -38,18 +50,7 @@ blockquote{
   border-top: 1px solid #aed4ff;
 }
 
-.description_block{
-  width: 85%;
-}
-.rating {
-  font-size: 1.7em;
-}
-.rating i {
-  padding-right: 4px;
-}
-i {
-  color: gold;
-}
+
 
 .pedal {
   background: #9acfea;
