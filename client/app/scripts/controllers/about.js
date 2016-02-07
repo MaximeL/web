@@ -18,6 +18,10 @@ angular.module('webClientSideApp')
 
     $scope.elts = [];
     $scope.elts.push("elt0");
-    $scope.name = "name0";
+    $scope.name = 0;
+
+    $scope.handlePedal = function(){
+    	console.log($scope.name);
+    }
 
   }]);
