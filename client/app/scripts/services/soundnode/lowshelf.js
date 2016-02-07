@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.lowshelf.frequency.value;
       this.value.gain = this.lowshelf.gain.value;
     };
+    LowShelf.prototype.setParameters = function(paramName) {
+      this.lowshelf[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return LowShelf;

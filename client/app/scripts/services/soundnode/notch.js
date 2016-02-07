@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.notch.frequency.value;
       this.value.Q = this.notch.Q.value;
     };
+    Notch.prototype.setParameters = function(paramName) {
+      this.notch[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return Notch;

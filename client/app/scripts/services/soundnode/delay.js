@@ -43,6 +43,9 @@ angular.module('webClientSideApp')
     Delay.prototype.setValue = function() {
       this.value.delayTime = this.delay.delayTime.value;
     };
+    Delay.prototype.setParameters = function(paramName) {
+      this.delay[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return Delay;

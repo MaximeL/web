@@ -7,7 +7,7 @@
  * # audioNode
  */
 angular.module('webClientSideApp')
-  .directive('audioNode', function ($log) {
+  .directive('audioNode', function ($log, $routeParams, saveState) {
     return {
       scope: {
         node: '=snode'
@@ -72,6 +72,7 @@ angular.module('webClientSideApp')
           element.bind("click", function () {
             scope.node.posy = element.position().top;
             scope.node.posx = element.position().left;
+            saveState.save($routeParams.id);
           });
         }
       }

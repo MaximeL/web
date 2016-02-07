@@ -15,6 +15,7 @@ angular
     'ngAnimate',
     'ui.bootstrap',
     'angular-md5'
+    //,'angular-cookies'
   ])
   .constant('config',
     {

@@ -37,6 +37,7 @@ angular.module('webClientSideApp')
             $log.debug(soundRequest.response);
             var audioData = soundRequest.response;
             audiocontext.get().decodeAudioData(audioData, function(decodedData) {
+              $log.info('decofing successful');
               result.buffer = decodedData;
               result.loop = true;
               resolve(result, decodedData);

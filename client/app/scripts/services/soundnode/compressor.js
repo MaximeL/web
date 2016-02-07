@@ -101,7 +101,17 @@ angular.module('webClientSideApp')
       } else {
         this.compressor.release.value = this.value.release;
       }
-
+    };
+    Compressor.prototype.setValue = function() {
+      this.value.threshold = this.compressor.threshold.value;
+      this.value.knee = this.compressor.knee.value;
+      this.value.ratio = this.compressor.ratio.value;
+      this.value.reduction = this.compressor.reduction.value;
+      this.value.attack = this.compressor.attack.value;
+      this.value.release = this.compressor.release.value;
+    };
+    Compressor.prototype.setParameters = function(paramName) {
+      this.compressor[paramName].value = this.value[paramName];
     };
 
     // Public API here

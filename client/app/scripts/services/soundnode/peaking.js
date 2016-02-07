@@ -70,6 +70,9 @@ angular.module('webClientSideApp')
       this.value.Q = this.peaking.Q.value;
       this.value.gain = this.peaking.gain.value;
     };
+    Peaking.prototype.setParameters = function(paramName) {
+      this.peaking[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return Peaking;

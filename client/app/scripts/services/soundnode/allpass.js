@@ -59,6 +59,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.allpass.frequency.value;
       this.value.Q = this.allpass.Q.value;
     };
+    AllPass.prototype.setParameters = function(paramName) {
+      this.allpass[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return AllPass;

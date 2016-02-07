@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.highshelf.frequency.value;
       this.value.gain = this.highshelf.gain.value;
     };
+    HighShelf.prototype.setParameters = function(paramName) {
+      this.highshelf[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return HighShelf;

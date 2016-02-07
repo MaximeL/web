@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.highpass.frequency.value;
       this.value.Q = this.highpass.Q.value;
     };
+    HighPass.prototype.setParameters = function(paramName) {
+      this.highpass[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return HighPass;

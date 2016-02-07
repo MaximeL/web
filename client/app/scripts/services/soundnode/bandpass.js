@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.bandpass.frequency.value;
       this.value.Q = this.bandpass.Q.value;
     };
+    BandPass.prototype.setParameters = function(paramName) {
+      this.bandpass[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return BandPass;

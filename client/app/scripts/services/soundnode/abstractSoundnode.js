@@ -64,6 +64,10 @@ angular.module('webClientSideApp')
       this.initNode(audioContext);
     };
     AbstractSoundnode.prototype.setValue = function() {
+      $log.warn('calling the prototype of setValue()');
+    };
+    AbstractSoundnode.prototype.setParameters = function(paramName) {
+      $log.warn('calling the prototype of setParameters()');
     };
     // Public API here
     return AbstractSoundnode;

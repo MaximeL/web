@@ -47,8 +47,6 @@ angular.module('webClientSideApp')
     };
 
     Distorsion.prototype.setDistortionCurve = function() {
-      $log.debug('in set disto');
-      $log.debug(this.curveValue);
       this.distorsion.curve = this.makeDistortionCurve(this.curveValue);
     };
 
@@ -64,6 +62,9 @@ angular.module('webClientSideApp')
         curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
       }
       return curve;
+    };
+    Distorsion.prototype.setParameters = function(paramName) {
+      this.distorsion.curve = this.makeDistortionCurve(this.value.curveValue);
     };
 
     // Public API here

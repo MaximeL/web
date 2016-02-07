@@ -12,7 +12,6 @@ var extScope;
 angular.module('webClientSideApp')
   .controller('MainOld', function ($scope, $log, $rootScope, $notification, $window, $location, user, pedal, $http, NodeStorage) {
     extScope = $scope;
-    NodeStorage.get().wipe();
     $scope.signup = {
       username : "",
       mail : "",

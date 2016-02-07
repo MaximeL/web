@@ -57,6 +57,9 @@ angular.module('webClientSideApp')
       this.value.frequency = this.lowpass.frequency.value;
       this.value.gain = this.lowpass.gain.value;
     };
+    LowPass.prototype.setParameters = function(paramName) {
+      this.lowpass[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return LowPass;

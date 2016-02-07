@@ -43,6 +43,9 @@ angular.module('webClientSideApp')
     Gain.prototype.setValue = function() {
       this.value.gain = this.gain.gain.value;
     };
+    Gain.prototype.setParameters = function(paramName) {
+      this.gain[paramName].value = this.value[paramName];
+    };
 
     // Public API here
     return Gain;

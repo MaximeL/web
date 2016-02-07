@@ -100,9 +100,7 @@ angular.module('webClientSideApp')
       var backup = [];
       for(var i = 2; i < this.storage.length; i++) {
         if(typeof this.storage[i] !== 'undefined') {
-          $log.debug(i);
           this.storage[i].setValue();
-          $log.debug(this.storage[i]);
           backup.push({ data: angular.toJson(this.storage[i], false) });
         }
       }

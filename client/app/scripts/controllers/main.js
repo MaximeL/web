@@ -12,7 +12,6 @@ angular.module('webClientSideApp')
 
     $scope.myPedals = [];
     $scope.sharedPedals = [];
-    NodeStorage.get().wipe();
 
     // permet de hash un email
     $scope.hashEmail = function(email) {

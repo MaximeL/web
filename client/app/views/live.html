@@ -34,7 +34,8 @@
                      min="{{param.min}}"
                      max="{{param.max}}"
                      step="{{param.step}}"
-                     ng-model="node[node.type][param.name].value"/>{{node[node.type][param.name].value}}
+                     ng-model="node.value[param.name]"
+                     ng-change="node.setParameters(param.name)"/>{{node.value[param.name]}}
             </div>
           </div>
         </div>
