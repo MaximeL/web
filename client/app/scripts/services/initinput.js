@@ -30,7 +30,7 @@ angular.module('webClientSideApp')
         return $q(function(resolve, reject) {
           var result = audiocontext.get().createBufferSource();
           var soundRequest = new XMLHttpRequest();
-          soundRequest.open('GET', config.samplesURL+'aerosmith/dream_on/guitar.ogg', true);
+          soundRequest.open('GET', config.apiURL+ config.samples+'aerosmith/dream_on/guitar.ogg', true);
           soundRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
           soundRequest.setRequestHeader('Access-Control-Allow-Methods', 'ANY');
           soundRequest.responseType = "arraybuffer";
