@@ -50,7 +50,8 @@
         };
 
         proto.draw = function(elt) {
-            elt.innerHTML = "<input id=level type=range  min=0 max=10 step=0.01>" +  (this.getAttribute('ng-model') || '?') + '</b>';
+            elt.innerHTML = "<input id=level type=range ng-model=name min=0 max=10 step=0.01>";
+            // +  (this.getAttribute('ng-model') || '?') + '</b>';
         };
       
 
