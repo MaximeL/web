@@ -19,7 +19,13 @@ angular
   ])
   .constant('config',
     {
-      apiURL: "http://localhost:3000/api/"
+      apiURL: "http://localhost:3000/",
+      samples: "samples/",
+      users: "api/users/",
+      pedals: "api/pedals",
+      pedal_comments: "/comments",
+      pedal_rates: "/rates",
+      pedal_design: "/design"
     }
   )
   .config(function ($routeProvider, $compileProvider) {
@@ -41,7 +47,7 @@ angular
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'MainCtrl',
+        controller: 'AboutCtrl',
         controllerAs: 'about'
       })
       .when('/pedal/:id', {

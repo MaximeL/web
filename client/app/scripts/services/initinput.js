@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('InitInput', function ($log, $q, audiocontext) {
+  .factory('InitInput', function ($log, $q, audiocontext, config) {
 
     // Public API here
     return {
@@ -30,14 +30,16 @@ angular.module('webClientSideApp')
         return $q(function(resolve, reject) {
           var result = audiocontext.get().createBufferSource();
           var soundRequest = new XMLHttpRequest();
-          soundRequest.open('GET', 'http://localhost:3000/api/file/guitar', true);
+          soundRequest.open('GET', config.apiURL+ config.samples+'aerosmith/dream_on/guitar.ogg', true);
+          soundRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
+          soundRequest.setRequestHeader('Access-Control-Allow-Methods', 'ANY');
           soundRequest.responseType = "arraybuffer";
           soundRequest.onload = function() {
             $log.info('loading guitar');
             $log.debug(soundRequest.response);
             var audioData = soundRequest.response;
             audiocontext.get().decodeAudioData(audioData, function(decodedData) {
-              $log.info('decofing successful');
+              $log.info('decoding successful');
               result.buffer = decodedData;
               result.loop = true;
               resolve(result, decodedData);

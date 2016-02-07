@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('Convolver', function ($http, $log, AbstractSoundnode) {
+  .factory('Convolver', function ($http, $log, AbstractSoundnode, config) {
     // Service logic
     function Convolver() {}
     Convolver.prototype = Object.create(AbstractSoundnode.prototype);
@@ -30,7 +30,9 @@ angular.module('webClientSideApp')
       this.input.gain.value = 1;
 
       var soundRequest = new XMLHttpRequest();
-      soundRequest.open('GET', 'http://localhost:3000/api/file/irHall', true);
+      soundRequest.open('GET', config.apiURL+ config.samples +'irHall', true);
+      soundRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
+      soundRequest.setRequestHeader('Access-Control-Allow-Methods', 'ANY');
       soundRequest.responseType = "arraybuffer";
       soundRequest.onload = function() {
         var audioData = soundRequest.response;
