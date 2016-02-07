@@ -11,21 +11,11 @@ body {
   color: #404040;
 }
 h2 {
-  text-align: center;
   padding-bottom: 20px;
 }
 h3 {
   color: #393939;
 
-}
-.pedal-rating {
-  font-size: 1.7em;
-}
-.btn-play-edit {
-  padding-left: 5px;
-}
-i {
-  color: gold;
 }
 blockquote{
   background-color: #FFF;
@@ -47,7 +37,21 @@ blockquote{
   border-top: 1px solid #aed4ff;
 }
 
-
+.pedal-options > div {
+  display: inline-block;
+}
+.description_block{
+  width: 85%;
+}
+.rating {
+  font-size: 1.7em;
+}
+.rating i {
+  padding-right: 4px;
+}
+i {
+  color: gold;
+}
 
 .pedal {
   background: #9acfea;

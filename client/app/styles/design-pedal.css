@@ -2,9 +2,15 @@
   background-image: url('/images/background-metal.jpg')
 }
 
-.carbon {
-  background-image: url('/images/background-carbon.png')
-}
+.tmp1 { background-image: url('/images/background-rust1.jpg') }
+.tmp2 { background-image: url('/images/background-rust2.jpg') }
+
+.diamond1 { background-image: url('/images/background-diamond1.jpg') }
+
+.carbon1 { background-image: url('/images/background-carbon1.jpg') }
+.carbon2 { background-image: url('/images/background-carbon2.jpg') }
+.carbon3 { background-image: url('/images/background-carbon3.jpg') }
+.carbon4 { background-image: url('/images/background-carbon4.jpg') }
 
 .pedal-potar {
   display: inline-block;

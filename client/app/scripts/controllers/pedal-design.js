@@ -11,6 +11,16 @@ angular.module('webClientSideApp')
   .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log) {
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
+    $scope.backgrounds = [
+      {name: "Métal", value: "metal"},
+      {name: "", value: "tmp1"},
+      {name: "", value: "tmp2"},
+      {name: "Diamand", value: "diamond1"},
+      {name: "Carbone 1", value: "carbon1"},
+      {name: "Carbone 2", value: "carbon2"},
+      {name: "Carbone 3", value: "carbon3"},
+      {name: "Carbone 4", value: "carbon4"}
+    ];
     wsEffects.get($routeParams.id).then(function (response) {
       $scope.nodeStorage.setupPedal(response.effects);
 
@@ -132,7 +142,7 @@ angular.module('webClientSideApp')
       });
 
       $http.put(
-        config.apiURL + "pedal/" + $routeParams.id + "/design",
+        config.apiURL + config.pedals + $routeParams.id + config.pedal_design,
         data
       ).then(function(response) {
         console.log("success")

@@ -41,6 +41,7 @@ router.route('/')
         }
 
         res.status(200);
+        console.log(pedale);
         return res.send(pedale.design);
       }
     );

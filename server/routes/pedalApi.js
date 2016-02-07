@@ -96,6 +96,7 @@ router.route('/:id')
           pedale.description = req.body.description;
         }
 
+      console.log(pedale);
         if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
           pedale.effects = [];
 
