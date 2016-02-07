@@ -55,7 +55,7 @@ angular.module('webClientSideApp')
         for(var i = 1; i <= 4; i++) {
           if($scope["potar" + i] == name) {
             $scope["potar" + i] = undefined;
-            // TODO : Hide element
+            document.querySelector("#potar" + i).className += " invisible";
             break;
           }
         }
@@ -90,17 +90,20 @@ angular.module('webClientSideApp')
             break;
           }
         }
-        console.log(item);
-        // TODO : Display
-        //console.log(angular.element.find('#'+potarId)[0]);
+
 
         var potar = nx.widgets[potarId];
-
         potar.val.value = item.value;
         potar.min = item.min;
         potar.max = item.max;
         potar.label = item.label;
+        potar.height="150";
+        potar.width="100";
+
         potar.draw();
+
+        console.log(document.querySelector("#" + potarId).className);
+        document.querySelector("#" + potarId).className = "nx";
       }
     };
 
