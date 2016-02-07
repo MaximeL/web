@@ -16,4 +16,12 @@ angular.module('webClientSideApp')
       'Karma'
     ];
 
+    $scope.elts = [];
+    $scope.elts.push("elt0");
+    $scope.name = 0;
+
+    $scope.handlePedal = function(){
+    	console.log($scope.name);
+    }
+
   }]);

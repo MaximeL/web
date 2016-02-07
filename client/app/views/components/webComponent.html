@@ -35,21 +35,23 @@
 
         };
         proto2.createdCallback = function() {
-                    var clone = document.importNode(template.content, true);
-                    this.createShadowRoot().appendChild(clone);
+            var clone = document.importNode(template.content, true);
+            this.createShadowRoot().appendChild(clone);
 
-                    //Grab the elements from the shadow root
+            //Grab the elements from the shadow root
+           
+            this.$level = this.shadowRoot.querySelector('.level');
+
+
+            //Call the draw function initially
+            proto.draw(this.$level);
                    
-                    this.$level = this.shadowRoot.querySelector('.level');
 
-                    //Call the draw function initially
-                    proto.draw(this.$level);
-                   
-
-                };
+        };
 
         proto.draw = function(elt) {
-            elt.innerHTML = "<input id=level type=range  min=0 max=10 step=0.01>"
+            elt.innerHTML = "<input id=level type=range ng-model=name min=0 max=10 step=0.01>";
+            // +  (this.getAttribute('ng-model') || '?') + '</b>';
         };
       
 
