@@ -11,15 +11,22 @@ var pedalRoutes = require('./routes/pedalApi');
 //pour version sans formulaire (permet l'acces à req.files.filefield) :
 var busboyBodyParser = require('busboy-body-parser');
 
-app.use(busboyBodyParser());
+app.configure(function(){
+  app.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    return next();
+  });
+  app.use(busboyBodyParser());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/file', fileRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/pedal', pedalRoutes);
+  app.use('/api/file', fileRoutes);
+  app.use('/api/users', userRoutes);
+  app.use('/api/pedals', pedalRoutes);
+});
+
 
  //catch 404 and forward to error handler
  //app.use(function(req, res, next) {
