@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('InitInput', function ($log, $q, audiocontext, config) {
+  .factory('InitInput', function ($log, $q, $http, audiocontext, config) {
 
     // Public API here
     return {
@@ -28,7 +28,7 @@ angular.module('webClientSideApp')
       },
       getMediaPlaySound: function() {
         return $q(function(resolve, reject) {
-          var result = audiocontext.get().createBufferSource();
+          /*var result = audiocontext.get().createBufferSource();
           var soundRequest = new XMLHttpRequest();
           soundRequest.open('GET', config.apiURL+ config.samples+'aerosmith/dream_on/guitar.ogg', true);
           soundRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -45,7 +45,20 @@ angular.module('webClientSideApp')
               resolve(result, decodedData);
             });
           };
-          soundRequest.send();
+          soundRequest.send();*/
+          $http({
+            method: 'GET',
+            url: config.apiURL + config.samples + 'aerosmith/dream_on/guitar.ogg',
+            /*headers: {
+              'Access-Control-Allow-Origin': '*'
+            }*//*,
+            responseType: 'arraybuffer'*/
+          }).then(function(response) {
+            $log.info('get guitar success');
+            $log.debug(response);
+          }, function(response) {
+            $log.error('get guitar failed');
+          })
         });
       }
     };
