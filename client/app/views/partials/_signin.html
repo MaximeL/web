@@ -1,23 +1,26 @@
 <div class="row">
-  <div class="modal" ng-class="{'show': logged, hide: logged }">
+  <div class="modal" ng-class="{'show': true, hide: logged }">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title">Sign In:</h3>
-        </div>-->
+        </div>
         <div class="modal-body">
           <div class="container">
             <div class="row">
               <div class="col-md-6 col-md-offset-2">
                 <label for="loginPseudo">Pseudo</label>
-                <input type="text" id="loginPseudo" name="username" ng-model="login.username" required/>
-
-                <label for="loginPassword"><password></password></label>
-                <input type="password" id="loginPassword" name="password" ng-model="login.password" required/>
-
-                <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()"></span>Sign In
+                <br>
+                <input type="text" id="loginPseudo" name="username" ng-model="login.username"/>
+                <br>
+                <label for="loginPassword">password</label>
+                <br>
+                <input type="password" id="loginPassword" name="password" ng-model="login.password"/>
+                <br>
+                <br>
+                <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()"></span>
                 <a href="#/signup">
-                  <span class="btn   btn-info btn-lg glyphicon glyphicon-plus-sign">Sign Up</span>
+                  <span class="btn   btn-info btn-lg glyphicon glyphicon-plus-sign"></span>
                 </a>
 
               </div>
@@ -29,3 +32,4 @@
       </div>
    </div>
   </div>
+</div>
