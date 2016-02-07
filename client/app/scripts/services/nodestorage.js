@@ -147,6 +147,9 @@ angular.module('webClientSideApp')
         this.storage[0].playSound.connect(this.storage[this.storage[0].suivants[i]].input);
       }
     };
+    NodeStorage.prototype.wipe = function() {
+      this.storage = [];
+    };
 
     var get = function() {
       if(typeof $rootScope.nodeStorage === 'undefined' || $rootScope.nodeStorage === null) {

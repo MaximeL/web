@@ -24,6 +24,7 @@
   min-width: 10%;
   max-width: 30%;
   min-height: 10%;
+  padding: 10px;
 }
 
 .input {
@@ -33,6 +34,7 @@
   left: 0;
   width: 5%;
   min-width: 5%;
+  padding: 0;
 }
 
 .output {
@@ -42,6 +44,7 @@
   right: 0;
   width: 5%;
   min-width: 5%;
+  padding: 0;
 }
 
 #live-sidebar {

@@ -14,12 +14,9 @@ angular.module('webClientSideApp')
     var time;
 
     var save = function(id) {
-      $log.info('in save');
-      $log.debug(NodeStorage.get().storage);
+      $log.info('saving');
       var body = {};
       body.effects = NodeStorage.get().backup();
-      $log.debug('body');
-      $log.debug(body);
       wsEffects.put(body, id);
     };
 

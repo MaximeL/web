@@ -9,6 +9,7 @@
  */
 angular.module('webClientSideApp')
   .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification) {
+    NodeStorage.get().wipe();
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
     wsEffects.get($routeParams.id).then(function (response) {

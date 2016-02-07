@@ -10,6 +10,7 @@
 angular.module('webClientSideApp')
   .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput) {
     var vm = this;
+    NodeStorage.get().wipe();
     $scope.nodeStorage = NodeStorage.get();
     $scope.ready = false;
 

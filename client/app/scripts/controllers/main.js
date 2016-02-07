@@ -8,10 +8,11 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope, md5) {
+  .controller('MainCtrl', function ($scope, md5, NodeStorage) {
 
     $scope.myPedals = [];
     $scope.sharedPedals = [];
+    NodeStorage.get().wipe();
 
     // permet de hash un email
     $scope.hashEmail = function(email) {
