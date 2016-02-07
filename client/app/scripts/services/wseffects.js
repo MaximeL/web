@@ -10,7 +10,7 @@
 angular.module('webClientSideApp')
   .factory('wsEffects', function ($http, $log, $q, $notification) {
     // Service logic
-    var baseUrl = 'http://localhost:3000/api/pedal/';
+    var baseUrl = 'http://localhost:3000/api/pedals/';
 
     var getEffects = function(id) {
       return $q(function(resolve, reject) {

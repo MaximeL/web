@@ -19,7 +19,8 @@ angular
   ])
   .constant('config',
     {
-      apiURL: "http://localhost:3000/api/"
+      apiURL: "http://localhost:3000/api/",
+      samplesURL: "http://localhost:3000/samples/"
     }
   )
   .config(function ($routeProvider, $compileProvider) {
