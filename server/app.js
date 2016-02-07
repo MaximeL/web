@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var cors = require('cors');
 var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -11,11 +12,7 @@ var pedalRoutes = require('./routes/pedalApi');
 //pour version sans formulaire (permet l'acces à req.files.filefield) :
 var busboyBodyParser = require('busboy-body-parser');
 
-app.all('/', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
+app.use(cors());
 
 app.use(busboyBodyParser());
 
