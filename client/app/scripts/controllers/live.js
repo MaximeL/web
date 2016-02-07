@@ -80,23 +80,11 @@ angular.module('webClientSideApp')
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");
 
-      jsPlumb.bind('connection', function (info) {
-        var inputId = info.sourceId;
-        var outputId = info.targetId;
-        $scope.nodeStorage.connect(inputId, outputId);
-        saveState.save($routeParams.id);
-      });
-      jsPlumb.bind('connectionDetached', function (info) {
-        var inputId = info.sourceId;
-        var outputId = info.targetId;
-        $scope.nodeStorage.disconnect(inputId, outputId);
-        saveState.save($routeParams.id);
-      });
-
       wsEffects.get($routeParams.id).then(function (response) {
         $scope.nodeStorage.setupPedal(response.effects);
         $timeout(function () {
           $scope.nodeStorage.redoConnections();
+          saveState.save($routeParams.id);
         }, 1000);
       }, function () {
         $location.path('/');
@@ -113,6 +101,19 @@ angular.module('webClientSideApp')
         NodeStorage.get().storage[0].ready = true;
         $scope.nodeStorage.restoreInputPlaySound();
       }, function () {
+      });
+
+      jsPlumb.bind('connection', function (info) {
+        var inputId = info.sourceId;
+        var outputId = info.targetId;
+        $scope.nodeStorage.connect(inputId, outputId);
+        saveState.save($routeParams.id);
+      });
+      jsPlumb.bind('connectionDetached', function (info) {
+        var inputId = info.sourceId;
+        var outputId = info.targetId;
+        $scope.nodeStorage.disconnect(inputId, outputId);
+        saveState.save($routeParams.id);
       });
     });
 
