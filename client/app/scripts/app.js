@@ -19,8 +19,13 @@ angular
   ])
   .constant('config',
     {
-      apiURL: "http://localhost:3000/api/",
-      samplesURL: "http://localhost:3000/samples/"
+      apiURL: "http://localhost:3000/",
+      samples: "samples/",
+      users: "api/users/",
+      pedals: "api/pedals",
+      pedal_comments: "/comments",
+      pedal_rates: "/rates",
+      pedal_design: "/design"
     }
   )
   .config(function ($routeProvider, $compileProvider) {
