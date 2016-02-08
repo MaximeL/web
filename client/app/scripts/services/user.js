@@ -31,12 +31,12 @@ angular.module('webClientSideApp')
 
           $http.post("http://localhost:3000/api/users/auth", user)
               .success(function(data) {
-
+                $notification.success("login", "connected successfuly");
                 $rootScope.logged = true;
 
                 user._id = data._id;
                 deferred.resolve(data);
-                $notification.success("login", "connected successfuly");
+
 
 
               })
