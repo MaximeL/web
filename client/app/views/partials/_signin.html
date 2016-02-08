@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="modal" ng-class="{'show': !logged, hide: logged }">
+  <div class="modal" ng-class="{'show': !logged, hide: logged }" style="color:#00b3ee">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -11,11 +11,11 @@
               <div class="col-md-6 col-md-offset-2">
                 <label for="loginPseudo">Pseudo</label>
                 <br>
-                <input type="text" id="loginPseudo" name="username" ng-model="login.username"/>
+                <input type="text" id="loginPseudo" name="username" ng-model="login.username" style="color:#DDDDDD; background-color:#00d4b4"/>
                 <br>
                 <label for="loginPassword">password</label>
                 <br>
-                <input type="password" id="loginPassword" name="password" ng-model="login.password"/>
+                <input type="password" id="loginPassword" name="password" ng-model="login.password" style="color:#DDDDDD; background-color:#00d4b4"/>
                 <br>
                 <br>
                 <span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="checkLogin()"></span>
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" style="color:#5e5e5e">
         </div>
       </div>
    </div>
