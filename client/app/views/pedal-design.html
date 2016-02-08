@@ -12,9 +12,9 @@
                        ng-model="background.selected"
                        ng-checked="background.selected"
                        ng-change="updateSelectedBackground(background)"> {{ background.name }}
+                <div class="{{ background.value }} img-rounded" style="height: 100px; width: 100px;"></div>
               </label>
             </div>
-            <div class="{{ background.value }} img-rounded" style="height: 100px; width: 100px;"></div>
           </div>
         </div>
       </div>
