@@ -70,6 +70,11 @@ angular
         controller: 'PedalDesignCtrl',
         controllerAs: 'pedalDesign'
       })
+      .when('/play/:id', {
+        templateUrl: 'views/play.html',
+        controller: 'PlayCtrl',
+        controllerAs: 'play'
+      })
       .otherwise({
         templateUrl: '404.html'
       });

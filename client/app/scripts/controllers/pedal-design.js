@@ -170,7 +170,7 @@ angular.module('webClientSideApp')
       });
     };
 
-    $scope.$on("$destroy", function(){
+    $scope.$on("$destroy", function() {
       NodeStorage.get().wipe();
       $log.warn('living design controller !');
     });

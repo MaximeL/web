@@ -139,7 +139,6 @@ angular.module('webClientSideApp')
       NodeStorage.get().wipe();
       angular.element($window).unbind('resize');
       jsPlumb.reset();
-      $log.warn('living live controller !');
     });
   });
 
