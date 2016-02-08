@@ -19,21 +19,26 @@ angular.module('webClientSideApp')
     Inputnode.prototype.play = false;
     Inputnode.prototype.music = null;
     Inputnode.prototype.playSound = null;
+    Inputnode.prototype.output = null;
     Inputnode.prototype.labelButton = 'PLAY';
 
     Inputnode.prototype.connect = function(output) {
-      if(this.output !== null)
-        this.output.connect(output.input);
-      if(this.playSound !== null)
-        this.playSound.connect(output.input);
-      this.suivants.push(output.id);
+      $log.debug('input conection');
+      if(this.output !== null) {
+        $log.debug('connecting output of input');
+        this.output.connect(output.getInput());
+      }
+      if(this.playSound !== null) {
+        $log.debug('connecting playSound of input on '+output.id);
+        $log.debug(output);
+        this.playSound.connect(output.getInput());
+      }
     };
     Inputnode.prototype.disconnect = function (output) {
       if(this.output !== null)
         this.output.disconnect();
       if(this.playSound !== null)
         this.playSound.disconnect();
-      this.suivants.splice(this.suivants.indexOf(output.id), 1);
     };
     Inputnode.prototype.initNode = function(audioContext) {
     };
@@ -49,6 +54,12 @@ angular.module('webClientSideApp')
           this.play = true;
         }
       }
+    };
+    Inputnode.prototype.getInput = function() {
+      return null;
+    };
+    Inputnode.prototype.getOutput = function() {
+      return [this.output, this.playSound];
     };
 
     // Public API here

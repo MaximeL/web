@@ -18,16 +18,7 @@ angular.module('webClientSideApp')
     Convolver.prototype.initNode = function(audioContext) {
       var self = this;
 
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
-
       this.convolver = audioContext.createConvolver();
-
-      this.input.connect(this.convolver);
-      this.convolver.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       var soundRequest = new XMLHttpRequest();
       soundRequest.open('GET', config.apiURL+ config.samples +'irHall.ogg', true);
@@ -41,6 +32,12 @@ angular.module('webClientSideApp')
         });
       };
       soundRequest.send();
+    };
+    Convolver.prototype.getInput = function() {
+      return this.convolver;
+    };
+    Convolver.prototype.getOutput = function() {
+      return this.convolver;
     };
 
     // Public API here
