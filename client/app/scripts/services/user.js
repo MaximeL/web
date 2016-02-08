@@ -22,7 +22,7 @@ angular.module('webClientSideApp')
       updateUser : (function(user){
 		    var deferred = $q.defer();
 
-        $http.post("http://localhost:3000/api/users", user)
+        $http.put("http://localhost:3000/api/users/"+user._id, user)
         return deferred.promise;
   		}),
       checkUser : (function(user){
@@ -35,6 +35,7 @@ angular.module('webClientSideApp')
                 $rootScope.logged = true;
 
                 user._id = data._id;
+                user.pedals = data.pedals;
                 deferred.resolve(data);
 
 
