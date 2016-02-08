@@ -36,7 +36,6 @@ angular.module('webClientSideApp')
           soundRequest.responseType = "arraybuffer";
           soundRequest.onload = function() {
             $log.info('loading guitar');
-            $log.debug(soundRequest.response);
             var audioData = soundRequest.response;
             audiocontext.get().decodeAudioData(audioData, function(decodedData) {
               $log.info('decoding successful');
@@ -46,19 +45,6 @@ angular.module('webClientSideApp')
             });
           };
           soundRequest.send();
-          /*$http({
-            method: 'GET',
-            url: config.apiURL + config.samples + 'aerosmith/dream_on/guitar.ogg',
-            /!*headers: {
-              'Access-Control-Allow-Origin': '*'
-            }*!//!*,
-            responseType: 'arraybuffer'*!/
-          }).then(function(response) {
-            $log.info('get guitar success');
-            $log.debug(response);
-          }, function(response) {
-            $log.error('get guitar failed');
-          })*/
         });
       }
     };
