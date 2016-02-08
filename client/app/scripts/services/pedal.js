@@ -12,7 +12,7 @@ angular.module('webClientSideApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     return {
-      createPedal: (function (pedal , u) {
+      createPedal: (function (pedal , u , myPedals) {
         var deferred = $q.defer();
         $http.post("http://localhost:3000/api/pedals/", pedal)
           .success(function (data) {
@@ -21,7 +21,7 @@ angular.module('webClientSideApp')
           //  $log.debug(data);
             pedal._id = data._id;
           //  console.log(u);
-           // u.pedals.push(data._id);
+            myPedals.push(pedal);
             user.updateUser(u);
             deferred.resolve(data);
 

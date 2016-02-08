@@ -203,7 +203,7 @@ angular.module('webClientSideApp')
     $scope.checkLogin = function(){
       $scope.login.password = $scope._base64.encode($scope.login.password);
 
-      user.checkUser($scope.login);
+      user.checkUser($scope.login,$scope.myPedals);
 
       $scope.getMyPedals();
 
@@ -227,11 +227,11 @@ angular.module('webClientSideApp')
       $scope.pedal.owner = $scope.login._id;
       $scope.pedal.effets = undefined;
 
-      pedal.createPedal($scope.pedal , $scope.login).then(function() {
+      pedal.createPedal($scope.pedal , $scope.login , $scope.myPedals).then(function() {
        // console.log('pedal : ');
 
         $scope.login.pedals.push($scope.pedal._id);
-      //  $scope.myPedals.push($scope.pedal);
+       // $scope.myPedals.push($scope.pedal);
        // user.updateUser($scope.login);
         $scope.pedalCreated = true;
 

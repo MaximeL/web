@@ -25,7 +25,7 @@ angular.module('webClientSideApp')
         $http.put("http://localhost:3000/api/users/"+user._id, user)
         return deferred.promise;
   		}),
-      checkUser : (function(user){
+      checkUser : (function(user,myPedals){
 
         var deferred = $q.defer();
 
@@ -36,8 +36,14 @@ angular.module('webClientSideApp')
 
                 user._id = data._id;
                 user.pedals = data.pedals;
-                console.log("login ##### ");
-                console.log(user.pedals);
+                for (var i=0 ; i < data.pedals.length; i++){
+                    $http.get("http://localhost:3000/api/pedals/"+data.pedals[i])
+                      .then(function(response){
+                        myPedals.push(response.data);
+
+                      });
+                }
+              //  myPedals.push(data.login.pedals);
                 deferred.resolve(data);
 
 
