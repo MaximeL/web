@@ -13,14 +13,15 @@ var fs = require('fs');
 
 describe('Routing test', function () {
 
-  var URL = 'http://localhost:3000';
+  var URL = 'http://localhost:3001';
   var TEST_DB = 'dbsound_test';
   var URL_PEDAL_NOTE = '/notes/';
   var URL_PEDAL_COMMENT = '/comments/';
   var URL_PEDAL_USER = '/users/';
-  var URL_USER = '/api/user/';
+  var URL_PEDAL_DESIGN = '/design/';
+  var URL_USER = '/api/users/';
   var URL_USER_AUTH = URL_USER + 'auth/';
-  var URL_PEDAL = '/api/pedal/';
+  var URL_PEDAL = '/api/pedals/';
   var URL_FILE = '/api/file/';
 
   // connection with the database
@@ -274,6 +275,47 @@ describe('Routing test', function () {
           done();
         });
     });
+
+    // TEST PUT Design TODO:
+    it('should correctly set design of a pedal', function (done) {
+      var designBody = {
+        background: "metal",
+        potar1: "{item [...] }"
+      };
+
+      request(URL)
+        .post(URL_PEDAL + id_created + URL_PEDAL_DESIGN)
+        .send(designBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          res.body.design.should.containDeep([{potar1: "{item [...] }"}]);
+          done();
+        });
+    });
+
+    // TEST GET Design TODO:
+    it('should correctly get design of a pedal', function (done) {
+      request(URL)
+        .get(URL_PEDAL + id_created + URL_PEDAL_DESIGN)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(200) //Status code success
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.have.property('_id');
+          res.body.design.should.containDeep([{potar1: "{item [...] }"}]);
+          done();
+        });
+    });
+
 
     // TEST PUT users
     it('should correctly update users of a pedal', function (done) {

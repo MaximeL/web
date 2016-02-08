@@ -1,9 +1,22 @@
-.metal {
-  background-image: url('/images/background-metal.jpg')
-}
+.metal1 { background-image: url('/images/background-metal1.jpg') }
+.metal2 { background-image: url('/images/background-metal2.jpg') }
+.metal3 { background-image: url('/images/background-metal3.jpg') }
 
-.carbon {
-  background-image: url('/images/background-carbon.png')
+.leather { background-image: url('/images/background-leather.jpg') }
+.jean { background-image: url('/images/background-jean.jpg') }
+
+.misc-blue  { background-image: url('/images/background-misc-blue.jpg') }
+.misc-red   { background-image: url('/images/background-misc-red.jpg') }
+
+.diamond1 { background-image: url('/images/background-diamond1.jpg') }
+
+.carbon1 { background-image: url('/images/background-carbon1.jpg') }
+.carbon2 { background-image: url('/images/background-carbon2.jpg') }
+.carbon3 { background-image: url('/images/background-carbon3.jpg') }
+.carbon4 { background-image: url('/images/background-carbon4.jpg') }
+
+.pedal-background {
+  margin: auto 5px auto 5px;
 }
 
 .pedal-potar {

@@ -41,6 +41,7 @@ router.route('/')
         }
 
         res.status(200);
+        console.log(pedale);
         return res.send(pedale.design);
       }
     );
@@ -61,7 +62,7 @@ router.route('/')
       if (!req.body.hasOwnProperty('background') ||
         req.body.background === "") {
         res.status(400);
-        return res.json({message: "Post syntax incorrect, note is not specified, empty or invalid"});
+        return res.json({message: "Post syntax incorrect, background is not specified, empty or invalid"});
       }
 
       pedale.design.background = req.body.background;

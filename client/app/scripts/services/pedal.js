@@ -14,7 +14,7 @@ angular.module('webClientSideApp')
     return {
       createPedal: (function (pedal , u) {
         var deferred = $q.defer();
-        $http.post("http://localhost:3000/api/pedal/", pedal)
+        $http.post("http://localhost:3000/api/pedals/", pedal)
           .success(function (data) {
             $log.info('post success on pedal : ');
             $log.debug(data);
