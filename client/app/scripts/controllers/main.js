@@ -8,7 +8,8 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal) {
+
+  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal, $location) {
 
     $scope.signup = {
       username : "",
@@ -48,23 +49,28 @@ angular.module('webClientSideApp')
 
     $rootScope.logged = false;
     $scope.created = true;
+    $scope.pedalCreated = true;
 
     $scope.users = [];
 
+
+
+
     $scope.myPedals = [];
     $scope.sharedPedals = [];
-
+    $scope.pedalsShared = [];
     // permet de hash un email
     $scope.hashEmail = function(email) {
       return md5.createHash(email);
     };
+
 
     $scope.myPedals.push(
       {
         "_id": "56a9ecead4b0c99c25e4b2df",
         "owner": "56a9ecead4b0c99c25e4b2de",
         "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
-        "nom": "Ma pédale modifée",
+        "name": "Ma pédale modifée",
         "users": [
           {"username": "Robert",     "email": "truc@mail.com"},
           {"username": "Jean-henri", "email": "truc1@mail.com"},
@@ -96,7 +102,7 @@ angular.module('webClientSideApp')
         "_id": "56a9CCCad4b0c99c25e4b2df",
         "owner": "56a9CCCad4b0c99c25e4b2de",
         "description": "C'est la pédale à tonton",
-        "nom": "Ze mega pedale",
+        "name": "Ze mega pedale",
         "users": [
           {"username": "Brigitte",   "email": "truc5@mail.com"},
           {"username": "Jacqueline", "email": "truc6@mail.com"},
@@ -123,8 +129,6 @@ angular.module('webClientSideApp')
         ]
       }
     );
-
-
 
 
 
@@ -210,10 +214,13 @@ angular.module('webClientSideApp')
       $scope.pedal.owner = $scope.users[0]._id;
       $scope.pedal.effets = undefined;
       pedal.createPedal($scope.pedal , $scope.login).then(function() {
-        $log.debug('pedal : ');
-        $log.debug($scope.pedal);
+        console.log('pedal : ');
+        console.log($scope.pedal);
+        $scope.myPedals.push($scope.pedal);
         user.updateUser($scope.login);
-        $location.path( '/pedal/'.concat($scope.pedal._id) );
+        $scope.pedalCreated = true;
+
+     //   $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
     };
 
@@ -222,6 +229,7 @@ angular.module('webClientSideApp')
         $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
           .then(function(response){
             $scope.myPedals.push(response.data);
+
           });
       }
     };
