@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     Peaking.prototype.type = 'peaking';
 
     Peaking.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.peaking = audioContext.createBiquadFilter();
       this.peaking.type = 'peaking';
-
-      this.input.connect(this.peaking);
-      this.peaking.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -72,6 +64,12 @@ angular.module('webClientSideApp')
     };
     Peaking.prototype.setParameters = function(paramName) {
       this.peaking[paramName].value = this.value[paramName];
+    };
+    Peaking.prototype.getInput = function() {
+      return this.peaking;
+    };
+    Peaking.prototype.getOutput = function() {
+      return this.peaking;
     };
 
     // Public API here

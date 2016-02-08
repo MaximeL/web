@@ -74,56 +74,71 @@ router.route('/auth')
     });
   });
 
-// Update d'un user
-router.put('/:id', function (req, res) {
-  console.log('PUT a user');
-  UserSchema.findOne({'_id': req.params.id}, function (err, user) {
+// Route sur User
+router.route('/:id')
+  .get(function (req, res) {
+    console.log('GET a user');
+    UserSchema.findOne({'_id': req.params.id}, function (err, user) {
       if (err) {
         res.status(404);
         return res.json({message: "User unknowned"});
       }
-
-      if (req.body.username !== undefined) {
-        user.username = req.body.username;
-      }
-      if (req.body.password !== undefined) {
-        user.password = req.body.password;
-      }
-      if (req.body.pedals !== undefined) {
-        if (req.body.pedals.constructor === Array) {
-          for (var i = 0; i < req.body.pedals.length; i++) {
-            user.pedals.push(req.body.pedals[i]);
-          }
-        }
-        else {
-          user.pedals.push(req.body.pedals);
-        }
-      }
-
-      if (req.body.shared !== undefined) {
-        if (req.body.shared.constructor === Array) {
-          for (var j = 0; j < req.body.shared.length; j++) {
-            console.log(req.body.shared[j]);
-            user.shared.push(
-              {
-                _id: req.body.shared[j].id,
-                right: req.body.shared[j].right
-              }
-            );
-          }
-        }
-      }
-
-      user.save(function (err) {
+      res.status(200);
+      return res.send(user);
+    });
+  })
+  .put(function (req, res) {
+    console.log('PUT a user');
+    UserSchema.findOne({'_id': req.params.id}, function (err, user) {
         if (err) {
-          res.stats(400);
-          return res.json({message: "Invalid syntax"});
+          res.status(404);
+          return res.json({message: "User unknowned"});
         }
-        user.password = undefined;
-        res.status(200);
-        return res.send(user);
-      });
-    }
-  );
-});
+
+        if (req.body.username !== undefined) {
+          user.username = req.body.username;
+        }
+        if (req.body.password !== undefined) {
+          user.password = req.body.password;
+        }
+        if (req.body.email !== undefined) {
+          user.email = req.body.email;
+        }
+        if (req.body.pedals !== undefined) {
+          if (req.body.pedals.constructor === Array) {
+            for (var i = 0; i < req.body.pedals.length; i++) {
+              user.pedals.push(req.body.pedals[i]);
+            }
+          }
+          else {
+            user.pedals.push(req.body.pedals);
+          }
+        }
+
+        if (req.body.shared !== undefined) {
+          if (req.body.shared.constructor === Array) {
+            for (var j = 0; j < req.body.shared.length; j++) {
+              console.log(req.body.shared[j]);
+              user.shared.push(
+                {
+                  _id: req.body.shared[j].id,
+                  right: req.body.shared[j].right
+                }
+              );
+            }
+          }
+        }
+
+        user.save(function (err) {
+          if (err) {
+            res.stats(400);
+            return res.json({message: "Invalid syntax"});
+          }
+          user.password = undefined;
+          res.status(200);
+          return res.send(user);
+        });
+      }
+    );
+  });
 module.exports = router;

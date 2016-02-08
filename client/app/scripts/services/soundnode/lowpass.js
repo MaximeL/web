@@ -60,6 +60,12 @@ angular.module('webClientSideApp')
     LowPass.prototype.setParameters = function(paramName) {
       this.lowpass[paramName].value = this.value[paramName];
     };
+    LowPass.prototype.getInput = function() {
+      return this.lowpass;
+    };
+    LowPass.prototype.getOutput = function() {
+      return this.lowpass;
+    };
 
     // Public API here
     return LowPass;
