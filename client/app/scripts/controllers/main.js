@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal) {
+  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal, $location) {
 
     $scope.signup = {
       username : "",
@@ -48,6 +48,7 @@ angular.module('webClientSideApp')
 
     $rootScope.logged = false;
     $scope.created = true;
+    $scope.pedalCreated = true;
 
     $scope.users = [];
 
@@ -210,8 +211,8 @@ angular.module('webClientSideApp')
       $scope.pedal.owner = $scope.users[0]._id;
       $scope.pedal.effets = undefined;
       pedal.createPedal($scope.pedal , $scope.login).then(function() {
-        $log.debug('pedal : ');
-        $log.debug($scope.pedal);
+        console.log('pedal : ');
+        console.log($scope.pedal);
         user.updateUser($scope.login);
         $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
