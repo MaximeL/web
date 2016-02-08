@@ -248,9 +248,13 @@ angular.module('webClientSideApp')
            */
           $http.put("http://localhost:3000/api/user", response.data)
         });
+    };
+
+
+    $scope.switchToSignup = function(){
+      $scope.created = false;
+      $scope.logged = true;
     }
-
-
 
 
   });
