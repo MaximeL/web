@@ -1,6 +1,6 @@
 <div class="col-md-6">
   <h2 class="text-center">My pedals</h2>
-  <div ng-repeat="pedal in myPedals">
+  <div ng-repeat="p in login.pedals">
     <div class="alert alert-warning">
 
       <!--pedal header-->
@@ -40,20 +40,20 @@
 
       <!--nom de la pedal-->
       <div class="pull-left">
-        <h3>{{pedal.nom}}</h3>
+        <h3>{{p.nom}}</h3>
       </div>
       <div class="clearfix"/>
 
       <!--block description et bouton play edit-->
       <div class="pull-left">
-        <blockquote class="mypedals">{{pedal.description}}</blockquote>
+        <blockquote class="mypedals">{{p.description}}</blockquote>
       </div>
 
 
       <div class="clearfix"/>
 
       <ul class="list-inline pull-right">
-        <li ng-repeat="user in pedal.users">
+        <li ng-repeat="user in p.users">
           <!-- hash de l'email -->
           <img src="http://www.gravatar.com/avatar/{{hashEmail(user.email)}}.jpg?s=30&d=retro"/>
         </li>

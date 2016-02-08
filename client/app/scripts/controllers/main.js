@@ -186,6 +186,18 @@ angular.module('webClientSideApp')
       //  console.log($scope.users[0]);
       });
 
+    $scope.getMyPedals = function(){
+
+      for (var i=0 ; i < $scope.login.pedals.length; i++){
+        $http.get("http://localhost:3000/api/pedals/"+$scope.login.pedals[i])
+          .then(function(response){
+            $scope.myPedals.push(response.data);
+
+          });
+      }
+      console.log('pdallls');
+      console.log($scope.myPedals);
+    };
 
     /**
      chech login befor signin
@@ -194,8 +206,8 @@ angular.module('webClientSideApp')
       $scope.login.password = $scope._base64.encode($scope.login.password);
 
       user.checkUser($scope.login);
-      console.log("user ::::: ");
-      console.log($scope.login);
+
+      $scope.getMyPedals();
 
     };
 
@@ -213,28 +225,26 @@ angular.module('webClientSideApp')
     };
 
     $scope.newPedal = function(){
-      $scope.pedal.owner = $scope.users[0]._id;
+      console.log($scope.login);
+      $scope.pedal.owner = $scope.login._id;
       $scope.pedal.effets = undefined;
+
       pedal.createPedal($scope.pedal , $scope.login).then(function() {
-        console.log('pedal : ');
-        console.log($scope.pedal);
-        $scope.myPedals.push($scope.pedal);
-        user.updateUser($scope.login);
+       // console.log('pedal : ');
+
+        $scope.login.pedals.push($scope.pedal._id);
+      //  $scope.myPedals.push($scope.pedal);
+       // user.updateUser($scope.login);
         $scope.pedalCreated = true;
+
 
      //   $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
+    // console.log("~~~~~~~~~~~~~~");
+    //  console.log( $scope.myPedals);
     };
 
-    $scope.getMyPedals = function(){
-      for (var i=0 ; i < $scope.login.pedals.length; i++){
-        $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
-          .then(function(response){
-            $scope.myPedals.push(response.data);
 
-          });
-      }
-    };
     /**
      * shared pedals with other users
      *
@@ -261,7 +271,8 @@ angular.module('webClientSideApp')
     $scope.switchToSignup = function(){
       $scope.created = false;
       $scope.logged = true;
-    }
+    };
+
 
 
   });

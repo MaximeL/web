@@ -36,6 +36,8 @@ angular.module('webClientSideApp')
 
                 user._id = data._id;
                 user.pedals = data.pedals;
+                console.log("login ##### ");
+                console.log(user.pedals);
                 deferred.resolve(data);
 
 
