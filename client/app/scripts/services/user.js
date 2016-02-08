@@ -16,24 +16,27 @@ angular.module('webClientSideApp')
     	createUser : (function(user){
 		    var deferred = $q.defer();
 
-        $http.post("http://localhost:3000/api/user", user)
+        $http.post("http://localhost:3000/api/users", user)
         return deferred.promise;
   		}),
       updateUser : (function(user){
 		    var deferred = $q.defer();
 
-        $http.post("http://localhost:3000/api/user", user)
+        $http.post("http://localhost:3000/api/users", user)
         return deferred.promise;
   		}),
       checkUser : (function(user){
 
         var deferred = $q.defer();
-          $http.post("http://localhost:3000/api/user/auth", user)
+
+          $http.post("http://localhost:3000/api/users/auth", user)
               .success(function(data) {
+                $notification.success("login", "connected successfuly");
                 $rootScope.logged = true;
+
                 user._id = data._id;
                 deferred.resolve(data);
-                $notification.success("login", "connected successfuly");
+
 
 
               })
@@ -43,6 +46,8 @@ angular.module('webClientSideApp')
                 deferred.reject(false);
 
               });
+
+
 
         return deferred.promise;
       }),

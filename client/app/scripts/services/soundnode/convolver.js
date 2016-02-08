@@ -21,7 +21,7 @@ angular.module('webClientSideApp')
       this.convolver = audioContext.createConvolver();
 
       var soundRequest = new XMLHttpRequest();
-      soundRequest.open('GET', config.apiURL+ config.samples +'irHall', true);
+      soundRequest.open('GET', config.apiURL+ config.samples +'irHall.ogg', true);
       soundRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
       soundRequest.setRequestHeader('Access-Control-Allow-Methods', 'ANY');
       soundRequest.responseType = "arraybuffer";

@@ -11,6 +11,36 @@ angular.module('webClientSideApp')
   .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log) {
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
+    $scope.backgrounds = [
+      {name: "Métal 1",         value: "metal1",    selected: true},
+      {name: "Métal 2",         value: "metal2",    selected: false},
+      {name: "Métal 3",         value: "metal3",    selected: false},
+      {name: "Diamant",         value: "diamond1",  selected: false},
+      {name: "Carbone 1",       value: "carbon1",   selected: false},
+      {name: "Carbone 2",       value: "carbon2",   selected: false},
+      {name: "Carbone 3",       value: "carbon3",   selected: false},
+      {name: "Carbone 4",       value: "carbon4",   selected: false},
+      {name: "Cuir",            value: "leather",   selected: false},
+      {name: "Jean",            value: "jean",      selected: false},
+      {name: "Bleuté",   value: "misc-blue", selected: false},
+      {name: "Rougeâtre",  value: "misc-red",  selected: false}
+    ];
+
+    $scope.updateSelectedBackground = function(background) {
+      $scope.backgrounds.forEach(function (element) {
+        element.selected = background.value == element.value;
+      });
+    };
+
+    $scope.selectedBackground = function () {
+      var background;
+      $scope.backgrounds.forEach(function (item) {
+        if(item.selected) {
+          background = item;
+        }
+      });
+      return background;
+    };
     wsEffects.get($routeParams.id).then(function (response) {
       $scope.nodeStorage.setupPedal(response.effects);
 
@@ -44,8 +74,6 @@ angular.module('webClientSideApp')
     }, function () {
       $location.path('/');
     });
-
-    $scope.background = 'metal';
 
     var potarCounter = 0;
     $scope.changePotar = function (el, name) {
@@ -109,7 +137,7 @@ angular.module('webClientSideApp')
 
     $scope.saveDesign = function () {
       var data = {
-        background: $scope.background
+        background: $scope.selectedBackground().value
       };
 
       $scope.effects.forEach(function(effect) {
@@ -132,12 +160,13 @@ angular.module('webClientSideApp')
       });
 
       $http.put(
-        config.apiURL + "pedal/" + $routeParams.id + "/design",
+        config.apiURL + config.pedals + $routeParams.id + config.pedal_design,
         data
-      ).then(function(response) {
-        console.log("success")
-      }, function(response) {
-        console.log("error");
+      ).success(function(response) {
+        $notification.success("Félicitations !", "Le design de la pédale a bien été sauvegardé");
+      }).error(function(response) {
+        console.log(response);
+        $notification.error("Erreur !", "Une erreur est survenue lors de la sauvegarde de la pédale : " + response.message);
       });
     };
 

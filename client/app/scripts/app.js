@@ -22,7 +22,7 @@ angular
       apiURL: "http://localhost:3000/",
       samples: "samples/",
       users: "api/users/",
-      pedals: "api/pedals",
+      pedals: "api/pedals/",
       pedal_comments: "/comments",
       pedal_rates: "/rates",
       pedal_design: "/design"
