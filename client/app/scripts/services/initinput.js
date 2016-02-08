@@ -46,19 +46,6 @@ angular.module('webClientSideApp')
             });
           };
           soundRequest.send();
-          /*$http({
-            method: 'GET',
-            url: config.apiURL + config.samples + 'aerosmith/dream_on/guitar.ogg',
-            /!*headers: {
-              'Access-Control-Allow-Origin': '*'
-            }*!//!*,
-            responseType: 'arraybuffer'*!/
-          }).then(function(response) {
-            $log.info('get guitar success');
-            $log.debug(response);
-          }, function(response) {
-            $log.error('get guitar failed');
-          })*/
         });
       }
     };

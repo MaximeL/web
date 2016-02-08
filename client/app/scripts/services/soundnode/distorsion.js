@@ -16,16 +16,8 @@ angular.module('webClientSideApp')
     Distorsion.prototype.type = 'distorsion';
 
     Distorsion.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.distorsion = audioContext.createWaveShaper();
-
-      this.input.connect(this.distorsion);
-      this.distorsion.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'curveValue';
@@ -65,6 +57,12 @@ angular.module('webClientSideApp')
     };
     Distorsion.prototype.setParameters = function(paramName) {
       this.distorsion.curve = this.makeDistortionCurve(this.value.curveValue);
+    };
+    Distorsion.prototype.getInput = function() {
+      return this.distorsion;
+    };
+    Distorsion.prototype.getOutput = function() {
+      return this.distorsion;
     };
 
     // Public API here

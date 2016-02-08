@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     BandPass.prototype.type = 'bandpass';
 
     BandPass.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.bandpass = audioContext.createBiquadFilter();
       this.bandpass.type = 'bandpass';
-
-      this.input.connect(this.bandpass);
-      this.bandpass.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -47,8 +39,8 @@ angular.module('webClientSideApp')
         this.bandpass.frequency.value = this.value.frequency;
       }
       if(typeof this.value.Q === 'undefined' || this.value.Q === null) {
-        this.bandpass.Q.value = 0;
-        this.value.Q = 0;
+        this.bandpass.Q.value = 1;
+        this.value.Q = 1;
       } else {
         this.bandpass.Q.value = this.value.Q;
       }
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     BandPass.prototype.setParameters = function(paramName) {
       this.bandpass[paramName].value = this.value[paramName];
+    };
+    BandPass.prototype.getInput = function() {
+      return this.bandpass;
+    };
+    BandPass.prototype.getOutput = function() {
+      return this.bandpass;
     };
 
     // Public API here

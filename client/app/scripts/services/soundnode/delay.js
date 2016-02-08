@@ -16,16 +16,8 @@ angular.module('webClientSideApp')
     Delay.prototype.type = 'delay';
 
     Delay.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.delay = audioContext.createDelay();
-
-      this.input.connect(this.delay);
-      this.delay.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'delayTime';
@@ -45,6 +37,12 @@ angular.module('webClientSideApp')
     };
     Delay.prototype.setParameters = function(paramName) {
       this.delay[paramName].value = this.value[paramName];
+    };
+    Delay.prototype.getInput = function() {
+      return this.delay;
+    };
+    Delay.prototype.getOutput = function() {
+      return this.delay;
     };
 
     // Public API here

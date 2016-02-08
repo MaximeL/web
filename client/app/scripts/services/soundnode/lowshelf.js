@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     LowShelf.prototype.type = 'lowshelf';
 
     LowShelf.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.lowshelf = audioContext.createBiquadFilter();
       this.lowshelf.type = 'lowshelf';
-
-      this.input.connect(this.lowshelf);
-      this.lowshelf.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     LowShelf.prototype.setParameters = function(paramName) {
       this.lowshelf[paramName].value = this.value[paramName];
+    };
+    LowShelf.prototype.getInput = function() {
+      return this.lowshelf;
+    };
+    LowShelf.prototype.getOutput = function() {
+      return this.lowshelf;
     };
 
     // Public API here

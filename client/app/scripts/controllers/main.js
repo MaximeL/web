@@ -8,7 +8,8 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope, md5, NodeStorage, $http , user, pedal) {
+
+  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal, $location) {
 
     $scope.signup = {
       username : "",
@@ -46,25 +47,30 @@ angular.module('webClientSideApp')
       users: []
     };
 
-    $scope.logged = false;
+    $rootScope.logged = false;
     $scope.created = true;
+    $scope.pedalCreated = true;
 
     $scope.users = [];
 
+
+
+
     $scope.myPedals = [];
     $scope.sharedPedals = [];
-
+    $scope.pedalsShared = [];
     // permet de hash un email
     $scope.hashEmail = function(email) {
       return md5.createHash(email);
     };
+
 
     $scope.myPedals.push(
       {
         "_id": "56a9ecead4b0c99c25e4b2df",
         "owner": "56a9ecead4b0c99c25e4b2de",
         "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
-        "nom": "Ma pédale modifée",
+        "name": "Ma pédale modifée",
         "users": [
           {"username": "Robert",     "email": "truc@mail.com"},
           {"username": "Jean-henri", "email": "truc1@mail.com"},
@@ -96,7 +102,7 @@ angular.module('webClientSideApp')
         "_id": "56a9CCCad4b0c99c25e4b2df",
         "owner": "56a9CCCad4b0c99c25e4b2de",
         "description": "C'est la pédale à tonton",
-        "nom": "Ze mega pedale",
+        "name": "Ze mega pedale",
         "users": [
           {"username": "Brigitte",   "email": "truc5@mail.com"},
           {"username": "Jacqueline", "email": "truc6@mail.com"},
@@ -152,8 +158,6 @@ angular.module('webClientSideApp')
 
 
 
-
-
     /**
      une manière d'encrypter les données du user : nom , mot de passe , email ......
      Lien vers la personne à qui j'ai piqué le code :) : http://spaghetti.io/cont/article/angularjs-and-basic-auth/12/1.html#.VpaxtFnb_HY
@@ -177,22 +181,31 @@ angular.module('webClientSideApp')
         {
           $scope.users[i] = response.data[i];
         }
-        console.log($scope.users[0]);
+      //  console.log($scope.users[0]);
       });
 
+    $scope.getMyPedals = function(){
+
+      for (var i=0 ; i < $scope.login.pedals.length; i++){
+        $http.get("http://localhost:3000/api/pedals/"+$scope.login.pedals[i])
+          .then(function(response){
+            $scope.myPedals.push(response.data);
+
+          });
+      }
+      console.log('pdallls');
+      console.log($scope.myPedals);
+    };
 
     /**
      chech login befor signin
      */
     $scope.checkLogin = function(){
       $scope.login.password = $scope._base64.encode($scope.login.password);
-     // console.log($scope.login);
-      user.checkUser($scope.login);
 
+      user.checkUser($scope.login,$scope.myPedals);
 
-
-
-
+      $scope.getMyPedals();
 
     };
 
@@ -210,24 +223,26 @@ angular.module('webClientSideApp')
     };
 
     $scope.newPedal = function(){
-      $scope.pedal.owner = $scope.users[0]._id;
+      console.log($scope.login);
+      $scope.pedal.owner = $scope.login._id;
       $scope.pedal.effets = undefined;
-      pedal.createPedal($scope.pedal , $scope.login).then(function() {
-        $log.debug('pedal : ');
-        $log.debug($scope.pedal);
-        user.updateUser($scope.login);
-        $location.path( '/pedal/'.concat($scope.pedal._id) );
+
+      pedal.createPedal($scope.pedal , $scope.login , $scope.myPedals).then(function() {
+       // console.log('pedal : ');
+
+        $scope.login.pedals.push($scope.pedal._id);
+       // $scope.myPedals.push($scope.pedal);
+       // user.updateUser($scope.login);
+        $scope.pedalCreated = true;
+
+
+     //   $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
+    // console.log("~~~~~~~~~~~~~~");
+    //  console.log( $scope.myPedals);
     };
 
-    $scope.getMyPedals = function(){
-      for (var i=0 ; i < $scope.login.pedals.length; i++){
-        $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
-          .then(function(response){
-            $scope.myPedals.push(response.data);
-          });
-      }
-    };
+
     /**
      * shared pedals with other users
      *
@@ -242,14 +257,19 @@ angular.module('webClientSideApp')
            * add pedal shared into my list of pedals
            */
             //response.data.pedals.push(elt);
-          console.log(response.data);
+         // console.log(response.data);
           /**
            * update user
            */
           $http.put("http://localhost:3000/api/user", response.data)
         });
-    }
+    };
 
+
+    $scope.switchToSignup = function(){
+      $scope.created = false;
+      $scope.logged = true;
+    };
 
 
 

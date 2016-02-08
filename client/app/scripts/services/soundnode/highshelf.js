@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     HighShelf.prototype.type = 'highshelf';
 
     HighShelf.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.highshelf = audioContext.createBiquadFilter();
       this.highshelf.type = 'highshelf';
-
-      this.input.connect(this.highshelf);
-      this.highshelf.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     HighShelf.prototype.setParameters = function(paramName) {
       this.highshelf[paramName].value = this.value[paramName];
+    };
+    HighShelf.prototype.getInput = function() {
+      return this.highshelf;
+    };
+    HighShelf.prototype.getOutput = function() {
+      return this.highshelf;
     };
 
     // Public API here

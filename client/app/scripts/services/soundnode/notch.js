@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     Notch.prototype.type = 'notch';
 
     Notch.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.notch = audioContext.createBiquadFilter();
       this.notch.type = 'notch';
-
-      this.input.connect(this.notch);
-      this.notch.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     Notch.prototype.setParameters = function(paramName) {
       this.notch[paramName].value = this.value[paramName];
+    };
+    Notch.prototype.getInput = function() {
+      return this.notch;
+    };
+    Notch.prototype.getOutput = function() {
+      return this.notch;
     };
 
     // Public API here
