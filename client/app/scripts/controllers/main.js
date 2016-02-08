@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , user, pedal) {
+  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal) {
 
     $scope.signup = {
       username : "",
