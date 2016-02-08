@@ -107,14 +107,17 @@ router.route('/:id')
         if (req.body.pedals !== undefined) {
           if (req.body.pedals.constructor === Array) {
             for (var i = 0; i < req.body.pedals.length; i++) {
-              user.pedals.push(req.body.pedals[i]);
+              user.pedals.push({
+                _id: req.body.pedals[i]
+              });
             }
           }
           else {
-            user.pedals.push(req.body.pedals);
+            user.pedals.push({
+              _id: req.body.pedals
+            });
           }
         }
-
         if (req.body.shared !== undefined) {
           if (req.body.shared.constructor === Array) {
             for (var j = 0; j < req.body.shared.length; j++) {
