@@ -54,12 +54,12 @@ angular.module('webClientSideApp')
 
     $scope.myPedals = [];
     $scope.sharedPedals = [];
-
+    $scope.pedalsShared = [];
     // permet de hash un email
     $scope.hashEmail = function(email) {
       return md5.createHash(email);
     };
-
+/*
     $scope.myPedals.push(
       {
         "_id": "56a9ecead4b0c99c25e4b2df",
@@ -125,7 +125,7 @@ angular.module('webClientSideApp')
       }
     );
 
-
+*/
 
 
 
@@ -213,8 +213,11 @@ angular.module('webClientSideApp')
       pedal.createPedal($scope.pedal , $scope.login).then(function() {
         console.log('pedal : ');
         console.log($scope.pedal);
+        $scope.myPedals.push($scope.pedal);
         user.updateUser($scope.login);
-        $location.path( '/pedal/'.concat($scope.pedal._id) );
+        $scope.pedalCreated = true;
+
+     //   $location.path( '/pedal/'.concat($scope.pedal._id) );
       });
     };
 
@@ -223,6 +226,7 @@ angular.module('webClientSideApp')
         $http.get("http://localhost:3000/api/pedal/"+$scope.login.pedals[i])
           .then(function(response){
             $scope.myPedals.push(response.data);
+
           });
       }
     };
