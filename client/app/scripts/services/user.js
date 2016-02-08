@@ -35,6 +35,7 @@ angular.module('webClientSideApp')
                 $rootScope.logged = true;
 
                 user._id = data._id;
+                user.pedals = data.pedals;
                 deferred.resolve(data);
 
 
