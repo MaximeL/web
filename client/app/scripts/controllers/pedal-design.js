@@ -22,8 +22,8 @@ angular.module('webClientSideApp')
       {name: "Carbone 4",       value: "carbon4",   selected: false},
       {name: "Cuir",            value: "leather",   selected: false},
       {name: "Jean",            value: "jean",      selected: false},
-      {name: "Divers - bleu",   value: "misc-blue", selected: false},
-      {name: "Divers - rouge",  value: "misc-red",  selected: false}
+      {name: "Bleuté",   value: "misc-blue", selected: false},
+      {name: "Rougeâtre",  value: "misc-red",  selected: false}
     ];
 
     $scope.updateSelectedBackground = function(background) {
@@ -74,8 +74,6 @@ angular.module('webClientSideApp')
     }, function () {
       $location.path('/');
     });
-
-    //$scope.background = 'metal';
 
     var potarCounter = 0;
     $scope.changePotar = function (el, name) {
@@ -139,7 +137,7 @@ angular.module('webClientSideApp')
 
     $scope.saveDesign = function () {
       var data = {
-        background: $scope.background
+        background: $scope.selectedBackground().value
       };
 
       $scope.effects.forEach(function(effect) {
@@ -164,10 +162,11 @@ angular.module('webClientSideApp')
       $http.put(
         config.apiURL + config.pedals + $routeParams.id + config.pedal_design,
         data
-      ).then(function(response) {
-        console.log("success")
-      }, function(response) {
-        console.log("error");
+      ).success(function(response) {
+        $notification.success("Félicitations !", "Le design de la pédale a bien été sauvegardé");
+      }).error(function(response) {
+        console.log(response);
+        $notification.error("Erreur !", "Une erreur est survenue lors de la sauvegarde de la pédale : " + response.message);
       });
     };
 

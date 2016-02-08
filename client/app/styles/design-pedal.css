@@ -15,6 +15,10 @@
 .carbon3 { background-image: url('/images/background-carbon3.jpg') }
 .carbon4 { background-image: url('/images/background-carbon4.jpg') }
 
+.pedal-background {
+  margin: auto 5px auto 5px;
+}
+
 .pedal-potar {
   display: inline-block;
   height:150px;
