@@ -44,8 +44,6 @@ angular.module('webClientSideApp')
         this.allpass.frequency.value = 440;
         this.value.frequency = 440;
       } else {
-        $log.debug('this.value.frequency');
-        $log.debug(this.value.frequency);
         this.allpass.frequency.value = this.value.frequency;
       }
       if(typeof this.value.Q === 'undefined' || this.value.Q === null) {

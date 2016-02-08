@@ -89,6 +89,9 @@ router.put('/:id', function (req, res) {
       if (req.body.password !== undefined) {
         user.password = req.body.password;
       }
+      if (req.body.email !== undefined) {
+        user.email = req.body.email;
+      }
       if (req.body.pedals !== undefined) {
         if (req.body.pedals.constructor === Array) {
           for (var i = 0; i < req.body.pedals.length; i++) {
