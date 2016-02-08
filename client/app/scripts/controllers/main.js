@@ -8,6 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
+
   .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal, $location) {
 
     $scope.signup = {
@@ -52,6 +53,9 @@ angular.module('webClientSideApp')
 
     $scope.users = [];
 
+
+
+
     $scope.myPedals = [];
     $scope.sharedPedals = [];
     $scope.pedalsShared = [];
@@ -59,6 +63,7 @@ angular.module('webClientSideApp')
     $scope.hashEmail = function(email) {
       return md5.createHash(email);
     };
+
 /*
     $scope.myPedals.push(
       {
