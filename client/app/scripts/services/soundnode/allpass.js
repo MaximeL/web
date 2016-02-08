@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     AllPass.prototype.type = 'allpass';
 
     AllPass.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.allpass = audioContext.createBiquadFilter();
       this.allpass.type = 'allpass';
-
-      this.input.connect(this.allpass);
-      this.allpass.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     AllPass.prototype.setParameters = function(paramName) {
       this.allpass[paramName].value = this.value[paramName];
+    };
+    AllPass.prototype.getInput = function() {
+      return this.allpass;
+    };
+    AllPass.prototype.getOutput = function() {
+      return this.allpass;
     };
 
     // Public API here

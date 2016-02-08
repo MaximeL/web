@@ -16,16 +16,7 @@ angular.module('webClientSideApp')
     Gain.prototype.type = 'gain';
 
     Gain.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
-
       this.gain = audioContext.createGain();
-
-      this.input.connect(this.gain);
-      this.gain.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'gain';
@@ -45,6 +36,12 @@ angular.module('webClientSideApp')
     };
     Gain.prototype.setParameters = function(paramName) {
       this.gain[paramName].value = this.value[paramName];
+    };
+    Gain.prototype.getInput = function() {
+      return this.gain;
+    };
+    Gain.prototype.getOutput = function() {
+      return this.gain;
     };
 
     // Public API here

@@ -99,7 +99,7 @@ angular.module('webClientSideApp')
         NodeStorage.get().storage[0].playSound = node;
         NodeStorage.get().storage[0].music = data;
         NodeStorage.get().storage[0].ready = true;
-        $scope.nodeStorage.restoreInputPlaySound();
+        $scope.nodeStorage.restaureConnections(0);
       }, function () {
       });
 

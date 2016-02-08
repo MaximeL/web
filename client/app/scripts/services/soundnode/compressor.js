@@ -18,16 +18,7 @@ angular.module('webClientSideApp')
     Compressor.prototype.initNode = function(audioContext) {
       var self = this;
 
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
-
       this.compressor = audioContext.createDynamicsCompressor();
-
-      this.input.connect(this.compressor);
-      this.compressor.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'threshold';
@@ -112,6 +103,12 @@ angular.module('webClientSideApp')
     };
     Compressor.prototype.setParameters = function(paramName) {
       this.compressor[paramName].value = this.value[paramName];
+    };
+    Compressor.prototype.getInput = function() {
+      return this.compressor;
+    };
+    Compressor.prototype.getOutput = function() {
+      return this.compressor;
     };
 
     // Public API here
