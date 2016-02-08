@@ -186,13 +186,10 @@ angular.module('webClientSideApp')
      */
     $scope.checkLogin = function(){
       $scope.login.password = $scope._base64.encode($scope.login.password);
-     // console.log($scope.login);
+
       user.checkUser($scope.login);
-
-
-
-
-
+      console.log("user ::::: ");
+      console.log($scope.login);
 
     };
 
