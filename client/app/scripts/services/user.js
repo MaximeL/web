@@ -33,8 +33,7 @@ angular.module('webClientSideApp')
               .success(function(data) {
 
                 $rootScope.logged = true;
-                console.log(data);
-                console.log("success");
+
                 user._id = data._id;
                 deferred.resolve(data);
                 $notification.success("login", "connected successfuly");
