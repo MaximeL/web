@@ -11,17 +11,18 @@
 angular
   .module('webClientSideApp', [
     'ngRoute',
+    'ngCookies',
     'notifications',
     'ngAnimate',
     'ui.bootstrap',
     'angular-md5'
-    //,'angular-cookies'
   ])
   .constant('config',
     {
       apiURL: "http://localhost:3000/",
       samples: "samples/",
       users: "api/users/",
+      users_auth: "auth",
       pedals: "api/pedals/",
       pedal_comments: "/comments",
       pedal_rates: "/rates",
@@ -75,6 +76,16 @@ angular
         controller: 'PlayCtrl',
         controllerAs: 'play'
       })
+      .when('/sign-in', {
+        templateUrl: 'views/sign-in.html',
+        controller: 'AuthenticationCtrl',
+        controllerAs: 'authentication'
+      })
+      .when('/sign-up', {
+        templateUrl: 'views/sign-up.html',
+        controller: 'AuthenticationCtrl',
+        controllerAs: 'authentication'
+      })
       .otherwise({
         templateUrl: '404.html'
       });
@@ -82,8 +93,7 @@ angular
     $compileProvider.debugInfoEnabled(true);
   });
 
-nx.onload = function() {
+nx.onload = function () {
   nx.colorize("black", "#FFFFFF");
-  console.log('ON EST DEDANS !');
-}	;
+};
 
