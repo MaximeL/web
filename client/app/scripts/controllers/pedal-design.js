@@ -64,7 +64,9 @@ angular.module('webClientSideApp')
               value: el.value[keys[j]],
               min: param.min,
               max: param.max,
-              step: param.step
+              step: param.step,
+              idNode: el.id,
+              paramNode: keys[j]
             };
             $scope.effects.push(item);
           }
@@ -129,7 +131,6 @@ angular.module('webClientSideApp')
               break;
             }
           }
-
 
           var potar = nx.widgets[potarId];
           potar.val.value = item.value;

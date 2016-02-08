@@ -136,6 +136,24 @@ angular.module('webClientSideApp')
         }
       }
     };
+    NodeStorage.prototype.redoConnectionsNodes = function() {
+      //Going through the node from BD
+      for(var idNode = 2; idNode < this.storage.length; idNode++) {
+        //check for undefined
+        if(typeof this.storage[idNode] !== 'undefined' && this.storage[idNode] !== null) {
+          if (this.storage[idNode].precedents.indexOf(0) !== -1) {
+            this.storage[0].suivants.push(idNode);
+          }
+          if (idNode !== 1) {
+            if (typeof this.storage[idNode] !== 'undefined' && this.storage[idNode] !== null) {
+              //Connection of all element, taking suivants
+              this.restaureConnections(idNode);
+            }
+          }
+        }
+      }
+      this.restaureConnections(0);
+    };
     NodeStorage.prototype.wipe = function() {
       this.storage = [];
     };

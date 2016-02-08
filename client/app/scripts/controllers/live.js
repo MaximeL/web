@@ -13,6 +13,17 @@ angular.module('webClientSideApp')
     $scope.nodeStorage = NodeStorage.get();
     $scope.ready = false;
 
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
+
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+      $scope.ready = true;
+    } else {
+      $scope.ready = false;
+    }
     //this should be filled with data from server
     //To get what to save use : $scope.nodeStorage.backup()
     /*var backup = [];
@@ -85,17 +96,7 @@ angular.module('webClientSideApp')
       saveState.save($routeParams.id);
     });
 
-    navigator.getUserMedia = (navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
 
-    if (navigator.getUserMedia) {
-      console.log('getUserMedia supported.');
-      $scope.ready = true;
-    } else {
-      $scope.ready = false;
-    }
 
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");

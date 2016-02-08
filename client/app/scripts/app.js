@@ -84,5 +84,6 @@ angular
 
 nx.onload = function() {
   nx.colorize("black", "#FFFFFF");
+  console.log('ON EST DEDANS !');
 }	;
 
