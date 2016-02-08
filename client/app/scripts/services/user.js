@@ -28,12 +28,13 @@ angular.module('webClientSideApp')
       checkUser : (function(user){
 
         var deferred = $q.defer();
-        console.log(user);
+
           $http.post("http://localhost:3000/api/users/auth", user)
               .success(function(data) {
 
                 $rootScope.logged = true;
-
+                console.log(data);
+                console.log("success");
                 user._id = data._id;
                 deferred.resolve(data);
                 $notification.success("login", "connected successfuly");
