@@ -83,34 +83,38 @@ router.route('/:id')
   .put(function (req, res) {
     console.log('PUT a pedal');
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
-      console.log(req.body);
-        if (err) {
-          res.status(404);
-          return res.json({message: "unknowned pedal."});
-        }
+      if (err) {
+        res.status(404);
+        return res.json({message: "unknowned pedal."});
+      }
 
-        if (req.body.name !== undefined) {
-          pedale.name = req.body.name;
-        }
-        if (req.body.description !== undefined) {
-          pedale.description = req.body.description;
-        }
+      if(req.body.user == undefined || req.body.user != pedale.owner) {
+        res.staus(403);
+        return res.json({message: "unauthorized"});
+      }
+
+      if (req.body.name !== undefined) {
+        pedale.name = req.body.name;
+      }
+      if (req.body.description !== undefined) {
+        pedale.description = req.body.description;
+      }
 
       console.log(pedale);
-        if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
-          pedale.effects = [];
+      if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
+        pedale.effects = [];
 
-          for (var i = 0; i < req.body.effects.length; i++) {
-            pedale.effects.push({
-              data: req.body.effects[i].data
-            });
-          }
+        for (var i = 0; i < req.body.effects.length; i++) {
+          pedale.effects.push({
+            data: req.body.effects[i].data
+          });
         }
+      }
 
-        pedale.save(function (err) {
-          if (err) {
-            console.log(err);
-            return;
+      pedale.save(function (err) {
+        if (err) {
+          console.log(err);
+          return;
           }
           res.status(200);
           return res.send(pedale);
@@ -119,6 +123,7 @@ router.route('/:id')
     )
 
   })
+  // TODO : verif
   .delete(function (req, res) {
     console.log('DELETE a pedal');
     PedaleSchema.remove({_id: req.params.id}, function (err) {
@@ -157,6 +162,11 @@ router.route('/:id/users/')
       if (err) {
         res.status(404);
         return res.json({message: "Unknowned pedal"});
+      }
+
+      if(req.body.user == undefined || req.body.user != pedale.owner) {
+        res.staus(403);
+        return res.json({message: "unauthorized"});
       }
 
       pedale.users = [];

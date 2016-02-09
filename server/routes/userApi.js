@@ -124,8 +124,7 @@ router.route('/:id')
               console.log(req.body.shared[j]);
               user.shared.push(
                 {
-                  _id: req.body.shared[j].id,
-                  right: req.body.shared[j].right
+                  _id: req.body.shared[j].id
                 }
               );
             }
