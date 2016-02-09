@@ -1,16 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
 
-<form role="form">
+</head>
+<body>
 
-  <div class="form-group">
-    <label for="name">Nom</label>
-    <input type="text" id="name" class="form-control" name="name" ng-model="pedal.name" required/>
-  </div>
+<div class="container">
+  <h2>Creation d'une Pédale</h2>
+  <form role="form">
+    <div class="form-group">
+      <label for="name">Nom</label>
+      <input type="text" id="name" class="form-control" name="name" ng-model="pedal.nom" required/>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <input type="text" id="type" class="form-control" name="type" ng-model="pedal.type" required/>
+    </div>
+    <div class="form-group">
+      <label for="value">Value</label>
+      <input type="text" id="value" class="form-control" name="value" ng-model="pedal.value" required/>
+    </div>
+    <div class="form-group">
+      <label for="precedent">Precedent</label>
+      <input type="text" id="precedent" class="form-control" name="precedent" ng-model="pedal.precedent"/>
+    </div>
 
-  <div class="form-group">
-    <label for="description">description</label>
-    <input type="text" id="description" class="form-control" name="description" ng-model="pedal.description" />
-  </div>
+    <button type="submit" class="btn btn-default" ng-click="newPedal()">Submit</button>
+  </form>
+</div>
 
-  <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
-  <button type="submit" class="btn btn-default" ng-click="ok()">Submit</button>
-</form>
+
+
+
+</body>
+</html>
