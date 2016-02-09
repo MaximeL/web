@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config, $uibModal) {
+  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config, saveState) {
 
     $scope.user = $cookies.getObject('user');
 
@@ -92,7 +92,7 @@ angular.module('webClientSideApp')
        * Creation d'une nouvelle pedale
        */
       $scope.newPedal = function () {
-
+        saveState.wipe();
 
         $scope.pedal.owner=$scope.user.id;
         $scope.pedal.user=$scope.user.id;
@@ -103,7 +103,8 @@ angular.module('webClientSideApp')
           console.log($scope.pedal);
           $scope.user.pedals.push($scope.pedal._id);
           $scope.pedalCreated = true;
-        //  $location.path( '/pedal/'.concat($scope.pedal._id) );
+          saveState.newPedal($scope.pedal._id);
+          $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
 
       };

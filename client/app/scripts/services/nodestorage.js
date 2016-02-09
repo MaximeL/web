@@ -95,7 +95,7 @@ angular.module('webClientSideApp')
       this.addNode(input);
       this.addNode(output);
       for(var i = 0; i < backup.length; i++) {
-        if(typeof backup[i] !== 'undefined') {
+        if(typeof backup[i] !== 'undefined' && backup[i] !== null) {
           this.addNode(angular.fromJson(backup[i].data));
         }
       }
@@ -160,22 +160,8 @@ angular.module('webClientSideApp')
           this.storage[i].disconnect();
         }
       }
-      this.storage = [];
-    };
-
-    var get = function() {
-      if(typeof $rootScope.nodeStorage === 'undefined' || $rootScope.nodeStorage === null) {
-        $rootScope.nodeStorage = new NodeStorage();
-        return $rootScope.nodeStorage;
-      } else {
-        return $rootScope.nodeStorage;
-      }
     };
 
     // Public API here
-    return {
-      get: function() {
-        return get();
-      }
-    };
+    return NodeStorage;
   });

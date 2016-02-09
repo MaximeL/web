@@ -70,9 +70,10 @@ angular.module('webClientSideApp')
         if(scope.node.type !== 'input' && scope.node.type !== 'output') {
           jsPlumb.draggable("" + scope.node.id);
           element.bind("click", function () {
-            scope.node.posy = element.position().top;
-            scope.node.posx = element.position().left;
-            saveState.save($routeParams.id);
+            var ns = saveState.getNodeStorage($routeParams.id);
+            ns.storage[scope.node.id].posy = element.position().top;
+            ns.storage[scope.node.id].posx = element.position().left;
+            saveState.setNodeStorage(ns, $routeParams.id);
           });
         }
       }

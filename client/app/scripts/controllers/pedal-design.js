@@ -10,7 +10,7 @@
 angular.module('webClientSideApp')
   .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', '$timeout', '$cookies', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log, $timeout, $cookies) {
     $scope.user = $cookies.getObject('user');
-      $scope.nodeStorage = NodeStorage.get();
+      $scope.nodeStorage = NodeStorage.get($routeParams.id);
       $scope.effects = [];
       $scope.backgrounds = [
         {name: "Métal 1", value: "metal1", selected: true},

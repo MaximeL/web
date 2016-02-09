@@ -8,9 +8,12 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput, audiocontext) {
-    var vm = this;
-    $scope.nodeStorage = NodeStorage.get();
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, wsEffects, saveState, InitInput) {
+    $scope.pedalId = $routeParams.id;
+
+    /*if($scope.nodeStorage === null) {
+      $location.path('/');
+    }*/
     $scope.ready = false;
 
     navigator.getUserMedia = (navigator.getUserMedia ||
@@ -62,29 +65,31 @@ angular.module('webClientSideApp')
       effect.type = type;
       $scope.nodeStorage.addNode(effect);
       jsPlumb.repaintEverything();
-      saveState.save($routeParams.id);
+      saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+      saveState.saveState();
     };
 
     $scope.deleteEffect = function(id) {
       $scope.nodeStorage.removeNode(id);
       jsPlumb.repaintEverything();
-      saveState.save($routeParams.id);
+      saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+      saveState.saveState();
     };
 
     $scope.clickPlay = function() {
-      if(NodeStorage.get().storage[0].play !== null) {
-        if (NodeStorage.get().storage[0].play) {
-          NodeStorage.get().storage[0].play = null;
-          NodeStorage.get().storage[0].playSound.stop(0);
-          NodeStorage.get().storage[0].play = false;
+      if($scope.nodeStorage.storage[0].play !== null) {
+        if ($scope.nodeStorage.storage[0].play) {
+          $scope.nodeStorage.storage[0].play = null;
+          $scope.nodeStorage.storage[0].playSound.stop(0);
+          $scope.nodeStorage.storage[0].play = false;
         } else {
-          NodeStorage.get().storage[0].play = null;
+          $scope.nodeStorage.storage[0].play = null;
           InitInput.getMediaPlaySound().then(function (node, data) {
-            NodeStorage.get().storage[0].playSound = node;
-            NodeStorage.get().storage[0].music = data;
+            $scope.nodeStorage.storage[0].playSound = node;
+            $scope.nodeStorage.storage[0].music = data;
             $scope.nodeStorage.restaureConnections(0);
-            NodeStorage.get().storage[0].playSound.start(0);
-            NodeStorage.get().storage[0].play = true;
+            $scope.nodeStorage.storage[0].playSound.start(0);
+            $scope.nodeStorage.storage[0].play = true;
           }, function () {
           });
         }
@@ -93,26 +98,30 @@ angular.module('webClientSideApp')
 
     angular.element($window).bind('resize', function() {
       jsPlumb.repaintEverything();
-      saveState.save($routeParams.id);
+      saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+      saveState.saveState();
     });
-
-
 
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");
+      //$scope.nodeStorage = saveState.getNodeStorage($scope.pedalId);
 
       wsEffects.get($routeParams.id).then(function (response) {
+        $scope.nodeStorage = saveState.getNodeStorage($scope.pedalId);
+        $log.debug('nodeStorage : ');
+        $log.debug($scope.nodeStorage);
         $scope.nodeStorage.setupPedal(response.effects);
         $timeout(function () {
           $scope.nodeStorage.redoConnections();
-          saveState.save($routeParams.id);
+          saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+          saveState.saveState();
         }, 1000);
       }, function () {
         $location.path('/');
       });
 
       InitInput.getMediaInput().then(function (node) {
-        NodeStorage.get().storage[0].output = node;
+        $scope.nodeStorage.storage[0].output = node;
         $scope.nodeStorage.restaureConnections(0);
       }, function (err) {
       });
@@ -121,13 +130,15 @@ angular.module('webClientSideApp')
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.connect(inputId, outputId);
-        saveState.save($routeParams.id);
+        saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+        saveState.saveState();
       });
       jsPlumb.bind('connectionDetached', function (info) {
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.disconnect(inputId, outputId);
-        saveState.save($routeParams.id);
+        saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+        saveState.saveState();
       });
     });
 
@@ -137,7 +148,9 @@ angular.module('webClientSideApp')
     };
 
     $scope.$on("$destroy", function(){
-      NodeStorage.get().wipe();
+      saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+      saveState.saveState();
+      $scope.nodeStorage.wipe();
       angular.element($window).unbind('resize');
       jsPlumb.reset();
     });
