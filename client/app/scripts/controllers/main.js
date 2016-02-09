@@ -10,30 +10,45 @@
 angular.module('webClientSideApp')
 
   .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config) {
+
     if ($cookies.getObject('user') === undefined) {
       $location.path("/sign-in");
     }
+
     $scope.user = $cookies.getObject('user');
+
+    /**
+     * Recup des pedales pour un user
+     */
     $http.get(config.apiURL + config.users + $scope.user.id)
       .success(function (response) {
+
+        console.log("User : " + $scope.user.id);
         $scope.user.pedals = response.pedals;
         $scope.user.shared = response.shared;
+
         var pedals = $scope.user.pedals;
         $scope.user.pedals = [];
+
         // Pour chaque pédales possédées
         pedals.forEach(function (pedal) {
+
+          console.log("Une pedale : " + pedal);
+
           $http.get(config.apiURL + config.pedals + pedal)
             .success(function (response) {
               var item = {
                 _id: response._id,
                 name: response.name,
-                description: response.description,
+                description: response.description
               };
               var users = response.users;
+
               // Pour chaque utilisateur de la pédale
               users.forEach(function (user) {
                 $http.get(config.apiURL + config.users + user._id)
                   .success(function (response) {
+                    console.log(response.email);
                     user.email = response.email;
                   })
                   .error(function (response) {
@@ -41,15 +56,17 @@ angular.module('webClientSideApp')
                   });
               });
               item.users = users;
+              console.log(item);
 
               // TODO : Rating
 
               $scope.user.pedals.push(item);
             }).error(function (response) {
+            console.log(response);
           });
         });
 
-        var shared = $scope.user.shared
+        var shared = $scope.user.shared;
         // Pour chaque pédale partagée
         shared.forEach(function (pedal) {
           $http.get(config.apiURL + config.pedals + pedal)
@@ -57,7 +74,7 @@ angular.module('webClientSideApp')
               var item = {
                 _id: response._id,
                 name: response.name,
-                description: response.description,
+                description: response.description
               };
               var users = response.users;
               // Pour chaque utilisateur de la pédale
@@ -71,7 +88,6 @@ angular.module('webClientSideApp')
                   });
               });
               item.users = users;
-
               // TODO : Rating
 
               $scope.user.pedals.push(item);
@@ -83,6 +99,10 @@ angular.module('webClientSideApp')
 
       });
 
+
+    /**
+     * Creation d'une nouvelle pedale
+     */
     $scope.newPedal = function () {
       console.log($scope.login);
       $scope.pedal.owner = $scope.login._id;
@@ -111,7 +131,7 @@ angular.module('webClientSideApp')
      * @param pedal
      */
     $scope.share = function (id, pedal) {
-      $http.get("http://localhost:3000/api/user/" + id)
+      $http.get(config.apiURL + config.users + id)
         .then(function (response) {
           var elt = {_id: id, right: true};
           /**
@@ -122,7 +142,7 @@ angular.module('webClientSideApp')
           /**
            * update user
            */
-          $http.put("http://localhost:3000/api/user", response.data)
+          $http.put(config.apiURL + config.users, response.data)
         });
     };
 
@@ -133,12 +153,8 @@ angular.module('webClientSideApp')
     };
 
 
-
-
-
-
     // permet de hash un email
-    $scope.hashEmail = function(email) {
+    $scope.hashEmail = function (email) {
       return md5.createHash(email);
     };
 
@@ -150,11 +166,11 @@ angular.module('webClientSideApp')
         "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
         "name": "Ma pédale modifée",
         "users": [
-          {"username": "Robert",     "email": "truc@mail.com"},
+          {"username": "Robert", "email": "truc@mail.com"},
           {"username": "Jean-henri", "email": "truc1@mail.com"},
-          {"username": "Brigitte",   "email": "truc2@mail.com"},
+          {"username": "Brigitte", "email": "truc2@mail.com"},
           {"username": "Jacqueline", "email": "truc3@mail.com"},
-          {"username": "Micheline",  "email": "truc4@mail.com"}
+          {"username": "Micheline", "email": "truc4@mail.com"}
         ],
         "comments": [
           {
@@ -182,9 +198,9 @@ angular.module('webClientSideApp')
         "description": "C'est la pédale à tonton",
         "name": "Ze mega pedale",
         "users": [
-          {"username": "Brigitte",   "email": "truc5@mail.com"},
+          {"username": "Brigitte", "email": "truc5@mail.com"},
           {"username": "Jacqueline", "email": "truc6@mail.com"},
-          {"username": "Micheline",  "email": "truc7@mail.com"}
+          {"username": "Micheline", "email": "truc7@mail.com"}
         ],
         "comments": [
           {

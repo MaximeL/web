@@ -1,6 +1,6 @@
 <div class="col-md-6">  <!--style="border-left:1px dashed #dfdfdf"-->
   <h2 class="pedal-category text-center" style="text-shadow: 1px 2px 0 rgba(0,0,0,0.1),-1px -2px 0 rgba(255,255,255,0.1);color: #76b5dd">SHARED PEDALS</h2>
-  <div ng-repeat="pedal in myPedals">
+  <div ng-repeat="pedal in user.shared">
     <div class="pedals">
 
       <!--pedal header-->
@@ -52,9 +52,9 @@
       <div class="clearfix"/>
 
       <ul class="list-inline pull-right">
-        <li ng-repeat="user in pedal.users">
+        <li ng-repeat="usr in pedal.users">
           <!-- hash de l'email -->
-          <img src="http://www.gravatar.com/avatar/{{hashEmail(user.email)}}.jpg?s=30&d=retro"/>
+          <img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=30&d=retro"/>
         </li>
       </ul>
 
