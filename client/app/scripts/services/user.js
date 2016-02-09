@@ -25,10 +25,7 @@ angular.module('webClientSideApp')
               "L'utilisateur " + user.username + " n'a pas été créé (" + response.message + ")."
             );
           });
-        //
-        //var deferred = $q.defer();
-        //$http.post("http://localhost:3000/api/users", user);
-        //return deferred.promise;
+
       }),
       login: function (user, redirect) {
         return $http.post(config.apiURL + config.users + config.users_auth, user)
@@ -49,13 +46,14 @@ angular.module('webClientSideApp')
               "Impossible de connecter l'utilisateur " + user.username + " (" + response.message + ")."
             );
           });
+      },
+      updateUser : function(user){
+        console.log("####");
+        console.log(user);
+        console.log("####");
+        return $http.put(config.apiURL + config.users +user._id, user)
+
       }
-      //updateUser : (function(user){
-      //    var deferred = $q.defer();
-      //
-      //  $http.put("http://localhost:3000/api/users/"+user._id, user)
-      //  return deferred.promise;
-      //}),
       //checkUser : (function(user,myPedals){
       //
       //  var deferred = $q.defer();
