@@ -27,8 +27,8 @@
 }
 
 .input {
-  background-color: #a5b7bf;
-  border: 1px solid #808d94;
+  background-color: #87979f;
+  border: 1px solid #677277;
   position: absolute;
   height: 100%;
   top: 0;
@@ -36,11 +36,12 @@
   width: 5%;
   min-width: 5%;
   padding: 0;
+  margin-left: 5px;
 }
 
 .output {
-  background-color: #79868b;
-  border: 1px solid #5f676b;
+  background-color: #87979f;
+  border: 1px solid #677277;
   position: absolute;
   height: 100%;
   top: 0;
@@ -84,12 +85,14 @@
 
 .delete-node {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0px;
+  right: 0px;
+  background: #e6e6e6;
   width: 15px;
   height: 15px;
-  background: red;
-  border-radius: 5px;
+  cursor: pointer;
+  border-left:1px solid #cfcfcf;
+  border-bottom:1px solid #cfcfcf;
 }
 
 .input .delete-node {
@@ -106,7 +109,6 @@
 .image-button {
   width: 100%;
 }
-
 
 /* Les boiboites */
 

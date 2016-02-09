@@ -25,7 +25,7 @@
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined" snode="node">
         <div>
           <div ng-class="(node.name == 'input' || node.name == 'output') ? 'input-output-text' : 'node-text'">{{node.name}}</div>
-          <div class="delete-node" ng-click="deleteEffect(node.id)"></div>
+          <div class="delete-node" ng-click="deleteEffect(node.id)"><div style="margin-top:-7px;margin-left:-1px;font-size:20px;color:#ffffff;">&#10006;</div></div>
 
           <!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
           <div>
