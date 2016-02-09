@@ -34,7 +34,7 @@ router.route('/')
       function (err, pedal) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "incorrect syntax"});
         }
         res.status(200);
         return res.json(pedal.rating);
@@ -52,9 +52,9 @@ router.route('/')
       }
       // on test l'existence des parametres requis
       if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
-        req.body.author == "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
+        req.body.author === "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
         res.status(400);
-        return res.json({message: "Post syntax incorrect, note is not specified, empty or invalid"});
+        return res.json({message: "incorrect syntax"});
       }
 
       pedale.rating.push({
@@ -65,7 +65,7 @@ router.route('/')
       pedale.save(function (err) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "incorrect syntax"});
         }
         res.status(201);
         return res.send(pedale);

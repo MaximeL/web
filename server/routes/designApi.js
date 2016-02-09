@@ -54,7 +54,7 @@ router.route('/')
     PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "Unknowned pedal"});
+        return res.json({message: "unknowned pedal"});
       }
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {
@@ -66,7 +66,7 @@ router.route('/')
       if (!req.body.hasOwnProperty('background') ||
         req.body.background === "") {
         res.status(400);
-        return res.json({message: "Post syntax incorrect, background is not specified, empty or invalid"});
+        return res.json({message: "incorrect syntax"});
       }
 
       pedale.design.background = req.body.background;
@@ -78,7 +78,7 @@ router.route('/')
       pedale.save(function (err) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "incorrect syntax"});
         }
         res.status(200);
         return res.send(pedale);

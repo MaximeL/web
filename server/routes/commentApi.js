@@ -46,7 +46,7 @@ router.route('/')
       req.body.author === "" || req.body.content === "") {
       console.log("   auhtor or content not specified!");
       res.status(400);
-      return res.json({message: "Post syntax incorrect, author or content not specified or empty"});
+      return res.json({message: "incorrect syntax"});
     }
 
     PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
@@ -63,7 +63,7 @@ router.route('/')
       pedale.save(function (err) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "incorrect syntax"});
         }
         console.log("   Ok pour l'ajout d'un commentaire");
         res.status(201);

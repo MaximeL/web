@@ -15,6 +15,7 @@ router.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Content-type", "");
   next(); // go to the next route
 });
 
@@ -35,7 +36,6 @@ router.use('/:pedalId/design', designRouter);
 //##########POST > Route -> /api/pedale###########
 
 router.route('/')
-  // TODO : Update user
   .post(function (req, res) {
     console.log('POST a pedal');
     var pedale = new PedaleSchema();
@@ -43,7 +43,7 @@ router.route('/')
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('owner') ||
       req.body.name === "" || req.body.description === "" || req.body.owner === "") {
       res.status(400);
-      return res.json({message: "Post syntax incorrect"});
+      return res.json({message: "incorrect syntax"});
     }
     pedale.name = req.body.name;
     pedale.description = req.body.description;
@@ -67,7 +67,7 @@ router.route('/:id')
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "Unknowned pedal"});
+        return res.json({message: "unknowned pedal"});
       }
       console.log(err);
       console.log(pedale);
@@ -77,10 +77,17 @@ router.route('/:id')
   })
   .put(function (req, res) {
     console.log('PUT a pedal');
+
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('owner') ||
+      req.body.name === "" || req.body.description === "" || req.body.owner === "") {
+      res.status(400);
+      return res.json({message: "incorrect syntax"});
+    }
+
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "unknowned pedal."});
+        return res.json({message: "unknowned pedal"});
       }
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {
@@ -139,7 +146,7 @@ router.route('/:id/users/')
       function (err, pedal) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "incorrect syntax"});
         }
         res.status(200);
         return res.send(pedal.users);
@@ -150,13 +157,13 @@ router.route('/:id/users/')
     console.log('PUT users of pedal');
     if (req.body.constructor !== Array || req.body.length == 0) {
       res.status(400);
-      return res.json({message: "Put syntax incorrect"});
+      return res.json({message: "incorrect syntax"});
     }
 
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "Unknowned pedal"});
+        return res.json({message: "unknowned pedal"});
       }
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {

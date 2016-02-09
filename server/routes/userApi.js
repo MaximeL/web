@@ -35,7 +35,7 @@ router.route('/')
     if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('email') ||
       req.body.username === "" || req.body.password === "" || req.body.email === "") {
       res.status(400);
-      return res.json({message: "Post syntax incorrect"});
+      return res.json({message: "incorrect syntax"});
     }
 
     var user = new UserSchema();
@@ -67,7 +67,8 @@ router.route('/auth')
       }
 
       if (user == null) {
-        return res.status(404).json("{message: user not found}")
+        res.status(404);
+        return res.json({message: "User does not exist"});
       }
       res.status(200);
       return res.send(user);
@@ -78,7 +79,8 @@ router.route('/auth')
 router.route('/:id')
   .get(function (req, res) {
     console.log('GET a user');
-    UserSchema.findOne({'_id': req.params.id}, function (err, user) {
+    query = UserSchema.findOne({'_id': req.params.id}).select('-password');
+    query.exec(function (err, user) {
       if (err) {
         res.status(404);
         return res.json({message: "User unknowned"});
