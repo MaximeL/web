@@ -81,7 +81,7 @@ angular.module('webClientSideApp')
 
         var waiter = function (item, name) {
           if (nx.widgets == undefined || nx.widgets[name] == undefined || nx.widgets[name].val == undefined) {
-            $timeout(waiter(item, name), 200);
+            $timeout(waiter(item, name), 500);
           } else {
             var potar = nx.widgets[name];
             potar.val.value = item.value;
@@ -132,15 +132,23 @@ angular.module('webClientSideApp')
             }
           }
 
-          var potar = nx.widgets[potarId];
-          potar.val.value = item.value;
-          potar.min = item.min;
-          potar.max = item.max;
-          potar.label = item.label;
-          potar.height = "150";
-          potar.width = "100";
+          var waiter = function(potarId, item) {
+            if(nx.widgets[potarId] == undefined || nx.widgets[potarId].val == undefined || nx.widgets[potarId].val.value == undefined) {
+              $timeout(waiter(potarId, item), 500);
+            } else {
+              var potar = nx.widgets[potarId];
+              potar.val.value = item.value;
+              potar.min = item.min;
+              potar.max = item.max;
+              potar.label = item.label;
+              potar.height = "150";
+              potar.width = "100";
 
-          potar.draw();
+              potar.draw();
+            }
+          };
+
+          waiter(potarId, item);
 
           document.querySelector("#" + potarId).className = "nx";
           $scope[potarId] = item.name;
