@@ -1,5 +1,12 @@
 angular.module('webClientSideApp')
-  .controller('AuthenticationCtrl', function ($scope, $cookies, $notification, user) {
+  .controller('AuthenticationCtrl', function ($scope, $location, $cookies, $notification, user) {
+    if ($location.path() == "/sign-out") {
+      if ($cookies.get("user") !== undefined) {
+        $cookies.remove("user");
+        $notification.success("Success:", "You have been disconnected.");
+      }
+      $location.path('/sign-in');
+    }
     /**
      * Create a new user in DB.
      */
@@ -13,15 +20,15 @@ angular.module('webClientSideApp')
         // TODO : hash pwd
         user.create($scope.user, '/sign-in')
       } else {
-        $notification.error("Erreur:", "Les champs du formulaire ne sont pas correctement remplis")
+        $notification.error("Error::", "All field are not correctly filled.")
       }
     };
 
     /**
      * Verify existence of user in DB.
      */
-    $scope.signIn = function() {
-      if(
+    $scope.signIn = function () {
+      if (
         $scope.user != undefined &&
         $scope.user.username != undefined &&
         $scope.user.password != undefined
@@ -29,18 +36,5 @@ angular.module('webClientSideApp')
         // TODO : hash pwd
         user.login($scope.user, '/');
       }
-    }
-
-    function login() {
-      vm.dataLoading = true;
-      AuthenticationService.Login(vm.username, vm.password, function (response) {
-        if (response.success) {
-          AuthenticationService.SetCredentials(vm.username, vm.password);
-          $location.path('/');
-        } else {
-          FlashService.Error(response.message);
-          vm.dataLoading = false;
-        }
-      });
     };
   });

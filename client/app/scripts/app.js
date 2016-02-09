@@ -86,6 +86,11 @@ angular
         controller: 'AuthenticationCtrl',
         controllerAs: 'authentication'
       })
+      .when('/sign-out', {
+        templateUrl: 'views/sign-out.html',
+        controller: 'AuthenticationCtrl',
+        controllerAs: 'authentication'
+      })
       .otherwise({
         templateUrl: '404.html'
       });
