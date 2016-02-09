@@ -13,7 +13,7 @@ var UserSchema = new Schema({
   email: String,
   password: String,
   pedals: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedals'}}],
-  shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedals'}, right: Boolean}]
+  shared: [{_id: {type: Schema.Types.ObjectId, ref: 'Pedals'}}]
 }, {collection: 'users', versionKey: false});
 
 var getUserSchema = function () {

@@ -1,5 +1,9 @@
 'use strict';
 
+nx.onload = function () {
+  nx.colorize("black", "#FFFFFF");
+};
+
 /**
  * @ngdoc overview
  * @name webClientSideApp
@@ -86,6 +90,11 @@ angular
         controller: 'AuthenticationCtrl',
         controllerAs: 'authentication'
       })
+      .when('/sign-out', {
+        templateUrl: 'views/sign-out.html',
+        controller: 'AuthenticationCtrl',
+        controllerAs: 'authentication'
+      })
       .otherwise({
         templateUrl: '404.html'
       });
@@ -100,8 +109,4 @@ angular
       $location.path("/sign-in");
     }
   });
-
-nx.onload = function () {
-  nx.colorize("black", "#FFFFFF");
-};
 
