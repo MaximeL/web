@@ -62,7 +62,7 @@ angular
         controllerAs: 'signup'
       })
       .when('/createPedal', {
-        templateUrl: 'views/CreatePedal.html',
+        templateUrl: 'views/create-pedal.html',
         controller: 'MainCtrl',
         controllerAs: 'createPedal'
       })

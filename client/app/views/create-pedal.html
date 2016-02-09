@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+<div class="container">
+  <h2>Creation d'une Pédale</h2>
+  <form role="form">
+    <div class="form-group">
+      <label for="name">Nom</label>
+      <input type="text" id="name" class="form-control" name="name" ng-model="pedal.nom" required/>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <input type="text" id="type" class="form-control" name="type" ng-model="pedal.type" required/>
+    </div>
+    <div class="form-group">
+      <label for="value">Value</label>
+      <input type="text" id="value" class="form-control" name="value" ng-model="pedal.value" required/>
+    </div>
+    <div class="form-group">
+      <label for="precedent">Precedent</label>
+      <input type="text" id="precedent" class="form-control" name="precedent" ng-model="pedal.precedent"/>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
