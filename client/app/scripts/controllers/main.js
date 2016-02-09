@@ -93,23 +93,18 @@ angular.module('webClientSideApp')
        * Creation d'une nouvelle pedale
        */
       $scope.newPedal = function () {
-        console.log($scope.login);
-        $scope.pedal.owner = $scope.login._id;
+
+
+        $scope.pedal.owner=$scope.user.id;
         $scope.pedal.effets = undefined;
 
-        pedal.createPedal($scope.pedal, $scope.login, $scope.myPedals).then(function () {
-          // console.log('pedal : ');
-
-          $scope.login.pedals.push($scope.pedal._id);
-          // $scope.myPedals.push($scope.pedal);
-          // user.updateUser($scope.login);
+        pedal.createPedal($scope.pedal, $scope.login).then(function () {
+          console.log($scope.pedal);
+          $scope.user.pedals.push($scope.pedal._id);
           $scope.pedalCreated = true;
-
-
-          //   $location.path( '/pedal/'.concat($scope.pedal._id) );
+          $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
-        // console.log("~~~~~~~~~~~~~~");
-        //  console.log( $scope.myPedals);
+
       };
 
 
