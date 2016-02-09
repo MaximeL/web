@@ -4,12 +4,15 @@
     height: 100%;
     padding: 0;
   }
+
   .container-fluid {
     padding: 0;
   }
+
   .footer {
     padding: 0;
   }
+
   .navbar-fixed-bottom {
     width: 80%;
   }
@@ -22,7 +25,7 @@
       <audio-node ng-repeat="node in nodeStorage.storage | filter:isUndefined"
                   snode="node">
         <div>
-          <div> {{node.name}} </div>
+          <div> {{node.name}}</div>
           <div class="delete-node" ng-click="deleteEffect(node.id)"></div>
 
           <!-- Sorry for the long code. But I couldn't integrate template yet. Maybe later -->
@@ -58,8 +61,10 @@
   <!-- side menu to add effects -->
   <div id="live-sidebar">
     <div class="effect-element" ng-repeat="effect in effects">
-      <div class="effect-button" ng-click="addEffect(effect)">
+      <div class="effect-button">
+      <div ng-class="effect" ng-click="addEffect(effect)">
         {{effect}}
+      </div>
       </div>
     </div>
   </div>
