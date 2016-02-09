@@ -101,18 +101,15 @@ angular
 
     $compileProvider.debugInfoEnabled(true);
   })
-  .run(function($scope, $cookies, $location, $log){
+  .run(function ($rootScope, $cookies, $location, $log, $route){
     $log.debug('In run function');
-
-    //now redirect to appropriate path based on login status
-    if ($cookies.getObject('user') === undefined) {
-      $log.debug('not signed in. redirection...');
-      $scope.$apply(function () {
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+      if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in') {
+        $log.debug('not signed in. redirection...');
         $location.path("/sign-in");
-      });
-    } else {
-      $log.debug('this is the cooki : ');
-      $cookies.getObject('user');
-    }
+        $route.reload();
+     }
+     });
+
   });
 
