@@ -1,5 +1,9 @@
 'use strict';
 
+nx.onload = function () {
+  nx.colorize("black", "#FFFFFF");
+};
+
 /**
  * @ngdoc overview
  * @name webClientSideApp
@@ -97,8 +101,4 @@ angular
 
     $compileProvider.debugInfoEnabled(true);
   });
-
-nx.onload = function () {
-  nx.colorize("black", "#FFFFFF");
-};
 
