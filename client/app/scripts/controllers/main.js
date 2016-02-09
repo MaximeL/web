@@ -96,13 +96,15 @@ angular.module('webClientSideApp')
 
 
         $scope.pedal.owner=$scope.user.id;
-        $scope.pedal.effets = undefined;
+        $scope.pedal.user=$scope.user.id;
+        $scope.pedal.effects = [];
+        $scope.pedal.effects.push({data:$scope.pedal.effect});
 
         pedal.createPedal($scope.pedal, $scope.login).then(function () {
           console.log($scope.pedal);
           $scope.user.pedals.push($scope.pedal._id);
           $scope.pedalCreated = true;
-          $location.path( '/pedal/'.concat($scope.pedal._id) );
+        //  $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
 
       };
@@ -121,8 +123,7 @@ angular.module('webClientSideApp')
             /**
              * add pedal shared into my list of pedals
              */
-            //response.data.pedals.push(elt);
-            // console.log(response.data);
+
             /**
              * update user
              */
