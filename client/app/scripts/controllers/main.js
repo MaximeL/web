@@ -88,28 +88,23 @@ angular.module('webClientSideApp')
         });
 
 
-    /**
-     * Creation d'une nouvelle pedale
-     */
-    $scope.createNewPedal = function (pedal) {
-      pedal.owner = $scope.user.id;
-      Pedal.createPedal(pedal).then(function(data) {
-        $location.path("/pedal/"+data._id);
-      });
-    };
+      /**
+       * Creation d'une nouvelle pedale
+       */
+      $scope.newPedal = function () {
 
-    $scope.openNewPedal = function() {
-      var modalNewPedal = $uibModal.open({
-        animation: $scope.animationsEnabled,
-        templateUrl: 'views/create-pedal.html',
-        controller: 'CreatePedalCtrl',
-        size: 'sm'
-      });
 
-      modalNewPedal.result.then(function (pedal) {
-        $scope.createNewPedal(pedal);
-      }, function () {});
-    };
+        $scope.pedal.owner=$scope.user.id;
+        $scope.pedal.effets = undefined;
+
+        pedal.createPedal($scope.pedal, $scope.login).then(function () {
+          console.log($scope.pedal);
+          $scope.user.pedals.push($scope.pedal._id);
+          $scope.pedalCreated = true;
+          $location.path( '/pedal/'.concat($scope.pedal._id) );
+        });
+
+      };
 
 
       /**
