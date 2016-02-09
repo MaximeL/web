@@ -9,11 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config) {
-
-    if ($cookies.getObject('user') === undefined) {
-      $location.path("/sign-in");
-    }
+  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, Pedal, $location, config, $uibModal) {
 
     $scope.user = $cookies.getObject('user');
 
@@ -95,24 +91,24 @@ angular.module('webClientSideApp')
     /**
      * Creation d'une nouvelle pedale
      */
-    $scope.newPedal = function () {
-      console.log($scope.login);
-      $scope.pedal.owner = $scope.login._id;
-      $scope.pedal.effets = undefined;
-
-      pedal.createPedal($scope.pedal, $scope.login, $scope.myPedals).then(function () {
-        // console.log('pedal : ');
-
-        $scope.login.pedals.push($scope.pedal._id);
-        // $scope.myPedals.push($scope.pedal);
-        // user.updateUser($scope.login);
-        $scope.pedalCreated = true;
-
-
-        //   $location.path( '/pedal/'.concat($scope.pedal._id) );
+    $scope.createNewPedal = function (pedal) {
+      pedal.owner = $scope.user.id;
+      Pedal.createPedal(pedal).then(function(data) {
+        $location.path("/pedal/"+data._id);
       });
-      // console.log("~~~~~~~~~~~~~~");
-      //  console.log( $scope.myPedals);
+    };
+
+    $scope.openNewPedal = function() {
+      var modalNewPedal = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'views/create-pedal.html',
+        controller: 'CreatePedalCtrl',
+        size: 'sm'
+      });
+
+      modalNewPedal.result.then(function (pedal) {
+        $scope.createNewPedal(pedal);
+      }, function () {});
     };
 
 

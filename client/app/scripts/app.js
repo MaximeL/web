@@ -91,6 +91,14 @@ angular
       });
 
     $compileProvider.debugInfoEnabled(true);
+  })
+  .run(function($cookies, $location, $log){
+    $log.debug('In run function');
+
+    //now redirect to appropriate path based on login status
+    if ($cookies.getObject('user') === undefined) {
+      $location.path("/sign-in");
+    }
   });
 
 nx.onload = function () {
