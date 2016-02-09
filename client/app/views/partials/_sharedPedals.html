@@ -1,15 +1,14 @@
-<div class="col-md-6">
-  <h2 class="pedal-category">Shared pedals</h2>
+<div class="col-md-6">  <!--style="border-left:1px dashed #dfdfdf"-->
+  <h2 class="pedal-category text-center" style="text-shadow: 1px 2px 0 rgba(0,0,0,0.1),-1px -2px 0 rgba(255,255,255,0.1);color: #76b5dd">SHARED PEDALS</h2>
   <div ng-repeat="pedal in myPedals">
-    <div class="alert alert-info">
+    <div class="pedals">
 
       <!--pedal header-->
       <div class="pedal-header">
 
         <div class="pull-left">
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
@@ -45,8 +44,8 @@
       <div class="clearfix"/>
 
       <!--block description et bouton play edit-->
-      <div class="pull-left">
-        <blockquote class="quote-pedals shared-pedals">{{pedal.description}}</blockquote>
+      <div class="quote pull-left">
+        <blockquote class="quote-pedals quote-shared-pedals">{{pedal.description}}</blockquote>
       </div>
 
 
@@ -61,5 +60,6 @@
 
       <div class="clearfix"/>
     </div>
+    <br/>
   </div>
 </div>

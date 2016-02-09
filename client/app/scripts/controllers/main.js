@@ -50,21 +50,18 @@ angular.module('webClientSideApp')
     $rootScope.logged = false;
     $scope.created = true;
     $scope.pedalCreated = true;
+    $scope.pedalsShared = [];
 
     $scope.users = [];
 
 
 
-
-    $scope.myPedals = [];
-    $scope.sharedPedals = [];
-    $scope.pedalsShared = [];
     // permet de hash un email
     $scope.hashEmail = function(email) {
       return md5.createHash(email);
     };
 
-
+    $scope.myPedals = [];
     $scope.myPedals.push(
       {
         "_id": "56a9ecead4b0c99c25e4b2df",
@@ -129,32 +126,6 @@ angular.module('webClientSideApp')
         ]
       }
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
