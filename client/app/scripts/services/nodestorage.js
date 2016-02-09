@@ -155,6 +155,11 @@ angular.module('webClientSideApp')
       this.restaureConnections(0);
     };
     NodeStorage.prototype.wipe = function() {
+      for(var i = 0; i < this.storage.length; i++) {
+        if(typeof this.storage[i] !== 'undefined' && this.storage[i] !== null) {
+          this.storage[i].disconnect();
+        }
+      }
       this.storage = [];
     };
 
