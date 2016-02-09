@@ -51,7 +51,7 @@ angular.module('webClientSideApp')
         console.log("####");
         console.log(user);
         console.log("####");
-        return $http.put(config.apiURL + config.users +user._id, user)
+        return $http.put(config.apiURL + config.users +user.id, user)
 
       }
       //checkUser : (function(user,myPedals){
