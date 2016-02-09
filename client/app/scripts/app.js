@@ -101,12 +101,18 @@ angular
 
     $compileProvider.debugInfoEnabled(true);
   })
-  .run(function($cookies, $location, $log){
+  .run(function($scope, $cookies, $location, $log){
     $log.debug('In run function');
 
     //now redirect to appropriate path based on login status
     if ($cookies.getObject('user') === undefined) {
-      $location.path("/sign-in");
+      $log.debug('not signed in. redirection...');
+      $scope.$apply(function () {
+        $location.path("/sign-in");
+      });
+    } else {
+      $log.debug('this is the cooki : ');
+      $cookies.getObject('user');
     }
   });
 

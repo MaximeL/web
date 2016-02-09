@@ -8,11 +8,8 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', '$timeout', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log, $timeout) {
+  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', '$timeout', '$cookies', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log, $timeout, $cookies) {
     $scope.user = $cookies.getObject('user');
-    if ($scope.user === undefined) {
-      $location.path("/sign-in");
-    } else {
       $scope.nodeStorage = NodeStorage.get();
       $scope.effects = [];
       $scope.backgrounds = [
@@ -217,5 +214,4 @@ angular.module('webClientSideApp')
         NodeStorage.get().wipe();
         $log.warn('living design controller !');
       });
-    }
   }]);
