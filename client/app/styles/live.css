@@ -19,7 +19,6 @@
   user-select: none;
 
   background-color: #f4f4f4;
-  border-radius: 5px;
   position: absolute;
   min-width: 10%;
   max-width: 30%;
@@ -28,6 +27,8 @@
 }
 
 .input {
+  background-color: #a5b7bf;
+  border: 1px solid #808d94;
   position: absolute;
   height: 100%;
   top: 0;
@@ -38,12 +39,26 @@
 }
 
 .output {
+  background-color: #79868b;
+  border: 1px solid #5f676b;
   position: absolute;
   height: 100%;
   top: 0;
   right: 0;
   width: 5%;
   min-width: 5%;
+  padding: 0;
+}
+
+.input-output-text {
+  text-align: center;
+  font-variant: small-caps;
+  font-size: 15px;
+  padding-top: 15px;
+}
+.node-text {
+  font-variant: small-caps;
+  text-align: center;
   padding: 0;
 }
 
@@ -58,11 +73,13 @@
 }
 
 .effect-button {
-  border-radius: 5px;
   width: 100%;
   height: 50px;
-  background: #f1f1f4;
-  border: 1px solid #000000;
+  margin: 0 5px 5px 5px;
+  font-size: 15px;
+  font-variant:small-caps;
+  line-height: 50px;
+  text-align: center;
 }
 
 .delete-node {
@@ -88,4 +105,60 @@
 
 .image-button {
   width: 100%;
+}
+
+
+/* Les boiboites */
+
+.gain{
+  background-color: #FDF4B0;
+  border:1px solid #dcd499;
+}
+.allpass {
+  background-color: #A4DCB9;
+  border:1px solid #779f83;
+}
+.bandpass {
+  background-color: #5BCEBF;
+  border:1px solid #377c73;
+}
+.highpass {
+  background-color: #32B9BE;
+  border:1px solid #217f83;
+}
+.highshelf {
+  background-color: #2E97B7;
+  border:1px solid #247790;
+}
+.lowpass  {
+  background-color: #D6F4D0;
+  border:1px solid #c3ddbd;
+}
+.lowshelf  {
+  background-color: #FECEFF;
+  border:1px solid #c29ec3;
+}
+.notch  {
+  background-color: #E9DAED;
+  border:1px solid #afa5b3;
+}
+.peaking  {
+  background-color: #C5E0DC;
+  border:1px solid #8a9d9a;
+}
+.convolver  {
+  background-color: #ECE5CE;
+  border:1px solid #aca596;
+}
+.delay  {
+  background-color: #F1D4AF;
+  border:1px solid #b7a085;
+}
+.distorsion  {
+  background-color: #E08E79;
+  border:1px solid #E08E79;
+}
+.compressor  {
+  background-color: #f597a4;
+  border:1px solid #f597a4;
 }
