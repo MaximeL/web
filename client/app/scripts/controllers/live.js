@@ -8,11 +8,22 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput) {
+  .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput, audiocontext) {
     var vm = this;
     $scope.nodeStorage = NodeStorage.get();
     $scope.ready = false;
 
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
+
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+      $scope.ready = true;
+    } else {
+      $scope.ready = false;
+    }
     //this should be filled with data from server
     //To get what to save use : $scope.nodeStorage.backup()
     /*var backup = [];
@@ -60,22 +71,32 @@ angular.module('webClientSideApp')
       saveState.save($routeParams.id);
     };
 
+    $scope.clickPlay = function() {
+      if(NodeStorage.get().storage[0].play !== null) {
+        if (NodeStorage.get().storage[0].play) {
+          NodeStorage.get().storage[0].play = null;
+          NodeStorage.get().storage[0].playSound.stop(0);
+          NodeStorage.get().storage[0].play = false;
+        } else {
+          NodeStorage.get().storage[0].play = null;
+          InitInput.getMediaPlaySound().then(function (node, data) {
+            NodeStorage.get().storage[0].playSound = node;
+            NodeStorage.get().storage[0].music = data;
+            $scope.nodeStorage.restaureConnections(0);
+            NodeStorage.get().storage[0].playSound.start(0);
+            NodeStorage.get().storage[0].play = true;
+          }, function () {
+          });
+        }
+      }
+    };
+
     angular.element($window).bind('resize', function() {
       jsPlumb.repaintEverything();
       saveState.save($routeParams.id);
     });
 
-    navigator.getUserMedia = (navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
 
-    if (navigator.getUserMedia) {
-      console.log('getUserMedia supported.');
-      $scope.ready = true;
-    } else {
-      $scope.ready = false;
-    }
 
     $scope.$on('$viewContentLoaded', function(){
       jsPlumb.setContainer("live-page-pedals");
@@ -94,13 +115,6 @@ angular.module('webClientSideApp')
         NodeStorage.get().storage[0].output = node;
         $scope.nodeStorage.restaureConnections(0);
       }, function (err) {
-      });
-      InitInput.getMediaPlaySound().then(function (node, data) {
-        NodeStorage.get().storage[0].playSound = node;
-        NodeStorage.get().storage[0].music = data;
-        NodeStorage.get().storage[0].ready = true;
-        $scope.nodeStorage.restoreInputPlaySound();
-      }, function () {
       });
 
       jsPlumb.bind('connection', function (info) {
@@ -126,7 +140,6 @@ angular.module('webClientSideApp')
       NodeStorage.get().wipe();
       angular.element($window).unbind('resize');
       jsPlumb.reset();
-      $log.warn('living live controller !');
     });
   });
 

@@ -29,7 +29,7 @@
           <div>
             <div ng-switch="node.type">
               <div ng-switch-when="input">
-                <div ng-click="node.buttonMusic()">
+                <div ng-click="clickPlay()">
                   <img class="image-button" ng-src="images/play.png" alt="PLAY" ng-if="!node.play"/>
                   <img class="image-button" ng-src="images/pause.png" alt="PAUSE" ng-if="node.play"/>
                 </div>

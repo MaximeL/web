@@ -23,25 +23,34 @@ angular.module('webClientSideApp')
     AbstractSoundnode.prototype.suivants = [];
     AbstractSoundnode.prototype.value = [];
     AbstractSoundnode.prototype.parameters = [];
-    AbstractSoundnode.prototype.output = null;
-    AbstractSoundnode.prototype.input = null;
 
     AbstractSoundnode.prototype.initNode = function(audioContext) {
       //kind of exemple of what should be done here
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
-      this.input.connect(this.output);
+      this.node = audioContext.createGain();
     };
     AbstractSoundnode.prototype.connect = function(output) {
-      this.output.connect(output.input);
-      this.suivants.push(output.id);
+      $log.debug('node '+this.type+' connection to ');
+      $log.debug(output);
+      this.getOutput().connect(output.getInput());
+    };
+    AbstractSoundnode.prototype.addSuivant = function(outputId) {
+      if(this.suivants.indexOf(outputId) === -1) {
+        this.suivants.push(outputId);
+      }
+      $log.debug(this.suivants);
     };
     AbstractSoundnode.prototype.isConnected = function (input) {
-      this.precedents.push(input.id);
+      $log.debug('node '+this.type+' isConnected');
+      if(this.precedents.indexOf(input.id) === -1) {
+        this.precedents.push(input.id);
+      }
+      $log.debug(this.precedents);
     };
-    AbstractSoundnode.prototype.disconnect = function (output) {
-      this.output.disconnect();
-      this.suivants.splice(this.suivants.indexOf(output.id), 1);
+    AbstractSoundnode.prototype.disconnect = function () {
+      this.getOutput().disconnect();
+    };
+    AbstractSoundnode.prototype.removeSuivant = function (outputId) {
+      this.suivants.splice(this.suivants.indexOf(outputId), 1);
     };
     AbstractSoundnode.prototype.isDisconnected = function (input) {
       this.precedents.splice(this.precedents.indexOf(input.id), 1);
@@ -68,6 +77,12 @@ angular.module('webClientSideApp')
     };
     AbstractSoundnode.prototype.setParameters = function(paramName) {
       $log.warn('calling the prototype of setParameters()');
+    };
+    AbstractSoundnode.prototype.getInput = function() {
+      return this.node;
+    };
+    AbstractSoundnode.prototype.getOutput = function() {
+      return this.node;
     };
     // Public API here
     return AbstractSoundnode;

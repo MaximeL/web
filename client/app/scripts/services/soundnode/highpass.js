@@ -16,17 +16,9 @@ angular.module('webClientSideApp')
     HighPass.prototype.type = 'highpass';
 
     HighPass.prototype.initNode = function(audioContext) {
-      this.output = audioContext.createGain();
-      this.input = audioContext.createGain();
 
       this.highpass = audioContext.createBiquadFilter();
       this.highpass.type = 'highpass';
-
-      this.input.connect(this.highpass);
-      this.highpass.connect(this.output);
-
-      this.output.gain.value = 1;
-      this.input.gain.value = 1;
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'frequency';
@@ -59,6 +51,12 @@ angular.module('webClientSideApp')
     };
     HighPass.prototype.setParameters = function(paramName) {
       this.highpass[paramName].value = this.value[paramName];
+    };
+    HighPass.prototype.getInput = function() {
+      return this.highpass;
+    };
+    HighPass.prototype.getOutput = function() {
+      return this.highpass;
     };
 
     // Public API here
