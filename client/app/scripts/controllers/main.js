@@ -22,19 +22,13 @@ angular.module('webClientSideApp')
      */
     $http.get(config.apiURL + config.users + $scope.user.id)
       .success(function (response) {
-
-        console.log("User : " + $scope.user.id);
         $scope.user.pedals = response.pedals;
         $scope.user.shared = response.shared;
-
         var pedals = $scope.user.pedals;
         $scope.user.pedals = [];
 
         // Pour chaque pédales possédées
         pedals.forEach(function (pedal) {
-
-          console.log("Une pedale : " + pedal);
-
           $http.get(config.apiURL + config.pedals + pedal)
             .success(function (response) {
               var item = {
@@ -48,7 +42,6 @@ angular.module('webClientSideApp')
               users.forEach(function (user) {
                 $http.get(config.apiURL + config.users + user._id)
                   .success(function (response) {
-                    console.log(response.email);
                     user.email = response.email;
                   })
                   .error(function (response) {
@@ -56,13 +49,11 @@ angular.module('webClientSideApp')
                   });
               });
               item.users = users;
-              console.log(item);
 
               // TODO : Rating
 
               $scope.user.pedals.push(item);
             }).error(function (response) {
-            console.log(response);
           });
         });
 
@@ -155,7 +146,9 @@ angular.module('webClientSideApp')
 
     // permet de hash un email
     $scope.hashEmail = function (email) {
-      return md5.createHash(email);
+      var str = md5.createHash(email);
+      var url = "http://www.gravatar.com/avatar/" + str + ".jpg?s=30&d=retro";
+      return url;
     };
 
     $scope.myPedals = [];

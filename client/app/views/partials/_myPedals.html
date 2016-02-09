@@ -50,15 +50,26 @@
       <div class="clearfix"/>
 
       <ul class="list-inline pull-right">
-        <li ng-repeat="usr in pedal.users">
-          <!-- hash de l'email -->
-            <img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=30&d=retro"/>
-        </li>
+          <li ng-repeat="usr in pedal.users">
+            <!--TODO-->
+            <a href="/#/profil/{{usr._id}}">
+              <!-- hash de l'email -->
+              <img src="{{hashEmail(usr.email)}}"/>
+            </a>
+          </li>
       </ul>
 
       <div class="clearfix"/>
     </div>
     <br/>
   </div>
-</div>
+
+  <!--<div ng-repeat="pedal in user.pedals">-->
+      <!--{{pedal}}-->
+    <!--</div>-->
+
+
+  </div>
+
+
 
