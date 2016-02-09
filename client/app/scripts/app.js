@@ -23,7 +23,7 @@ angular
   ])
   .constant('config',
     {
-      apiURL: "http://localhost:3001/",
+      apiURL: "http://localhost:3000/",
       samples: "samples/",
       users: "api/users/",
       users_auth: "auth",
