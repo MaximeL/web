@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, Pedal, $location, config, $uibModal) {
+  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config, $uibModal) {
 
     $scope.user = $cookies.getObject('user');
 
