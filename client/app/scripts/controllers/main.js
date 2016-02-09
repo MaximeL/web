@@ -29,7 +29,7 @@ angular.module('webClientSideApp')
 
         // Pour chaque pédales possédées
         pedals.forEach(function (pedal) {
-          $http.get(config.apiURL + config.pedals + pedal)
+          $http.get(config.apiURL + config.pedals + pedal._id)
             .success(function (response) {
               var item = {
                 _id: response._id,
@@ -60,7 +60,7 @@ angular.module('webClientSideApp')
         var shared = $scope.user.shared;
         // Pour chaque pédale partagée
         shared.forEach(function (pedal) {
-          $http.get(config.apiURL + config.pedals + pedal)
+          $http.get(config.apiURL + config.pedals + pedal._id)
             .success(function (response) {
               var item = {
                 _id: response._id,
