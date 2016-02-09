@@ -9,133 +9,6 @@
  */
 angular.module('webClientSideApp')
 
-<<<<<<< HEAD
-  .controller('MainCtrl', function ($scope, $rootScope, md5, NodeStorage, $http , $notification, user, pedal, $location) {
-
-    $scope.signup = {
-      username : "",
-      mail : "",
-      password : "",
-      _id : ""
-
-    };
-
-    $scope.login = {
-      username : "",
-      password : "",
-      _id : "",
-      pedals : [],
-      shared : [
-        {
-          _id: "",
-          right: false
-        }
-      ]
-    };
-
-    $scope.pedal = {
-      _id: "",
-      nom: "",
-      description: "",
-      effets: [
-        {
-          type: "",
-          precedent: "",
-          suivant: ""
-        }
-      ],
-      owner : "",
-      users: []
-    };
-
-    $rootScope.logged = false;
-    $scope.created = true;
-    $scope.pedalCreated = true;
-    $scope.pedalsShared = [];
-
-    $scope.users = [];
-
-
-
-    // permet de hash un email
-    $scope.hashEmail = function(email) {
-      return md5.createHash(email);
-    };
-
-    $scope.myPedals = [];
-    $scope.myPedals.push(
-      {
-        "_id": "56a9ecead4b0c99c25e4b2df",
-        "owner": "56a9ecead4b0c99c25e4b2de",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
-        "name": "Ma pédale modifée",
-        "users": [
-          {"username": "Robert",     "email": "truc@mail.com"},
-          {"username": "Jean-henri", "email": "truc1@mail.com"},
-          {"username": "Brigitte",   "email": "truc2@mail.com"},
-          {"username": "Jacqueline", "email": "truc3@mail.com"},
-          {"username": "Micheline",  "email": "truc4@mail.com"}
-        ],
-        "comments": [
-          {
-            "author": "56a9ecead4b0c99c25e4b2de",
-            "_id": "56a9ecead4b0c99c25e4b2e1"
-          }
-        ],
-        "notes": [
-          {
-            "author": "56a9ecead4b0c99c25e4b2de",
-            "_id": "56a9ecead4b0c99c25e4b2e0"
-          }
-        ],
-        "effets": [
-          {
-            "type": "aze",
-            "suivant": "aze",
-            "precedent": "aze"
-          }
-        ]
-      },
-      {
-        "_id": "56a9CCCad4b0c99c25e4b2df",
-        "owner": "56a9CCCad4b0c99c25e4b2de",
-        "description": "C'est la pédale à tonton",
-        "name": "Ze mega pedale",
-        "users": [
-          {"username": "Brigitte",   "email": "truc5@mail.com"},
-          {"username": "Jacqueline", "email": "truc6@mail.com"},
-          {"username": "Micheline",  "email": "truc7@mail.com"}
-        ],
-        "comments": [
-          {
-            "author": "56a9ecead4b0c99c25e4b2de",
-            "_id": "56a9ecead4b0c99c25e4b2e1"
-          }
-        ],
-        "notes": [
-          {
-            "author": "56a9ecead4b0c99c25e4b2de",
-            "_id": "56a9ecead4b0c99c25e4b2e0"
-          }
-        ],
-        "effets": [
-          {
-            "type": "aze",
-            "suivant": "aze",
-            "precedent": "aze"
-          }
-        ]
-      }
-    );
-
-
-
-    /**
-     une manière d'encrypter les données du user : nom , mot de passe , email ......
-     Lien vers la personne à qui j'ai piqué le code :) : http://spaghetti.io/cont/article/angularjs-and-basic-auth/12/1.html#.VpaxtFnb_HY
-     "il est open source"
-     **/
-=======
   .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config) {
     if ($cookies.getObject('user') === undefined) {
       $location.path("/sign-in");
@@ -175,7 +48,6 @@ angular.module('webClientSideApp')
             }).error(function (response) {
           });
         });
->>>>>>> 5fcc6a255192d921bc2474d95b6f3631b8de2e2e
 
         var shared = $scope.user.shared
         // Pour chaque pédale partagée
@@ -259,6 +131,82 @@ angular.module('webClientSideApp')
       $scope.created = false;
       $scope.logged = true;
     };
+
+
+
+
+
+
+    // permet de hash un email
+    $scope.hashEmail = function(email) {
+      return md5.createHash(email);
+    };
+
+    $scope.myPedals = [];
+    $scope.myPedals.push(
+      {
+        "_id": "56a9ecead4b0c99c25e4b2df",
+        "owner": "56a9ecead4b0c99c25e4b2de",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo",
+        "name": "Ma pédale modifée",
+        "users": [
+          {"username": "Robert",     "email": "truc@mail.com"},
+          {"username": "Jean-henri", "email": "truc1@mail.com"},
+          {"username": "Brigitte",   "email": "truc2@mail.com"},
+          {"username": "Jacqueline", "email": "truc3@mail.com"},
+          {"username": "Micheline",  "email": "truc4@mail.com"}
+        ],
+        "comments": [
+          {
+            "author": "56a9ecead4b0c99c25e4b2de",
+            "_id": "56a9ecead4b0c99c25e4b2e1"
+          }
+        ],
+        "notes": [
+          {
+            "author": "56a9ecead4b0c99c25e4b2de",
+            "_id": "56a9ecead4b0c99c25e4b2e0"
+          }
+        ],
+        "effets": [
+          {
+            "type": "aze",
+            "suivant": "aze",
+            "precedent": "aze"
+          }
+        ]
+      },
+      {
+        "_id": "56a9CCCad4b0c99c25e4b2df",
+        "owner": "56a9CCCad4b0c99c25e4b2de",
+        "description": "C'est la pédale à tonton",
+        "name": "Ze mega pedale",
+        "users": [
+          {"username": "Brigitte",   "email": "truc5@mail.com"},
+          {"username": "Jacqueline", "email": "truc6@mail.com"},
+          {"username": "Micheline",  "email": "truc7@mail.com"}
+        ],
+        "comments": [
+          {
+            "author": "56a9ecead4b0c99c25e4b2de",
+            "_id": "56a9ecead4b0c99c25e4b2e1"
+          }
+        ],
+        "notes": [
+          {
+            "author": "56a9ecead4b0c99c25e4b2de",
+            "_id": "56a9ecead4b0c99c25e4b2e0"
+          }
+        ],
+        "effets": [
+          {
+            "type": "aze",
+            "suivant": "aze",
+            "precedent": "aze"
+          }
+        ]
+      }
+    );
 
 
   });
