@@ -57,7 +57,11 @@ router.route('/')
         return res.json({message: "Unknowned pedal"});
       }
 
-      console.log(req.body);
+      if(req.body.user == undefined || req.body.user != pedale.owner) {
+        res.staus(403);
+        return res.json({message: "unauthorized"});
+      }
+
       // on test l'existence des parametres requis
       if (!req.body.hasOwnProperty('background') ||
         req.body.background === "") {
