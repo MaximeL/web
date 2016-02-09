@@ -7,11 +7,58 @@
 
 body {
   padding: 0;
-  background-color: #FFF;
+  background-color: rgba(241, 241, 241, 0.05);
   color: #404040;
 }
+/*
+.pedals {
+!*  border: 1px solid #d4d4d4;
+  padding: 20px;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  background-color: #f5f6f8;*!
+  padding:20px;
+  background: #f3f3f3;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+*/
+
+.pedals{
+  padding: 20px;
+  background: -webkit-gradient(linear, 0% 20%, 0% 1000%, from(#fff), to(#fff), color-stop(.1,#f3f3f3));
+  border: 1px solid #ccc;
+  position: relative;
+  box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;
+  -webkit-box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;
+  -webkit-border-bottom-right-radius: 6px 50px;
+}
+.pedals:before{
+  content: '';
+  width: 50px;
+  height: 100px;
+  position:absolute;
+  bottom:0; right:0;
+  z-index:-1;
+  -webkit-box-shadow: 20px 20px 10px rgba(0, 0, 0, 0.1);
+  -webkit-transform: translate(-35px,-40px) skew(0deg,30deg) rotate(-25deg);
+}
+
+.pedals:after{
+  content: '';
+  width: 100px;
+  height: 100px;
+  top:0; left:0;
+  position:absolute;
+  display: inline-block;
+  z-index:-1;
+  -webkit-box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.2);
+  -webkit-transform: rotate(2deg) translate(20px,25px) skew(20deg);
+}
+
 .pedal-category {
-  text-align: center;
   padding-bottom: 20px;
 }
 .pedal-name {
@@ -24,7 +71,11 @@ body {
   padding-left: 5px;
 }
 i {
-  color: gold;
+  color: rgba(255, 215, 0, 0.67);
+  text-shadow: 1px 1px 2px #DDD;
+}
+.quote {
+  min-width: 100%;
 }
 .quote-pedals {
   background-color: #FFF;
@@ -33,17 +84,17 @@ i {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-.my-pedals {
-  border-left: 6px solid #ffd790;
-  border-right: 1px solid #ffd790;
+.quote-my-pedals {
+  border-left: 6px solid #b1e5b1;
+/*  border-right: 1px solid #ffd790;
   border-bottom: 1px solid #ffd790;
-  border-top: 1px solid #ffd790;
+  border-top: 1px solid #ffd790;*/
 }
-.shared-pedals {
-  border-left: 6px solid #aed4ff;
-  border-right: 1px solid #aed4ff;
-  border-bottom: 1px solid #aed4ff;
-  border-top: 1px solid #aed4ff;
+.quote-shared-pedals {
+  border-left: 6px solid #aad1dd;
+/*  border-right: 1px solid #DDD;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD;*/
 }
 
 .pedal-options > div {

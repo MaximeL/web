@@ -10,26 +10,34 @@
 angular.module('webClientSideApp')
 
   .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config) {
+
     if ($cookies.getObject('user') === undefined) {
       $location.path("/sign-in");
     }
+
     $scope.user = $cookies.getObject('user');
+
+    /**
+     * Recup des pedales pour un user
+     */
     $http.get(config.apiURL + config.users + $scope.user.id)
       .success(function (response) {
         $scope.user.pedals = response.pedals;
         $scope.user.shared = response.shared;
+
         var pedals = $scope.user.pedals;
         $scope.user.pedals = [];
         // Pour chaque pédales possédées
         pedals.forEach(function (pedal) {
-          $http.get(config.apiURL + config.pedals + pedal)
+          $http.get(config.apiURL + config.pedals + pedal._id)
             .success(function (response) {
               var item = {
                 _id: response._id,
                 name: response.name,
-                description: response.description,
+                description: response.description
               };
               var users = response.users;
+
               // Pour chaque utilisateur de la pédale
               users.forEach(function (user) {
                 $http.get(config.apiURL + config.users + user._id)
@@ -49,15 +57,16 @@ angular.module('webClientSideApp')
           });
         });
 
-        var shared = $scope.user.shared
+        var shared = $scope.user.shared;
+        $scope.user.shared = [];
         // Pour chaque pédale partagée
         shared.forEach(function (pedal) {
-          $http.get(config.apiURL + config.pedals + pedal)
+          $http.get(config.apiURL + config.pedals + pedal._id)
             .success(function (response) {
               var item = {
                 _id: response._id,
                 name: response.name,
-                description: response.description,
+                description: response.description
               };
               var users = response.users;
               // Pour chaque utilisateur de la pédale
@@ -71,10 +80,9 @@ angular.module('webClientSideApp')
                   });
               });
               item.users = users;
-
               // TODO : Rating
 
-              $scope.user.pedals.push(item);
+              $scope.user.shared.push(item);
             }).error(function (response) {
           });
         });
@@ -83,6 +91,10 @@ angular.module('webClientSideApp')
 
       });
 
+
+    /**
+     * Creation d'une nouvelle pedale
+     */
     $scope.newPedal = function () {
       console.log($scope.login);
       $scope.pedal.owner = $scope.login._id;
@@ -111,7 +123,7 @@ angular.module('webClientSideApp')
      * @param pedal
      */
     $scope.share = function (id, pedal) {
-      $http.get("http://localhost:3000/api/user/" + id)
+      $http.get(config.apiURL + config.users + id)
         .then(function (response) {
           var elt = {_id: id, right: true};
           /**
@@ -122,7 +134,7 @@ angular.module('webClientSideApp')
           /**
            * update user
            */
-          $http.put("http://localhost:3000/api/user", response.data)
+          $http.put(config.apiURL + config.users, response.data)
         });
     };
 
@@ -132,5 +144,13 @@ angular.module('webClientSideApp')
       $scope.logged = true;
     };
 
+
+    // permet de hash un email
+    $scope.hashEmail = function (email) {
+      if(email === undefined) {
+        return "";
+      }
+      return md5.createHash(email);
+    };
 
   });

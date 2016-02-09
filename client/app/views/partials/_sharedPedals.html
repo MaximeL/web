@@ -1,15 +1,14 @@
-<div class="col-md-6">
-  <h2 class="pedal-category">Shared pedals</h2>
+<div class="col-md-6">  <!--style="border-left:1px dashed #dfdfdf"-->
+  <h2 class="pedal-category text-center" style="text-shadow: 1px 2px 0 rgba(0,0,0,0.1),-1px -2px 0 rgba(255,255,255,0.1);color: #76b5dd">SHARED PEDALS</h2>
   <div ng-repeat="pedal in user.shared">
-    <div class="alert alert-info">
+    <div class="pedals">
 
       <!--pedal header-->
       <div class="pedal-header">
 
         <div class="pull-left">
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
@@ -21,10 +20,8 @@
         </div>
 
         <div class="pull-left btn-play-edit">
-          <button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span>
-          </button>
-          <button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span>
-          </button>
+          <a href="/#/pedal/{{pedal._id}}"><button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span></button></a>
+          <a href="/#/play/{{pedal._id}}"><button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span></button></a>
         </div>
 
         <div class="pull-right pedal-rating">
@@ -45,21 +42,26 @@
       <div class="clearfix"/>
 
       <!--block description et bouton play edit-->
-      <div class="pull-left">
-        <blockquote class="quote-pedals shared-pedals">{{pedal.description}}</blockquote>
+      <div class="quote pull-left">
+        <blockquote class="quote-pedals quote-shared-pedals">{{pedal.description}}</blockquote>
       </div>
 
 
       <div class="clearfix"/>
 
       <ul class="list-inline pull-right">
-        <li ng-repeat="user in pedal.users">
-          <!-- hash de l'email -->
-          <img src="http://www.gravatar.com/avatar/{{hashEmail(user.email)}}.jpg?s=30&d=retro"/>
+        <li ng-repeat="usr in pedal.users">
+          <!--TODO-->
+          <a href="/#/profil/{{usr._id}}">
+            <!-- hash de l'email -->
+            <img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=30&d=retro"/>
+          </a>
         </li>
       </ul>
 
+
       <div class="clearfix"/>
     </div>
+    <br/>
   </div>
 </div>
