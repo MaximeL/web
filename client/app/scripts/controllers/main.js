@@ -24,9 +24,9 @@ angular.module('webClientSideApp')
       .success(function (response) {
         $scope.user.pedals = response.pedals;
         $scope.user.shared = response.shared;
+
         var pedals = $scope.user.pedals;
         $scope.user.pedals = [];
-
         // Pour chaque pédales possédées
         pedals.forEach(function (pedal) {
           $http.get(config.apiURL + config.pedals + pedal._id)
@@ -58,6 +58,7 @@ angular.module('webClientSideApp')
         });
 
         var shared = $scope.user.shared;
+        $scope.user.shared = [];
         // Pour chaque pédale partagée
         shared.forEach(function (pedal) {
           $http.get(config.apiURL + config.pedals + pedal._id)
@@ -81,7 +82,7 @@ angular.module('webClientSideApp')
               item.users = users;
               // TODO : Rating
 
-              $scope.user.pedals.push(item);
+              $scope.user.shared.push(item);
             }).error(function (response) {
           });
         });
