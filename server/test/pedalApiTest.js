@@ -12,7 +12,7 @@ var winston = require('winston');
 describe('Pedal API test', function () {
 
   var URL = 'http://localhost:3001';
-  var TEST_DB = 'dbsound_test_pedal';
+  var TEST_DB = 'dbsound_test';
   var URL_USER = '/api/users/';
   var URL_PEDAL = '/api/pedals/';
 
@@ -39,7 +39,6 @@ describe('Pedal API test', function () {
         }
         // recupere l'id du post
         id_owner = res.body._id;
-        console.log(id_owner);
         done();
       });
   });
@@ -135,7 +134,7 @@ describe('Pedal API test', function () {
           }
           // Should.js fluent syntax applied
           res.body.should.have.property('_id');
-          res.body.pedals.should.containDeep({_id: id_created});
+          res.body.pedals.should.containDeep([{_id: id_created}]);
 
           done();
         });
@@ -336,7 +335,6 @@ describe('Pedal API test', function () {
     });
 
     it('should not get a pedal which does not exists', function (done) {
-      console.log(URL + URL_PEDAL + "azeazea");
       request(URL)
         .post(URL_PEDAL + "azeaze")
         .expect('Content-type', 'application/json; charset=utf-8')
@@ -402,7 +400,7 @@ describe('Pedal API test', function () {
           if (err) {
             throw err;
           }
-
+          console.log(res.body);
           res.body.should.not.have.property('_id');
           res.body.message.should.equal("unauthorized");
           done();

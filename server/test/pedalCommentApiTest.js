@@ -7,7 +7,7 @@ var winston = require('winston');
 describe('Pedal Comment API test', function () {
 
   var URL = 'http://localhost:3001';
-  var TEST_DB = 'dbsound_test_comment';
+  var TEST_DB = 'dbsound_test';
   var URL_PEDAL_COMMENT = '/comments/';
   var URL_USER = '/api/users/';
   var URL_PEDAL = '/api/pedals/';
@@ -41,7 +41,7 @@ describe('Pedal Comment API test', function () {
         }
         // recupere l'id du post
         id_user = res.body._id;
-        pedalBody.user = id_user;
+        pedalBody.owner = id_user;
 
         request(URL)
           .post(URL_PEDAL)
@@ -56,7 +56,6 @@ describe('Pedal Comment API test', function () {
             id_pedal = res.body._id;
             done();
           });
-        done();
       });
   });
 
@@ -66,7 +65,6 @@ describe('Pedal Comment API test', function () {
    *  --------------------------------------------------------------------------------------- */
 
   describe('Comment API testing', function () {
-    var id_created;
     var commentBody = {
       content: "Lorem ipsum"
     };
@@ -82,10 +80,7 @@ describe('Pedal Comment API test', function () {
           if (err) {
             throw err;
           }
-          // Should.js fluent syntax applied
-          res.body.should.have.property('_id');
-          // recupere l'id du post pour tester le get par id
-          id_created = res.body._id;
+
           res.body.comments.should.containDeep(commentBody);
           done();
         });
@@ -93,7 +88,7 @@ describe('Pedal Comment API test', function () {
 
     it('should correctly get comments of a pedal', function(done) {
       request(URL)
-        .get(URL_PEDAL + id_pedal + URL_PEDAL_COMMENT + id_created)
+        .get(URL_PEDAL + id_pedal + URL_PEDAL_COMMENT)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code created
         .end(function (err, res) {

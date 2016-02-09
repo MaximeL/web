@@ -28,16 +28,18 @@ router.route('/')
   .get(function (req, res) {
     console.log('GET all notes of pedal');
 
-    PedalSchema.findOne(
-      {"rating": {$exists: true}, "_id": req.params.pedalId},
-      {"rating": 1},
-      function (err, pedal) {
-        if (err) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
+        if (!pedale) {
           res.status(404);
-          return res.json({message: "incorrect syntax"});
+          return res.json({message: "unknowed pedal"});
         }
+        if (err) {
+          res.status(500);
+          return res.json({message: "error occured"});
+        }
+
         res.status(200);
-        return res.json(pedal.rating);
+        return res.json(pedale.rating);
       }
     );
   })
@@ -48,7 +50,7 @@ router.route('/')
     PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
       if (err) {
         res.status(404);
-        return res.json({message: "Unknowned pedal"});
+        return res.json({message: "unknowned pedal"});
       }
       // on test l'existence des parametres requis
       if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||

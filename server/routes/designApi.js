@@ -30,18 +30,13 @@ router.route('/')
   .get(function (req, res) {
     console.log('GET design of pedal');
 
-    PedalSchema.findOne(
-      {"design": {$exists: true}, "_id": req.params.pedalId},
-      {"design": 1},
-      function (err, pedale) {
-        if(err) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
+        if(err || !pedale) {
           res.status(404);
-          res.status(404);
-          return res.json({message: "Pedalid not invalid or empty"});
+          return res.json({message: "Pedal does not exist"});
         }
 
         res.status(200);
-        console.log(pedale);
         return res.send(pedale.design);
       }
     );

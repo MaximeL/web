@@ -318,7 +318,7 @@ describe('User API test', function () {
       var userBody = JSON.parse(JSON.stringify(userTemplate));
       userBody.password = "alligator";
       request(URL)
-        .post(URL_USER)
+        .post(URL_USER + URL_USER_AUTH)
         .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404)

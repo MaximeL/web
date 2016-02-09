@@ -4,6 +4,7 @@ var router = express.Router();
 var Dao = require('../model/dao');
 
 var PedaleSchema = require('../model/schema').getPedaleSchema();
+var UserSchema = require('../model/schema').getUserSchema();
 
 
 // ---------------------------
@@ -29,7 +30,7 @@ var noteRouter = require('./noteApi');
 var commentRouter = require('./commentApi');
 var designRouter = require('./designApi');
 
-router.use('/:pedalId/notes', noteRouter);
+router.use('/:pedalId/rate', noteRouter);
 router.use('/:pedalId/comments', commentRouter);
 router.use('/:pedalId/design', designRouter);
 
@@ -38,24 +39,44 @@ router.use('/:pedalId/design', designRouter);
 router.route('/')
   .post(function (req, res) {
     console.log('POST a pedal');
-    var pedale = new PedaleSchema();
 
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('owner') ||
       req.body.name === "" || req.body.description === "" || req.body.owner === "") {
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
-    pedale.name = req.body.name;
-    pedale.description = req.body.description;
-    pedale.owner = req.body.owner;
 
-    pedale.save(function (err) {
-      if (err) {
-        res.status(400);
-        return res.json(err);
+    UserSchema.findOne({'_id': req.body.owner}, function (err, user) {
+      if (user == null) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
       }
-      res.status(201);
-      return res.send(pedale);
+      if (err) {
+        res.status(500);
+        return res.json({message: "error occured"})
+      }
+
+      var pedale = new PedaleSchema();
+
+      pedale.name = req.body.name;
+      pedale.description = req.body.description;
+      pedale.owner = req.body.owner;
+
+      pedale.save(function (err) {
+        if (err) {
+          res.status(400);
+          return res.json(err);
+        }
+
+        user.pedals.push({
+          _id: pedale._id
+        });
+
+        user.save();
+
+        res.status(201);
+        return res.send(pedale);
+      });
     });
   });
 
@@ -69,8 +90,7 @@ router.route('/:id')
         res.status(404);
         return res.json({message: "unknowned pedal"});
       }
-      console.log(err);
-      console.log(pedale);
+
       res.status(200);
       return res.send(pedale);
     });
@@ -85,56 +105,79 @@ router.route('/:id')
     }
 
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
-      if (err) {
-        res.status(404);
-        return res.json({message: "unknowned pedal"});
-      }
-
-      if(req.body.user == undefined || req.body.user != pedale.owner) {
-        res.status(401);
-        return res.json({message: "unauthorized"});
-      }
-
-      if (req.body.name !== undefined) {
-        pedale.name = req.body.name;
-      }
-      if (req.body.description !== undefined) {
-        pedale.description = req.body.description;
-      }
-
-      console.log(pedale);
-      if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
-        pedale.effects = [];
-
-        for (var i = 0; i < req.body.effects.length; i++) {
-          pedale.effects.push({
-            data: req.body.effects[i].data
-          });
-        }
-      }
-
-      pedale.save(function (err) {
         if (err) {
-          console.log(err);
-          return;
+          res.status(404);
+          return res.json({message: "unknowned pedal"});
+        }
+
+        if (req.body.user == undefined || req.body.user != pedale.owner) {
+          res.status(401);
+          return res.json({message: "unauthorized"});
+        }
+
+        if (req.body.name !== undefined) {
+          pedale.name = req.body.name;
+        }
+        if (req.body.description !== undefined) {
+          pedale.description = req.body.description;
+        }
+
+        console.log(pedale);
+        if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
+          pedale.effects = [];
+
+          for (var i = 0; i < req.body.effects.length; i++) {
+            pedale.effects.push({
+              data: req.body.effects[i].data
+            });
+          }
+        }
+
+        pedale.save(function (err) {
+          if (err) {
+            console.log(err);
+            return;
           }
           res.status(200);
           return res.send(pedale);
         });
       }
     )
-
   })
-  // TODO : verif
+
   .delete(function (req, res) {
     console.log('DELETE a pedal');
-    PedaleSchema.remove({_id: req.params.id}, function (err) {
-      if (err) {
-        res.status(404);
-        return res.json({message: "unknowned pedal"});
+    UserSchema.findOne({'_id': req.body.user}, function (err, user) {
+      if (user == null) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
       }
-      res.status(200);
-      return res.json({message: 'Successfully deleted'});
+
+      if (err) {
+        res.status(500);
+        return res.json({message: "error occured"});
+      }
+
+      PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
+        if (err || !pedale) {
+          res.status(404);
+          return res.json({message: "unknowned pedal"});
+        }
+
+        if (pedale.owner != req.body.user) {
+          res.status(401);
+          return res.json({message: "unauthorized"});
+        }
+
+        pedale.remove(function (err) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "unknowned pedal"});
+          }
+          res.status(200);
+          return res.json({message: 'Successfully deleted'});
+        });
+      });
     });
   });
 router.route('/:id/users/')
@@ -166,7 +209,7 @@ router.route('/:id/users/')
         return res.json({message: "unknowned pedal"});
       }
 
-      if(req.body.user == undefined || req.body.user != pedale.owner) {
+      if (req.body.user == undefined || req.body.user != pedale.owner) {
         res.status(401);
         return res.json({message: "unauthorized"});
       }

@@ -41,33 +41,40 @@ router.route('/')
   .post(function (req, res) {
     console.log('POST a comment');
 
-    // on test l'existence des parametres requis
+    console.log(req.body.author);
+    console.log(req.body.content);
+
     if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('content') ||
       req.body.author === "" || req.body.content === "") {
-      console.log("   auhtor or content not specified!");
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
 
-    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
-      if (err) {
-        res.status(404);
-        return res.json({message: "Unknowned pedal"});
+    UserSchema.findOne({'_id': req.body.author}, function (err, user) {
+      if(err || !user) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
       }
-
-      pedale.comments.push({
-        _id: req.body.author,
-        comment: req.body.content
-      });
-
-      pedale.save(function (err) {
+      PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
         if (err) {
           res.status(404);
-          return res.json({message: "incorrect syntax"});
+          return res.json({message: "Unknowned pedal"});
         }
-        console.log("   Ok pour l'ajout d'un commentaire");
-        res.status(201);
-        return res.send(pedale);
+
+        pedale.comments.push({
+          _id: req.body.author,
+          comment: req.body.content
+        });
+
+        pedale.save(function (err) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "incorrect syntax"});
+          }
+          console.log("   Ok pour l'ajout d'un commentaire");
+          res.status(201);
+          return res.send(pedale);
+        });
       });
     });
   });

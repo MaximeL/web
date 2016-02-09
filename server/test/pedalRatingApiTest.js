@@ -7,7 +7,7 @@ var winston = require('winston');
 describe('Pedal Rating API test', function () {
 
   var URL = 'http://localhost:3001';
-  var TEST_DB = 'dbsound_test_rating';
+  var TEST_DB = 'dbsound_test';
   var URL_USER = '/api/users/';
   var URL_PEDAL_RATING = '/rate/';
   var URL_PEDAL = '/api/pedals/';
@@ -41,7 +41,7 @@ describe('Pedal Rating API test', function () {
         }
         // recupere l'id du post
         id_user = res.body._id;
-        pedalBody.user = id_user;
+        pedalBody.owner = id_user;
 
         request(URL)
           .post(URL_PEDAL)
@@ -56,7 +56,6 @@ describe('Pedal Rating API test', function () {
             id_pedal = res.body._id;
             done();
           });
-        done();
       });
   });
 
@@ -66,13 +65,12 @@ describe('Pedal Rating API test', function () {
    *  --------------------------------------------------------------------------------------- */
 
   describe('Rating API testing', function () {
-    var id_created;
     var ratingBody = {
-      author: id_user,
       rate: 3
     };
 
     it('should correctly add a rate', function (done) {
+      ratingBody.author = id_user;
       request(URL)
         .post(URL_PEDAL + id_pedal + URL_PEDAL_RATING)
         .send(ratingBody)
@@ -82,29 +80,23 @@ describe('Pedal Rating API test', function () {
           if (err) {
             throw err;
           }
-          // Should.js fluent syntax applied
-          res.body.should.have.property('_id');
-          // recupere l'id du post pour tester le get par id
-          id_created = res.body._id;
-          res.body.comments.should.containDeep(ratingBody);
+
+          res.body.rating.should.containDeep([{_id: id_user, rate: ratingBody.rate}]);
           done();
         });
     });
 
     it('should correctly get a rate', function(done) {
       request(URL)
-        .get(URL_PEDAL + id_pedal + URL_PEDAL_RATING + id_created)
+        .get(URL_PEDAL + id_pedal + URL_PEDAL_RATING)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code created
         .end(function (err, res) {
           if (err) {
             throw err;
           }
-          // Should.js fluent syntax applied
-          res.body.should.have.property('_id');
-          // recupere l'id du post pour tester le get par id
-          res.body._id.should.equal(commentBody.author);
-          res.body.comment.should.equal(commentBody.content);
+
+          res.body.should.containDeep([{_id: id_user, rate: ratingBody.rate}]);
           done();
         });
     });
