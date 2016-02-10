@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('wsEffects', function ($http, $log, $q, $notification) {
+  .factory('wsEffects', function ($http, $log, $q, $cookies, $notification) {
     // Service logic
     var baseUrl = 'http://localhost:3000/api/pedals/';
 
@@ -36,6 +36,8 @@ angular.module('webClientSideApp')
     };
 
     var putEffects = function(data, id) {
+      var user = $cookies.getObject('user');
+      data.user = user.id;
       $http.put(baseUrl+id, data).then(function(response) {
         $log.info('put succesful : ' + response);
       }, function(response) {

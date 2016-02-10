@@ -183,8 +183,7 @@ angular.module('webClientSideApp')
         $scope.percent = 100 * (value / $scope.max);
       };
 
-    }
-  });
+    });
 
 
 angular.module('webClientSideApp')
