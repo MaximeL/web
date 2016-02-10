@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
   .controller('LiveCtrl', function ($scope, $window, $log, $timeout,  $routeParams, $location, NodeStorage, wsEffects, saveState, InitInput, audiocontext) {
-    var vm = this;
+    jsPlumb.reset();
     $scope.nodeStorage = NodeStorage.get();
     $scope.ready = false;
 
@@ -19,7 +19,7 @@ angular.module('webClientSideApp')
     navigator.msGetUserMedia);
 
     if (navigator.getUserMedia) {
-      console.log('getUserMedia supported.');
+      console.log('LiveCtrl : getUserMedia supported.');
       $scope.ready = true;
     } else {
       $scope.ready = false;
@@ -128,6 +128,16 @@ angular.module('webClientSideApp')
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.disconnect(inputId, outputId);
+        saveState.save($routeParams.id);
+      });
+      jsPlumb.bind('connectionMoved', function (info) {
+        var inputId = info.originalSourceId;
+        var outputId = info.originalTargetId;
+        $scope.nodeStorage.disconnect(inputId, outputId);
+
+        inputId = info.newSourceId;
+        outputId = info.newTargetId;
+        $scope.nodeStorage.connect(inputId, outputId);
         saveState.save($routeParams.id);
       });
     });

@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $uibModal, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
+  .controller('MainCtrl', function ($scope, $cookies, $uibModal, $window, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
     $scope.user = $cookies.getObject('user');
 
     /**
@@ -119,7 +119,7 @@ angular.module('webClientSideApp')
         $scope.pedal.user = $scope.user.id;
 
         pedal.createPedal($scope.pedal).then(function () {
-          $location.path('/pedal/'.concat($scope.pedal._id));
+          $location.path('/pedal/'.concat($scope.pedal._id)).reload();
         });
 
       };
@@ -189,15 +189,40 @@ angular.module('webClientSideApp')
 
 
       // votes
+      //$scope.isReadonly = false;
+      //
+      //$scope.max = 5;
+      //
+      //$scope.rate = 0;
+      //
+      //$scope.hoveringOver = function (value) {
+      //  //console.log("hoveringOver :" + value);
+      //  $scope.overStar = value;
+      //  console.log($scope.overStar);
+      //};
+
+      $scope.rate = 0;
+      $scope.max = 5;
       $scope.isReadonly = false;
 
-      $scope.max = 5;
-      $scope.rate = 0;
-
-      $scope.hoveringOver = function (value) {
+      $scope.hoveringOver = function(value) {
         $scope.overStar = value;
-        $scope.percent = 100 * (value / $scope.max);
       };
+
+      $scope.getVal = function(pedal) {
+        console.log(pedal);
+        $scope.p = $scope.overStar;
+        console.log($scope.p);
+        var json = {
+          "author" : $scope.user.id,
+          "rate": $scope.p
+        };
+        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {   // TODO recup pedal_id cliquée
+          console.log("success");
+        }, function(error) {
+          console.log(error);
+        });
+      }
 
     });
 
