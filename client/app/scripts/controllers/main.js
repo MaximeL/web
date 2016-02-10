@@ -150,5 +150,18 @@ angular.module('webClientSideApp')
         }
         return md5.createHash(email);
       };
+
+
+      // votes
+      $scope.isReadonly = false;
+
+      $scope.max = 5;
+      $scope.rate = 3; // TODO
+
+      $scope.hoveringOver = function(value) {
+        $scope.overStar = value;
+        $scope.percent = 100 * (value / $scope.max);
+      };
+
     }
   });
