@@ -95,7 +95,6 @@ router.route('/:id')
   })
   .put(function (req, res) {
     console.log('PUT a user');
-
     UserSchema.findOne({'_id': req.params.id}, function (err, user) {
         if (err || !user) {
           res.status(404);
@@ -126,7 +125,9 @@ router.route('/:id')
           }
         }
         if (req.body.shared !== undefined) {
+
           if (req.body.shared.constructor === Array) {
+
             for (var j = 0; j < req.body.shared.length; j++) {
               console.log(req.body.shared[j]);
               user.shared.push(
@@ -135,6 +136,13 @@ router.route('/:id')
                 }
               );
             }
+          }
+          else {
+            user.shared.push(
+              {
+                _id: req.body.shared
+              }
+            );
           }
         }
 
