@@ -49,12 +49,10 @@ angular.module('webClientSideApp')
                 // TODO : Rating
                 var rating = response.rating;
                 var moy = 0;
-                console.log(rating);
                 rating.forEach(function (r) {
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                console.log(moy);
                 item.rating = moy;
 
                 // TODO Comments
@@ -95,12 +93,10 @@ angular.module('webClientSideApp')
                 // TODO : Rating
                 var rating = response.rating;
                 var moy = 0;
-                console.log(rating);
                 rating.forEach(function (r) {
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                console.log(moy);
                 item.rating = moy;
 
                 // TODO Comments
@@ -198,7 +194,6 @@ angular.module('webClientSideApp')
       $scope.isReadonly = false;
 
       $scope.max = 5;
-
       $scope.rate = 0;
 
       $scope.hoveringOver = function (value) {
