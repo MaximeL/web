@@ -97,8 +97,7 @@ router.route('/:id')
   .put(function (req, res) {
     console.log('PUT a pedal');
 
-    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('owner') ||
-      req.body.name === "" || req.body.description === "" || req.body.owner === "") {
+    if (!req.body.hasOwnProperty('owner') || req.body.owner === "") {
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
