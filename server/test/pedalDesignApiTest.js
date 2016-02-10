@@ -27,7 +27,7 @@ describe('Pedal Design API test', function () {
     mongoose.connect('mongodb://localhost:27017/' + TEST_DB);
 
     var userBody = {
-      username: "test",
+      username: "test_pedal_design_api",
       password: "alligator3",
       email: "test@test.fr"
     };

@@ -37,21 +37,30 @@ router.route('/')
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
-
-    var user = new UserSchema();
-
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.email = req.body.email;
-
-    user.save(function (err, user) {
-      if (err) {
-        res.status(400);
-        return res.json({message: "Invalid syntax"});
+    console.log(req.body.username);
+    console.log("body OK");
+    UserSchema.findOne({'username': req.body.username}, function(err, verif) {
+      console.log(err);
+      console.log(verif);
+      if(verif) {
+        res.status(405);
+        return res.json({message: "username already exists"});
       }
-      user.password = undefined;
-      res.status(201);
-      return res.send(user);
+      var user = new UserSchema();
+
+      user.username = req.body.username;
+      user.password = req.body.password;
+      user.email = req.body.email;
+
+      user.save(function (err) {
+        if (err) {
+          res.status(400);
+          return res.json({message: "Invalid syntax"});
+        }
+        user.password = undefined;
+        res.status(201);
+        return res.send(user);
+      });
     });
   });
 
@@ -61,15 +70,11 @@ router.route('/auth')
     console.log('POST user authentification');
     var query = UserSchema.findOne({'username': req.body.username, 'password': req.body.password}).select('-password');
     query.exec(function (err, user) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-      if (user == null) {
+      if (err || !user) {
         res.status(404);
         return res.json({message: "User does not exist"});
       }
+
       res.status(200);
       return res.send(user);
     });
@@ -79,7 +84,7 @@ router.route('/auth')
 router.route('/:id')
   .get(function (req, res) {
     console.log('GET a user');
-    query = UserSchema.findOne({'_id': req.params.id}).select('-password');
+    var query = UserSchema.findOne({'_id': req.params.id}).select('-password');
     query.exec(function (err, user) {
       if (err) {
         res.status(404);
@@ -91,8 +96,9 @@ router.route('/:id')
   })
   .put(function (req, res) {
     console.log('PUT a user');
+
     UserSchema.findOne({'_id': req.params.id}, function (err, user) {
-        if (err) {
+        if (err || !user) {
           res.status(404);
           return res.json({message: "User unknowned"});
         }

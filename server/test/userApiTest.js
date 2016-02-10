@@ -71,7 +71,6 @@ describe('User API test', function () {
 
     it('should correctly update a user', function (done) {
       userBody.username = 'update-test';
-      // TODO : Tester les pédales et les partages
       request(URL)
         .put(URL_USER + id_created)
         .send(userBody)
@@ -283,14 +282,15 @@ describe('User API test', function () {
         .post(URL_USER)
         .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400)
+        .expect(405)
         .end(function (err, res) {
           if (err) {
+            console.log(res.body);
             throw err;
           }
           // Should.js fluent syntax applied
           res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
+          res.body.message.should.equal("username already exists");
           done();
         });
     });
@@ -299,26 +299,7 @@ describe('User API test', function () {
       var userBody = JSON.parse(JSON.stringify(userTemplate));
       userBody.username = "test2";
       request(URL)
-        .post(URL_USER + URL_USER_AUTH)
-        .send(userBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-          // Should.js fluent syntax applied
-          res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
-          done();
-        });
-    });
-
-    it('should not authenticate a new user with a bad password', function (done) {
-      var userBody = JSON.parse(JSON.stringify(userTemplate));
-      userBody.password = "alligator";
-      request(URL)
-        .post(URL_USER + URL_USER_AUTH)
+        .post(URL_USER_AUTH)
         .send(userBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404)
@@ -328,7 +309,26 @@ describe('User API test', function () {
           }
           // Should.js fluent syntax applied
           res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
+          res.body.message.should.equal("User does not exist");
+          done();
+        });
+    });
+
+    it('should not authenticate a new user with a bad password', function (done) {
+      var userBody = JSON.parse(JSON.stringify(userTemplate));
+      userBody.password = "alligator";
+      request(URL)
+        .post(URL_USER_AUTH)
+        .send(userBody)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(404)
+        .end(function (err, res) {
+          if (err) {
+            throw err;
+          }
+          // Should.js fluent syntax applied
+          res.body.should.not.have.property('_id');
+          res.body.message.should.equal("User does not exist");
           done();
         });
     });

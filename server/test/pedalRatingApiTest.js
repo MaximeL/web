@@ -21,13 +21,13 @@ describe('Pedal Rating API test', function () {
     mongoose.connect('mongodb://localhost:27017/' + TEST_DB);
 
     var userBody = {
-      username: "test",
+      username: "test_pedal_rating_api",
       password: "alligator3",
       email: "test@test.fr"
     };
     var pedalBody = {
       name: "Ma pédale",
-      description: "Celle de Tonton",
+      description: "Celle de Tonton"
     };
 
     request(URL)
