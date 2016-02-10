@@ -241,9 +241,9 @@ describe('Pedal Design API test', function () {
 
   after(function (done) {
     // on drop la BD de test
-    //mongoose.connection.db.dropDatabase(function (err, res) {
-    //  console.log("\n" + err);
-    //});
+    mongoose.connection.db.dropDatabase(function (err, res) {
+      console.log("\n" + err);
+    });
 
     // In our tests we use the dbsound_test
     mongoose.connection.close();

@@ -37,32 +37,29 @@ router.route('/')
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
-    console.log(req.body.username);
-    console.log("body OK");
+
     UserSchema.findOne({'username': req.body.username}, function(err, verif) {
-      console.log("err");
-      console.log(err);
-      console.log("verif");
-      console.log(verif);
       if(verif) {
+        console.log("Username already exists");
         res.status(405);
         return res.json({message: "username already exists"});
+      } else {
+        var user = new UserSchema();
+
+        user.username = req.body.username;
+        user.password = req.body.password;
+        user.email = req.body.email;
+
+        user.save(function (err) {
+          if (err) {
+            res.status(400);
+            return res.json({message: "Invalid syntax"});
+          }
+          user.password = undefined;
+          res.status(201);
+          return res.send(user);
+        });
       }
-      var user = new UserSchema();
-
-      user.username = req.body.username;
-      user.password = req.body.password;
-      user.email = req.body.email;
-
-      user.save(function (err) {
-        if (err) {
-          res.status(400);
-          return res.json({message: "Invalid syntax"});
-        }
-        user.password = undefined;
-        res.status(201);
-        return res.send(user);
-      });
     });
   });
 

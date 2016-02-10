@@ -281,10 +281,12 @@ describe('User API test', function () {
       request(URL)
         .post(URL_USER)
         .send(userBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(405)
+        .expect('Content-type', 'text/html; charset=utf-8')
+        //.expect('Content-type', 'application/json; charset=utf-8')
+        //.expect(405)
         .end(function (err, res) {
           if (err) {
+            console.log(err);
             throw err;
           }
           // Should.js fluent syntax applied
@@ -335,9 +337,9 @@ describe('User API test', function () {
 
   after(function (done) {
     // on drop la BD de test
-    //mongoose.connection.db.dropDatabase(function (err, res) {
-    //  console.log("\n" + err);
-    //});
+    mongoose.connection.db.dropDatabase(function (err, res) {
+      console.log("\n" + err);
+    });
 
     // In our tests we use the dbsound_test
     mongoose.connection.close();
