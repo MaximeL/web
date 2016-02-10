@@ -87,12 +87,12 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  background: #e6e6e6;
   width: 15px;
   height: 15px;
   cursor: pointer;
+/*  background: #e6e6e6;
   border-left:1px solid #cfcfcf;
-  border-bottom:1px solid #cfcfcf;
+  border-bottom:1px solid #cfcfcf;*/
 }
 
 .input .delete-node {
