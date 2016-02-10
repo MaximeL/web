@@ -41,21 +41,21 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/main_old', {
-        templateUrl: 'views/main_old.html',
-        controller: 'MainOld',
-        controllerAs: 'mainold'
-      })
+      //.when('/main_old', {
+      //  templateUrl: 'views/main_old.html',
+      //  controller: 'MainOld',
+      //  controllerAs: 'mainold'
+      //})
       .when('/pedal', {
         templateUrl: 'views/pedal.html',
         controller: 'AboutCtrl',
         controllerAs: 'pedal'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
+      //.when('/about', {
+      //  templateUrl: 'views/about.html',
+      //  controller: 'AboutCtrl',
+      //  controllerAs: 'about'
+      //})
       .when('/pedal/:id', {
         templateUrl: 'views/live.html',
         controller: 'LiveCtrl',

@@ -212,6 +212,26 @@ router.route('/:id/:user')
             res.status(404);
             return res.json({message: "unknowned pedal"});
           }
+
+          for(var i = 0; i < user.pedals.length; i++) {
+            if(user.pedals[i]._id == pedale._id) {
+              user.pedals.splice(i, 1);
+            }
+          }
+          user.save();
+
+          console.log(pedale._id);
+          UserSchema.find({"shared": {$in: [{_id: pedale._id}]}}, function(err, users) {
+            users.forEach(function(sharedUser) {
+              for(var i = 0; i < sharedUser.pedals.length; i++) {
+                if(sharedUser.pedals[i]._id == pedale._id) {
+                  sharedUser.pedals.splice(i, 1);
+                }
+              }
+              sharedUser.save();
+            });
+          });
+
           res.status(200);
           return res.json({message: 'Successfully deleted'});
         });

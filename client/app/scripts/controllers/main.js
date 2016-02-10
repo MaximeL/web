@@ -32,7 +32,6 @@ angular.module('webClientSideApp')
                   description: response.description
                 };
                 var users = response.users;
-
                 // Pour chaque utilisateur de la pédale
                 users.forEach(function (user) {
                   $http.get(config.apiURL + config.users + user._id)
@@ -48,12 +47,10 @@ angular.module('webClientSideApp')
                 // TODO : Rating
                 var rating = response.rating;
                 var moy = 0;
-                console.log(rating);
                 rating.forEach(function (r) {
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                console.log(moy);
                 item.rating = moy;
 
                 // TODO Comments
@@ -94,12 +91,10 @@ angular.module('webClientSideApp')
                 // TODO : Rating
                 var rating = response.rating;
                 var moy = 0;
-                console.log(rating);
                 rating.forEach(function (r) {
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                console.log(moy);
                 item.rating = moy;
 
                 // TODO Comments
@@ -157,6 +152,12 @@ angular.module('webClientSideApp')
         $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
           .success(function (response) {
             $notification.success("Success", "You successfully deleted the pedal.");
+            for (var i = 0; i < $scope.user.pedals.length; i++) {
+              if ($scope.user.pedals[i]._id == pedal._id) {
+                $scope.user.pedals.splice(i, 1);
+                break;
+              }
+            }
           })
           .error(function (response) {
             $notification.error("Error", "An error occured. (" + response.message + ").");
@@ -191,7 +192,6 @@ angular.module('webClientSideApp')
       $scope.isReadonly = false;
 
       $scope.max = 5;
-
       $scope.rate = 0;
 
       $scope.hoveringOver = function (value) {

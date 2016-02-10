@@ -44,8 +44,8 @@
       <div class="collapse navbar-collapse pull-right" id="js-navbar-collapse">
         <ul class="nav navbar-nav">
           <li ng-class='{"active":tog==0}' ng-click='tog=0'><a href="#/">Home</a></li>
-          <li ng-class='{"active":tog==1}' ng-click='tog=1'><a ng-href="#/main_old">Tmp</a></li>
-          <li ng-class='{"active":tog==2}' ng-click='tog=2'><a ng-href="#/about">About</a></li>
+          <!--<li ng-class='{"active":tog==1}' ng-click='tog=1'><a ng-href="#/main_old">Tmp</a></li>-->
+          <!--<li ng-class='{"active":tog==2}' ng-click='tog=2'><a ng-href="#/about">About</a></li>-->
           <li ng-class='{"active":tog==3}' ng-click='tog=3'><a ng-href="#/sign-in">Sign-in</a></li>
           <li ng-class='{"active":tog==4}' ng-click='tog=4'><a ng-href="#/sign-out">Sign-out</a></li>
           <li ng-class='{"active":tog==5}' ng-click='tog=5'><a ng-href="#/sign-up">Sign-up</a></li>
@@ -59,11 +59,15 @@
   <div ng-view=""></div>
 </div>
 
-<div class="footer" style="margin-top: 60px">
+<div class="footer">
+  <div class="navbar-fixed-bottom" notifications="alert">
+  </div>
+
   <div class="container">
     <p class="text-muted credit">Effects app by <a href="#">Seb</a>, <a href="#">Max</a>, <a href="#">Yazou</a> et <a
       href="#">Rominou</a>.</p>
   </div>
+</div>
 
 
   <!-- build:js(.) scripts/vendor.js -->
