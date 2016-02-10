@@ -140,6 +140,13 @@ router.route('/:id')
 
   .delete(function (req, res) {
     console.log('DELETE a pedal');
+
+    console.log(req.body);
+    if (!req.body.hasOwnProperty('user') || req.body.user === "") {
+      res.status(400);
+      return res.json({message: "incorrect syntax"});
+    }
+
     UserSchema.findOne({'_id': req.body.user}, function (err, user) {
       if (user == null) {
         res.status(401);
@@ -173,6 +180,45 @@ router.route('/:id')
       });
     });
   });
+
+router.route('/:id/:user')
+  .delete(function (req, res) {
+    console.log('DELETE a pedal');
+
+    UserSchema.findOne({'_id': req.params.user}, function (err, user) {
+      if (user == null) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
+      }
+
+      if (err) {
+        res.status(500);
+        return res.json({message: "error occured"});
+      }
+
+      PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
+        if (err || !pedale) {
+          res.status(404);
+          return res.json({message: "unknowned pedal"});
+        }
+
+        if (pedale.owner != req.params.user) {
+          res.status(401);
+          return res.json({message: "unauthorized"});
+        }
+
+        pedale.remove(function (err) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "unknowned pedal"});
+          }
+          res.status(200);
+          return res.json({message: 'Successfully deleted'});
+        });
+      });
+    });
+  });
+
 router.route('/:id/users/')
   .get(function (req, res) {
     console.log('GET users of pedal');
