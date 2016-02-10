@@ -97,13 +97,8 @@ angular.module('webClientSideApp')
 
         $scope.pedal.owner=$scope.user.id;
         $scope.pedal.user=$scope.user.id;
-        $scope.pedal.effects = [];
-        $scope.pedal.effects.push({data:$scope.pedal.effect});
 
         pedal.createPedal($scope.pedal).then(function () {
-          console.log($scope.pedal);
-          $scope.user.pedals.push($scope.pedal._id);
-          user.updateUser($scope.user);
           $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
 
@@ -130,6 +125,16 @@ angular.module('webClientSideApp')
             $http.put(config.apiURL + config.users, response.data)
           });
       };
+
+      /**
+        retrieve all users
+       */
+      $http.get(config.apiURL + config.users)
+        .then(function (response) {
+          $scope.users = response.data;
+          console.log("users ::::: ");
+          console.log($scope.users);
+        });
 
 
       $scope.switchToSignup = function () {

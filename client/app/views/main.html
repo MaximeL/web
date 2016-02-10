@@ -1,50 +1,18 @@
-<!--<div class="container">-->
-<div class="container">
-
-  <!--<div class="col-md-6">-->
-   <!--TODO-->
-
-  <div >
-    <a class="btn btn-primary glyphicon glyphicon-new-window" href="#/createPedal">
-      New Pedale</a>
-
+<div class="row">
+  <div class="col-md-12">
+    <a href="/#/create-pedal" class="pull-right">
+      <button class="btn btn-success">
+        <i class="fa fa-plus fa-fw"></i>&nbsp;Create a pedal
+      </button>
+    </a>
   </div>
-
-  <!--<div class="modal" ng-class="{'show': !pedalCreated, hide: created }">-->
-    <!--<div class="modal-dialog" role="document">-->
-      <!--<div class="modal-content">-->
-        <!--<div class="modal-header">-->
-          <!--<h3 class="modal-title">Pedale:</h3>-->
-        <!--</div>-->
-        <!--<div class="modal-body">-->
-          <!--<div class="container">-->
-            <!--<div class="row">-->
-              <!--<div class="col-md-6 col-md-offset-2">-->
-                <!--<div class="col-md-6 col-md-offset-2">-->
-                  <!--<label for="nom">Nom</label>-->
-                  <!--<input type="text" id="nom" name="nom" ng-model="pedal.nom" required/>-->
-
-                  <!--<label for="description">description</label>-->
-                  <!--<input type="text" id="description" name="description" ng-model="pedal.description" required/>-->
-
-                  <!--<span class="btn glyphicon btn-info btn-lg glyphicon-ok-sign" ng-click="newPedal() ; created=true">Create</span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="modal-footer"></div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
-
-
-  <!--<signin></signin>-->
-  <!--<signup></signup>-->
-
-    <ng-my-pedals></ng-my-pedals>
-    <ng-shared-pedals></ng-shared-pedals>
-
 </div>
-<!--</div>-->
+
+<div class="row">
+  <div class="col-md-6">
+    <ng-my-pedals></ng-my-pedals>
+  </div>
+  <div class="col-md-6">
+    <ng-shared-pedals></ng-shared-pedals>
+  </div>
+</div>
