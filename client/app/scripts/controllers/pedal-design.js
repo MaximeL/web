@@ -8,7 +8,7 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$cookies', '$notification', '$log', '$timeout', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $cookies, $notification, $log, $timeout) {
+  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$cookies', '$notification', '$log', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $cookies, $notification, $log) {
     $scope.user = $cookies.getObject('user');
     $scope.id = $routeParams.id;
       $scope.nodeStorage = NodeStorage.get();
@@ -83,7 +83,7 @@ angular.module('webClientSideApp')
 
           var waiter = function (item, name) {
             if (nx.widgets == undefined || nx.widgets[name] == undefined || nx.widgets[name].val == undefined) {
-              $timeout(waiter(item, name), 500);
+              setTimeout(waiter(item, name), 500);
             } else {
               var potar = nx.widgets[name];
               potar.val.value = item.value;
@@ -136,7 +136,7 @@ angular.module('webClientSideApp')
 
             var waiter = function (potarId, item) {
               if (nx.widgets[potarId] == undefined || nx.widgets[potarId].val == undefined || nx.widgets[potarId].val.value == undefined) {
-                $timeout(waiter(potarId, item), 500);
+                setTimeout(waiter(item, name), 500);
               } else {
                 var potar = nx.widgets[potarId];
                 potar.val.value = item.value;
