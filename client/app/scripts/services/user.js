@@ -31,7 +31,6 @@ angular.module('webClientSideApp')
         return $http.post(config.apiURL + config.users + config.users_auth, user)
           .success(function (response) {
             $notification.success("Success", "You are now connected.");
-            console.log(response);
             $cookies.putObject('user', {
               id: response._id,
               username: response.username,
