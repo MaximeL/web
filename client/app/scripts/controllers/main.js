@@ -189,15 +189,39 @@ angular.module('webClientSideApp')
 
 
       // votes
+      //$scope.isReadonly = false;
+      //
+      //$scope.max = 5;
+      //
+      //$scope.rate = 0;
+      //
+      //$scope.hoveringOver = function (value) {
+      //  //console.log("hoveringOver :" + value);
+      //  $scope.overStar = value;
+      //  console.log($scope.overStar);
+      //};
+
+      $scope.rate = 0;
+      $scope.max = 5;
       $scope.isReadonly = false;
 
-      $scope.max = 5;
-      $scope.rate = 0;
-
-      $scope.hoveringOver = function (value) {
+      $scope.hoveringOver = function(value) {
         $scope.overStar = value;
-        $scope.percent = 100 * (value / $scope.max);
       };
+
+      $scope.getVal = function() {
+        $scope.p = $scope.overStar;
+        console.log($scope.p);
+        var json = {
+          "_id" : $scope.user.id,
+          "rate": $scope.p
+        };
+        //$http.post(config.apiURL + config.pedals + pedal._id, json).then(function() {   // TODO recup pedal_id cliquée
+        //  console.log("success");
+        //}, function(error) {
+        //  console.log(error);
+        //});
+      }
 
     });
 

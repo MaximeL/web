@@ -37,17 +37,9 @@
 
 
       <div class="pull-right pedal-rating">
-        <uib-rating ng-init="rate = pedal.rating" style="cursor: pointer;"
-                    ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
-                    on-leave="overStar = null" aria-labelledby="default-rating"></uib-rating>
-
-        <!--<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>-->
-
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
+        <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly" style="cursor: pointer;"
+                    on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="getVal()"
+                    aria-labelledby="default-rating"></uib-rating>
       </div>
 
       <div class="clearfix"/>
