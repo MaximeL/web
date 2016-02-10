@@ -131,6 +131,16 @@ angular.module('webClientSideApp')
           });
       };
 
+      /**
+        retrieve all users
+       */
+      $http.get(config.apiURL + config.users)
+        .then(function (response) {
+          $scope.users = response.data;
+          console.log("users ::::: ");
+          console.log($scope.users);
+        });
+
 
       $scope.switchToSignup = function () {
         $scope.created = false;
