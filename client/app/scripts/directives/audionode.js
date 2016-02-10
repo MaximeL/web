@@ -44,9 +44,9 @@ angular.module('webClientSideApp')
             isTarget: false,
             connector: "Straight",
             endpoint: "Dot",
-            paintStyle: {fillStyle: "blue", outlineColor: "blue", outlineWidth: 1},
-            hoverPaintStyle: {fillStyle: "blue"},
-            connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+            paintStyle: {fillStyle: "#5289FF", outlineColor: "#5289FF", outlineWidth: 1},
+            hoverPaintStyle: {fillStyle: "#5289FF"},
+            connectorStyle: {strokeStyle: "#5289FF", lineWidth: 1},
             connectorHoverStyle: {lineWidth: 2},
             maxConnections: 6
           });
@@ -60,9 +60,9 @@ angular.module('webClientSideApp')
             isTarget: true,
             connector: "Straight",
             endpoint: "Dot",
-            paintStyle: {fillStyle: "red", outlineColor: "red", outlineWidth: 1},
-            hoverPaintStyle: {fillStyle: "red"},
-            connectorStyle: {strokeStyle: "red", lineWidth: 1},
+            paintStyle: {fillStyle: "#FF5D56", outlineColor: "#FF5D56", outlineWidth: 1},
+            hoverPaintStyle: {fillStyle: "#FF5D56"},
+            connectorStyle: {strokeStyle: "#FF5D56", lineWidth: 1},
             connectorHoverStyle: {lineWidth: 2},
             maxConnections: 20
           });

@@ -46,6 +46,21 @@ angular.module('webClientSideApp')
                 item.users = users;
 
                 // TODO : Rating
+                var rating = response.rating;
+                var moy = 0;
+                console.log(rating);
+                rating.forEach(function (r) {
+                  moy += r.rate;
+                });
+                moy /= rating.length;
+                console.log(moy);
+                item.rating = moy;
+
+                // TODO Comments
+                var comments = response.comments;
+                //comments.forEach(function(comment) {
+                //
+                //});
 
                 $scope.user.pedals.push(item);
               }).error(function (response) {
@@ -75,7 +90,19 @@ angular.module('webClientSideApp')
                     });
                 });
                 item.users = users;
+
                 // TODO : Rating
+                var rating = response.rating;
+                var moy = 0;
+                console.log(rating);
+                rating.forEach(function (r) {
+                  moy += r.rate;
+                });
+                moy /= rating.length;
+                console.log(moy);
+                item.rating = moy;
+
+                // TODO Comments
 
                 $scope.user.shared.push(item);
               }).error(function (response) {
@@ -159,7 +186,8 @@ angular.module('webClientSideApp')
       $scope.isReadonly = false;
 
       $scope.max = 5;
-      $scope.rate = 3; // TODO
+
+      $scope.rate = 0;
 
       $scope.hoveringOver = function (value) {
         $scope.overStar = value;
