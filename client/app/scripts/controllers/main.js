@@ -236,6 +236,7 @@ angular.module('webClientSideApp')
         }, function(error) {
           console.log(error);
         });
+        $window.location.reload();
       }
 
     });
