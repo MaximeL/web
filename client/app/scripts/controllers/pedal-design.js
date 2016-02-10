@@ -8,23 +8,24 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$notification', '$log', '$timeout', '$cookies', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $notification, $log, $timeout, $cookies) {
+  .controller('PedalDesignCtrl', ['config', 'NodeStorage', 'wsEffects', '$routeParams', '$http', '$scope', '$cookies', '$notification', '$log', '$timeout', function (config, NodeStorage, wsEffects, $routeParams, $http, $scope, $cookies, $notification, $log, $timeout) {
     $scope.user = $cookies.getObject('user');
-      $scope.nodeStorage = NodeStorage.get($routeParams.id);
+    $scope.id = $routeParams.id;
+      $scope.nodeStorage = NodeStorage.get();
       $scope.effects = [];
       $scope.backgrounds = [
-        {name: "Métal 1", value: "metal1", selected: true},
-        {name: "Métal 2", value: "metal2", selected: false},
-        {name: "Métal 3", value: "metal3", selected: false},
-        {name: "Diamant", value: "diamond1", selected: false},
-        {name: "Carbone 1", value: "carbon1", selected: false},
-        {name: "Carbone 2", value: "carbon2", selected: false},
-        {name: "Carbone 3", value: "carbon3", selected: false},
-        {name: "Carbone 4", value: "carbon4", selected: false},
-        {name: "Cuir", value: "leather", selected: false},
+        {name: "Metal 1", value: "metal1", selected: true},
+        {name: "Metal 2", value: "metal2", selected: false},
+        {name: "Metal 3", value: "metal3", selected: false},
+        {name: "Diamond", value: "diamond1", selected: false},
+        {name: "Carbon 1", value: "carbon1", selected: false},
+        {name: "Carbon 2", value: "carbon2", selected: false},
+        {name: "Carbon 3", value: "carbon3", selected: false},
+        {name: "Carbon 4", value: "carbon4", selected: false},
+        {name: "Leather", value: "leather", selected: false},
         {name: "Jean", value: "jean", selected: false},
-        {name: "Bleuté", value: "misc-blue", selected: false},
-        {name: "Rougeâtre", value: "misc-red", selected: false}
+        {name: "Blue", value: "misc-blue", selected: false},
+        {name: "Red", value: "misc-red", selected: false}
       ];
 
       $scope.updateSelectedBackground = function (background) {

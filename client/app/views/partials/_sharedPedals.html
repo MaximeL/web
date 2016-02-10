@@ -1,67 +1,55 @@
-<div class="col-md-6">  <!--style="border-left:1px dashed #dfdfdf"-->
-  <h2 class="pedal-category text-center" style="text-shadow: 1px 2px 0 rgba(0,0,0,0.1),-1px -2px 0 rgba(255,255,255,0.1);color: #76b5dd">SHARED PEDALS</h2>
-  <div ng-repeat="pedal in user.shared">
-    <div class="pedals">
+<h2 class="pedal-category text-center"
+    style="text-shadow: 1px 2px 0 rgba(0,0,0,0.1),-1px -2px 0 rgba(255,255,255,0.1);color: #76b5dd">SHARED WITH ME</h2>
+<div ng-repeat="pedal in user.shared">
+  <div class="pedals">
 
-      <!--pedal header-->
-      <div class="pedal-header">
-
-        <div class="pull-left">
-          <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Dropdown<span class="caret"></span></button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="pull-left btn-play-edit">
-          <a href="/#/pedal/{{pedal._id}}"><button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span></button></a>
-          <a href="/#/play/{{pedal._id}}"><button class="btn btn-default"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span></button></a>
-        </div>
-
-        <div class="pull-right pedal-rating">
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-        </div>
-
-        <div class="clearfix"/>
-      </div>
-
-      <!--nom de la pedal-->
-      <div class="pull-left">
-        <h3 class="pedal-name">{{pedal.name}}</h3>
-      </div>
-      <div class="clearfix"/>
-
-      <!--block description et bouton play edit-->
-      <div class="quote pull-left">
-        <blockquote class="quote-pedals quote-shared-pedals">{{pedal.description}}</blockquote>
-      </div>
-
-
-      <div class="clearfix"/>
-
-      <ul class="list-inline pull-right">
-        <li ng-repeat="usr in pedal.users">
-          <!--TODO-->
-          <a href="/#/profil/{{usr._id}}">
-            <!-- hash de l'email -->
-            <img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=30&d=retro"/>
+    <!--pedal header-->
+    <div class="pedal-header">
+      <ul class="list-inline pull-left">
+        <li>
+          <a href="/#/play/{{pedal._id}}">
+            <button class="btn btn-default">
+              <i id="play" title="Play" class="fa fa-play fa-fw"></i>
+            </button>
           </a>
         </li>
       </ul>
 
+      <div class="pull-right pedal-rating">
+        <uib-rating ng-init="rate = pedal.rating"
+                    ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
+                    on-leave="overStar = null" aria-labelledby="default-rating"></uib-rating>
+        <!--<i class="fa fa-star"></i>-->
+        <!--<i class="fa fa-star"></i>-->
+        <!--<i class="fa fa-star"></i>-->
+        <!--<i class="fa fa-star"></i>-->
+        <!--<i class="fa fa-star"></i>-->
+      </div>
 
       <div class="clearfix"/>
     </div>
-    <br/>
+
+    <!--nom de la pedal-->
+    <div class="pull-left">
+      <h3 class="pedal-name">{{pedal.name}}</h3>
+    </div>
+    <div class="clearfix"/>
+
+    <!--block description et bouton play edit-->
+    <div class="quote pull-left">
+      <blockquote class="quote-pedals quote-shared-pedals">{{pedal.description}}</blockquote>
+    </div>
+
+
+    <div class="clearfix"/>
+
+    <ul class="list-inline pull-right">
+      <li ng-repeat="usr in pedal.users">
+        <img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=30&d=retro"/>
+      </li>
+    </ul>
+
+    <div class="clearfix"/>
   </div>
+  <br/>
 </div>

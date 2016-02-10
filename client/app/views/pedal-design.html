@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-12">
-        <h2>Choix du fond</h2>
+        <h2>Background selection</h2>
         <div id="pedal-design-background-selector" class="pedal-backgrounds radio">
           <div class="pedal-background" style="display: inline-block;"
                ng-repeat="background in backgrounds">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <h2>Sélection des potars</h2>
+        <h2>Potars selection</h2>
         <div class="checkbox" ng-repeat="effect in effects">
           <label>
             <input type="checkbox" ng-model="effect.used" ng-change="changePotar(effect.used, effect.name)"
@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <h2>Rendu </h2>
+    <h2>Overview</h2>
     <div id="demo" class="{{selectedBackground().value}}">
       <div ng-model="potar1" class="pedal-potar">
         <canvas class="invisible" id="potar1" nx="dial" min="0" max="100" label="value" height="150"
@@ -51,6 +51,9 @@
     </div>
   </div>
   <div class="col-md-12 text-right">
-    <button type="button" class="btn btn-success" ng-click="saveDesign();">Sauvegarde</button>
+    <ul class="list-inline">
+      <li><a href="/#/play/{{id}}"><button class="btn btn-default">Play</button></a></li>
+      <li><button type="button" class="btn btn-success" ng-click="saveDesign();">Save</button></li>
+    </ul>
   </div>
 </div>

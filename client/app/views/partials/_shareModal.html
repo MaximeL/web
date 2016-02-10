@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h3 class="modal-title">Sharing a pedal</h3>
+</div>
+<div class="modal-body">
+  <ul class="list-inline" ng-repeat="user in users">
+    <li>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="user.selected"><img src="http://www.gravatar.com/avatar/{{hashEmail(usr.email)}}.jpg?s=20&d=retro"/>&nbsp;{{user.username}}
+        </label>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success" type="button" ng-click="save()">Save</button>
+</div>
