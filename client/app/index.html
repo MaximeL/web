@@ -44,9 +44,10 @@
       <div class="collapse navbar-collapse pull-right" id="js-navbar-collapse">
         <ul class="nav navbar-nav">
           <li ng-show="isLogged" ng-class='{"active":tog==0}' ng-click='tog=0'><a href="#/">Home</a></li>
-          <li ng-hide="isLogged" ng-class='{"active":tog==3}' ng-click='tog=3'><a ng-href="#/sign-in">Sign-in</a></li>
-          <li ng-show="isLogged" ng-class='{"active":tog==4}' ng-click='tog=4'><a ng-href="#/sign-out">Sign-out</a></li>
-          <li ng-hide="isLogged" ng-class='{"active":tog==5}' ng-click='tog=5'><a ng-href="#/sign-up">Sign-up</a></li>
+          <li ng-hide="isLogged" ng-class='{"active":tog==1}' ng-click='tog=1'><a ng-href="#/sign-in">Sign-in</a></li>
+          <li ng-show="isLogged" ng-class='{"active":tog==2}' ng-click='tog=2'><a ng-href="#/sign-out">Sign-out</a></li>
+          <li ng-hide="isLogged" ng-class='{"active":tog==3}' ng-click='tog=3'><a ng-href="#/sign-up">Sign-up</a></li>
+          <li ng-show="isLive"   ng-class='{"active":tog==4}' ng-click='tog=4'><a ng-href="#/pedal/{{pedalId}}/design">Design</a></li>
         </ul>
       </div>
 
