@@ -11,7 +11,7 @@
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="true">Actions <span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#"><i class="fa fa-share-alt fa-fw"></i>&nbsp;Share</a></li>
+              <li><a href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-share-alt fa-fw"  ></i>&nbsp;Share</a></li>
               <li><a href="#"><i class="fa fa-comment fa-fw"></i>&nbsp;See comments</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#"><i class="fa fa-trash fa-fw text-danger"></i>&nbsp;Delete</a></li>
@@ -50,7 +50,27 @@
       <div class="clearfix"/>
     </div>
 
-    <!--nom de la pedal-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body" ng-repeat="user in users">
+            <p>{{user.username}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!--nom de la pedal-->
     <div class="pull-left">
       <h3 class="pedal-name">{{pedal.name}}</h3>
     </div>
@@ -74,3 +94,5 @@
   </div>
   <br/>
 </div>
+
+
