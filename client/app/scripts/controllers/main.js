@@ -136,7 +136,6 @@ angular.module('webClientSideApp')
           animation: true,
           templateUrl: '/views/partials/_shareModal.html',
           controller: 'ModalInstanceCtrl',
-          //pedal: pedal,
           resolve: {
             user: function () {
               return $scope.user.id;
@@ -157,12 +156,12 @@ angular.module('webClientSideApp')
         });
       };
       $scope.deletePedal = function (pedal) {
-        $http.delete(config.apiURL + config.pedals + pedal._id, {user: $scope.user.id})
+        $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
           .success(function (response) {
-
+            $notification.success("Success", "You successfully deleted the pedal.");
           })
           .error(function (response) {
-
+            $notification.error("Error", "An error occured. (" + response.message + ").");
           });
       };
       /**

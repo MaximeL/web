@@ -142,8 +142,7 @@ describe('Pedal API test', function () {
 
     it('should correctly delete a pedal', function (done) {
       request(URL)
-        .delete(URL_PEDAL + id_created)
-        .send({user: id_owner})
+        .delete(URL_PEDAL + id_created + "/" + id_owner)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(200) //Status code success
         .end(function (err, res) {
@@ -232,64 +231,6 @@ describe('Pedal API test', function () {
       delete pedalBody.owner;
       request(URL)
         .post(URL_PEDAL)
-        .send(pedalBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-
-          res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
-          done();
-        });
-    });
-
-
-    it('should not correctly update a pedal, name is missing', function (done) {
-      var pedalBody = JSON.parse(JSON.stringify(pedalTemplate));
-      delete pedalBody.name;
-      request(URL)
-        .put(URL_PEDAL + id_created)
-        .send(pedalBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-
-          res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
-          done();
-        });
-    });
-
-    it('should not correctly update a pedal, description is missing', function (done) {
-      var pedalBody = JSON.parse(JSON.stringify(pedalTemplate));
-      delete pedalBody.description;
-      request(URL)
-        .put(URL_PEDAL + id_created)
-        .send(pedalBody)
-        .expect('Content-type', 'application/json; charset=utf-8')
-        .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            throw err;
-          }
-
-          res.body.should.not.have.property('_id');
-          res.body.message.should.equal("incorrect syntax");
-          done();
-        });
-    });
-
-    it('should not correctly update a pedal, owner is missing', function (done) {
-      var pedalBody = JSON.parse(JSON.stringify(pedalTemplate));
-      delete pedalBody.owner;
-      request(URL)
-        .put(URL_PEDAL + id_created)
         .send(pedalBody)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(400)
@@ -392,8 +333,7 @@ describe('Pedal API test', function () {
 
     it('should not correctly delete a pedal with an unexisting user', function (done) {
       request(URL)
-        .delete(URL_PEDAL + id_created)
-        .send({user: "azeaze"})
+        .delete(URL_PEDAL + id_created + "/" + "azeaze")
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(401)
         .end(function (err, res) {
