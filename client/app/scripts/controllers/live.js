@@ -130,6 +130,16 @@ angular.module('webClientSideApp')
         $scope.nodeStorage.disconnect(inputId, outputId);
         saveState.save($routeParams.id);
       });
+      jsPlumb.bind('connectionMoved', function (info) {
+        var inputId = info.originalSourceId;
+        var outputId = info.originalTargetId;
+        $scope.nodeStorage.disconnect(inputId, outputId);
+
+        inputId = info.newSourceId;
+        outputId = info.newTargetId;
+        $scope.nodeStorage.connect(inputId, outputId);
+        saveState.save($routeParams.id);
+      });
     });
 
     //Prevent ngRepeat from try to print undefined elements
