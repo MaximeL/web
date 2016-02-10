@@ -38,6 +38,8 @@
 
       <div class="pull-right pedal-rating">
         <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly" style="cursor: pointer;"
+                    state-on="'fa fa-star star'"
+                    state-off="'fa fa-star-o star'"
                     on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="getVal(pedal)"
                     aria-labelledby="default-rating"></uib-rating>
       </div>
