@@ -8,7 +8,10 @@
  * Controller of the webClientSideApp
  */
 angular.module('webClientSideApp')
-  .controller('PlayCtrl', function ($scope, $routeParams, $timeout, $location, $log, NodeStorage, wsEffects, InitInput) {
+  .controller('PlayCtrl', function ($scope, $cookies, $routeParams, $timeout, $location, $log, NodeStorage, wsEffects, InitInput) {
+    $scope.user = $cookies.getObject('user');
+    $scope.id = $routeParams.id;
+
     $scope.nodeStorage = NodeStorage.get();
     $scope.effects = [];
 
@@ -22,27 +25,24 @@ angular.module('webClientSideApp')
     } else {}
 
     $scope.backgrounds = [
-      {name: "Métal 1", value: "metal1", selected: true},
-      {name: "Métal 2", value: "metal2", selected: false},
-      {name: "Métal 3", value: "metal3", selected: false},
-      {name: "Diamant", value: "diamond1", selected: false},
-      {name: "Carbone 1", value: "carbon1", selected: false},
-      {name: "Carbone 2", value: "carbon2", selected: false},
-      {name: "Carbone 3", value: "carbon3", selected: false},
-      {name: "Carbone 4", value: "carbon4", selected: false},
-      {name: "Cuir", value: "leather", selected: false},
+      {name: "Metal 1", value: "metal1", selected: true},
+      {name: "Metal 2", value: "metal2", selected: false},
+      {name: "Metal 3", value: "metal3", selected: false},
+      {name: "Diamond", value: "diamond1", selected: false},
+      {name: "Carbon 1", value: "carbon1", selected: false},
+      {name: "Carbon 2", value: "carbon2", selected: false},
+      {name: "Carbon 3", value: "carbon3", selected: false},
+      {name: "Carbon 4", value: "carbon4", selected: false},
+      {name: "Leather", value: "leather", selected: false},
       {name: "Jean", value: "jean", selected: false},
-      {name: "Bleuté", value: "misc-blue", selected: false},
-      {name: "Rougeâtre", value: "misc-red", selected: false}
+      {name: "Blue", value: "misc-blue", selected: false},
+      {name: "Red", value: "misc-red", selected: false}
     ];
 
     $scope.$on('$viewContentLoaded', function(){
 
       wsEffects.get($routeParams.id).then(function (response) {
-        $log.debug(response);
         $scope.nodeStorage.setupPedal(response.effects);
-        $log.debug('$scope.nodeStorage.storage');
-        $log.debug($scope.nodeStorage.storage);
         $timeout(function () {
           $scope.nodeStorage.redoConnectionsNodes();
         }, 1000);
@@ -84,18 +84,13 @@ angular.module('webClientSideApp')
 
           var waiter = function (item, name) {
             if (nx.widgets == undefined || nx.widgets[name] == undefined || nx.widgets[name].val == undefined) {
-              $timeout(waiter(item, name), 200);
+              setTimeout(waiter(item, name), 500);
             } else {
               var potar = nx.widgets[name];
               potar.val.value = item.value;
               potar.min = item.min;
               potar.max = item.max;
               potar.label = item.label;
-
-              nx.widgets[name].on('*', function(data) {
-                $scope.nodeStorage.storage[item.idNode].value[item.paramNode] = data.value;
-                $scope.nodeStorage.storage[item.idNode].setParameters(item.paramNode);
-              });
 
               potar.draw();
               document.querySelector("#" + name).className = "nx";
