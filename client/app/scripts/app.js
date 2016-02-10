@@ -99,6 +99,9 @@ angular
   })
   .run(function ($rootScope, $cookies, $location, $log, $route){
     $log.debug('In run function');
+
+    $rootScope.isLogged = $cookies.getObject('user') !== undefined;
+
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
       if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in' && $location.path() !== '/sign-up') {
         $log.debug('not signed in. redirection...');
