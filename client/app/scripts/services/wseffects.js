@@ -22,12 +22,12 @@ angular.module('webClientSideApp')
            'Content-Type':'application/json'
            }
         }).then(function (response) {
-            $log.info('get effect succes : ');
+            $log.info('wsEffects : get effect succes : ');
             $log.info(response);
             resolve(response.data);
           },
           function (response) {
-            $log.error('get request on effect failed : ');
+            $log.error('wsEffects : get request on effect failed : ');
             $log.error(response);
             $notification.error("Pedal", "");
             reject();
@@ -39,9 +39,11 @@ angular.module('webClientSideApp')
       var user = $cookies.getObject('user');
       data.user = user.id;
       $http.put(baseUrl+id, data).then(function(response) {
-        $log.info('put succesful : ' + response);
+        $log.info('wsEffects : put succesful : ');
+        $log.debug(response);
       }, function(response) {
-        $log.error('put error : ' + response);
+        $log.error('wsEffects : put error : ');
+        $log.debug(response);
       });
     };
 

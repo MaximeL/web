@@ -60,11 +60,17 @@ router.route('/')
         res.status(401);
         return res.json({message: "unauthorized"});
       }
-
       PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
         if (err) {
           res.status(404);
           return res.json({message: "unknowned pedal"});
+        }
+
+        for(var i = 0; i < pedale.rating.length; i++) {
+          if(pedale.rating[i]._id == user._id) {
+            res.status(401);
+            return res.json({message: "user already vote"})
+          }
         }
 
         pedale.rating.push({
