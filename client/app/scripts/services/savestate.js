@@ -12,15 +12,16 @@ angular.module('webClientSideApp')
     // Service logic
 
     var SaveState = {
-      debounce: 60000,
-      time: 0,
+      debounce: 10,
+      time: new Date().getTime(),
       nodestorages : {},
+      resultNodestorage: new NodeStorage(),
 
       saveState: function() {
         $log.debug('saveState');
         sessionStorage.nodestorages = angular.toJson(SaveState.nodestorages);
         $log.debug(angular.toJson(SaveState.nodestorages));
-        //SaveState.sendSave();
+        SaveState.sendSave();
       },
 
       restoreState: function() {
@@ -28,13 +29,16 @@ angular.module('webClientSideApp')
       },
 
       getNodeStorage: function(id) {
-        //restoreState.restoreState()
+        SaveState.restoreState();
         if(typeof SaveState.nodestorages[id] === 'undefined' || SaveState.nodestorages[id] === null) {
           $log.debug('returning null in getNodeStorage');
           return null;
         } else {
           $log.debug('returning a nodestorage');
-          return SaveState.nodestorages[id];
+          $log.debug(SaveState.nodestorages[id]);
+          SaveState.resultNodestorage.nextId = SaveState.nodestorages[id].nextId;
+          SaveState.resultNodestorage.storage = SaveState.nodestorages[id].storage;
+          return SaveState.resultNodestorage;
         }
       },
 
@@ -53,15 +57,34 @@ angular.module('webClientSideApp')
         SaveState.saveState();
       },
 
+      wipe: function() {
+        sessionStorage.nodestorages = "";
+      },
+
       sendSave: function (id) {
         $log.info('saving');
-        var now = new Date();
-        if(SaveState.debounce < now - SaveState.time) {
-          SaveState.time = new Date();
+        $log.debug(SaveState.nodestorages);
+        var now = new Date().getTime();
+        if(SaveState.debounce < (now - SaveState.time) &&
+          typeof SaveState.nodestorages[id] !== 'undefined' &&
+          SaveState.nodestorages[id] !== null) {
+          $log.info('saving now');
+          SaveState.time = new Date().getTime();
           var body = {};
-          body.effects = SaveState.nodestorages[id].backup();
+          SaveState.resultNodestorage.nextId = SaveState.nodestorages[id].nextId;
+          SaveState.resultNodestorage.storage = SaveState.nodestorages[id].storage;
+          body.effects = SaveState.resultNodestorage.backup();
           wsEffects.put(body, id);
+        } else {
+          $log.info('not saving now');
         }
+      },
+
+      forceSave: function(id) {
+        SaveState.time = new Date();
+        var body = {};
+        body.effects = SaveState.nodestorages[id].backup();
+        wsEffects.put(body, id);
       }
     };
 

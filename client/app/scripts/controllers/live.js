@@ -113,11 +113,17 @@ angular.module('webClientSideApp')
         $scope.nodeStorage.setupPedal(response.effects);
         $timeout(function () {
           $scope.nodeStorage.redoConnections();
+          $log.info('before crash');
+          $log.debug($scope.nodeStorage);
           saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
           saveState.saveState();
         }, 1000);
       }, function () {
-        $location.path('/');
+        if(saveState.getNodeStorage($scope.pedalId) === null) {
+          $location.path('/');
+        } else {
+          $scope.nodeStorage = saveState.getNodeStorage($scope.pedalId);
+        }
       });
 
       InitInput.getMediaInput().then(function (node) {

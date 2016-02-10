@@ -30,10 +30,13 @@ angular.module('webClientSideApp')
       precedents: []
     };
 
-    function NodeStorage() {}
+    function NodeStorage() {
+      this.storage =  [];
+      this.nextId = 0;
+    }
 
-    NodeStorage.prototype.storage = [];
-    NodeStorage.prototype.nextId = 0;
+    /*NodeStorage.prototype.storage = [];
+    NodeStorage.prototype.nextId = 0;*/
 
     NodeStorage.prototype.addNode = function(node) {
       $log.info('Storing node of type : ' + node.type);

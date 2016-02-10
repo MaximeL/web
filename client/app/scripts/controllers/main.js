@@ -92,7 +92,7 @@ angular.module('webClientSideApp')
        * Creation d'une nouvelle pedale
        */
       $scope.newPedal = function () {
-        saveState.wipe();
+        //saveState.wipe();
 
         $scope.pedal.owner=$scope.user.id;
         $scope.pedal.user=$scope.user.id;
