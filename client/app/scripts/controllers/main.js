@@ -126,29 +126,56 @@ angular.module('webClientSideApp')
       };
 
       $scope.shareModal = function (pedal) {
-        var modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: '/views/partials/_shareModal.html',
-          controller: 'ModalInstanceCtrl',
-          resolve: {
-            user: function () {
-              return $scope.user.id;
-            },
-            users: function () {
-              return $scope.users
-            },
-            pedal: function () {
-              return pedal;
-            }
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: '/views/partials/_shareModal.html',
+        controller: 'ModalInstanceCtrl',
+        resolve: {
+          user: function () {
+            return $scope.user.id;
+          },
+          users: function () {
+            return $scope.users
+          },
+          pedal: function () {
+            return pedal;
           }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+
+    $scope.comment="";
+    $scope.commentModal = function (user,pedal,newcomment) {
+      console.log(user);
+      console.log(pedal);
+      if(pedal.comments != undefined){
+        pedal.comments.push({_id:user.id , comment:newcomment});
+      }
+      else{
+        pedal.comments=[];
+        pedal.comments.push({_id:user.id , comment:newcomment});
+      }
+      pedal.author=user.id;
+      pedal.content=newcomment;
+      $http.post("http://localhost:3000/api/comments", pedal)
+        .success(function (response) {
+          $notification.success("Congratulations !", "comment saved");
+          $location.path("/")
+        })
+        .error(function (response) {
+          $notification.error("Error !", "An error occured : " + response.message);
+
         });
 
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
-      };
+
+
+    };
       $scope.deletePedal = function (pedal) {
         $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
           .success(function (response) {
@@ -293,4 +320,7 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
     }
     return md5.createHash(email);
   };
+
+
+
 });
