@@ -30,7 +30,7 @@ angular
       pedals: "api/pedals/",
       pedal_comments: "/comments",
       pedal_users: "/users",
-      pedal_rates: "/rates",
+      pedal_rates: "/rate",
       pedal_design: "/design"
     }
   )
