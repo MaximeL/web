@@ -29,7 +29,7 @@ angular.module('webClientSideApp')
       this.node = audioContext.createGain();
     };
     AbstractSoundnode.prototype.connect = function(output) {
-      $log.debug('node '+this.type+' connection to ');
+      $log.debug('AbstractSoundnode : node '+this.type+' connection to ');
       $log.debug(output);
       this.getOutput().connect(output.getInput());
     };
@@ -40,7 +40,7 @@ angular.module('webClientSideApp')
       $log.debug(this.suivants);
     };
     AbstractSoundnode.prototype.isConnected = function (input) {
-      $log.debug('node '+this.type+' isConnected');
+      $log.debug('AbstractSoundnode : node '+this.type+' isConnected');
       if(this.precedents.indexOf(input.id) === -1) {
         this.precedents.push(input.id);
       }
@@ -73,10 +73,10 @@ angular.module('webClientSideApp')
       this.initNode(audioContext);
     };
     AbstractSoundnode.prototype.setValue = function() {
-      $log.warn('calling the prototype of setValue()');
+      $log.warn('AbstractSoundnode : calling the prototype of setValue()');
     };
     AbstractSoundnode.prototype.setParameters = function(paramName) {
-      $log.warn('calling the prototype of setParameters()');
+      $log.warn('AbstractSoundnode : calling the prototype of setParameters()');
     };
     AbstractSoundnode.prototype.getInput = function() {
       return this.node;

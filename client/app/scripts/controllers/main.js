@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $uibModal, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
+  .controller('MainCtrl', function ($scope, $cookies, $uibModal, $window, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
     $scope.user = $cookies.getObject('user');
 
     /**
@@ -119,7 +119,7 @@ angular.module('webClientSideApp')
         $scope.pedal.user = $scope.user.id;
 
         pedal.createPedal($scope.pedal).then(function () {
-          $location.path('/pedal/'.concat($scope.pedal._id));
+          $location.path('/pedal/'.concat($scope.pedal._id)).reload();
         });
 
       };
