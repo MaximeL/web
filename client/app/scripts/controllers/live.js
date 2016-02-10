@@ -43,6 +43,11 @@ angular.module('webClientSideApp')
 
     $scope.effects = [
       'gain',
+      'tremolo',
+      'convolver',
+      'distorsion',
+      'delay',
+      'compressor',
       'allpass',
       'bandpass',
       'highpass',
@@ -50,11 +55,7 @@ angular.module('webClientSideApp')
       'lowpass',
       'lowshelf',
       'notch',
-      'peaking',
-      'convolver',
-      'delay',
-      'distorsion',
-      'compressor'
+      'peaking'
     ];
 
     $scope.addEffect = function(type) {
