@@ -8,7 +8,7 @@
  * Factory in the webClientSideApp.
  */
 angular.module('webClientSideApp')
-  .factory('saveState', function ($log, wsEffects, NodeStorage) {
+  .factory('saveState', function ($log, wsEffects, NodeStorage, audionodeSelector) {
     // Service logic
 
     var SaveState = {
@@ -25,7 +25,14 @@ angular.module('webClientSideApp')
       },
 
       restoreState: function() {
-        SaveState.nodestorages = angular.fromJson(sessionStorage.nodestorages);
+        $log.debug('SaveState.restoreState');
+        var backup = angular.fromJson(sessionStorage.nodestorages);
+        var idNs;
+        for(idNs in backup) {
+
+        }
+        $log.debug(angular.fromJson(sessionStorage.nodestorages));
+        //SaveState.nodestorages;
       },
 
       getNodeStorage: function(id) {
@@ -58,13 +65,20 @@ angular.module('webClientSideApp')
       },
 
       wipe: function() {
-        sessionStorage.nodestorages = "";
+        SaveState.nodestorages = {};
+        sessionStorage.nodestorages = {};
       },
 
       sendSave: function (id) {
         $log.info('saving');
-        $log.debug(SaveState.nodestorages);
+        $log.debug(SaveState.nodestorages[id]);
         var now = new Date().getTime();
+        $log.debug('SaveState.debounce < (now - SaveState.time)');
+        $log.debug(SaveState.debounce < (now - SaveState.time));
+        $log.debug('SaveState.debounce');
+        $log.debug(SaveState.debounce);
+        $log.debug('(now - SaveState.time)');
+        $log.debug((now - SaveState.time));
         if(SaveState.debounce < (now - SaveState.time) &&
           typeof SaveState.nodestorages[id] !== 'undefined' &&
           SaveState.nodestorages[id] !== null) {

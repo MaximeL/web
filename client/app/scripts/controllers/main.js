@@ -124,6 +124,7 @@ angular.module('webClientSideApp')
         $scope.pedal.user = $scope.user.id;
 
         pedal.createPedal($scope.pedal).then(function () {
+          saveState.wipe();
           console.log($scope.pedal);
           $scope.user.pedals.push($scope.pedal._id);
           $scope.pedalCreated = true;
