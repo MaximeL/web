@@ -18,7 +18,10 @@ angular.module('webClientSideApp')
         $scope.user.password != undefined
       ) {
 
-        var object = { username: $scope.user.username };
+        var object = {
+          username: $scope.user.username,
+          email: $scope.user.email
+        };
         object.password = base64.encode($scope.user.password);
 
         user.create(object, '/sign-in')
