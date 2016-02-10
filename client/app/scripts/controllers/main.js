@@ -128,7 +128,7 @@ angular.module('webClientSideApp')
           $scope.user.pedals.push($scope.pedal._id);
           $scope.pedalCreated = true;
           saveState.newPedal($scope.pedal._id);
-          $location.path( '/pedal/'.concat($scope.pedal._id)
+          $location.path( '/pedal/'.concat($scope.pedal._id));
         });
 
       };
@@ -159,7 +159,7 @@ angular.module('webClientSideApp')
         });
       };
       $scope.deletePedal = function(pedal) {
-        $http.delete(config.)
+        //$http.delete(config.)
       };
       /**
        retrieve all users
