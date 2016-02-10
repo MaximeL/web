@@ -45,7 +45,7 @@ angular.module('webClientSideApp')
       'gain',
       'tremolo',
       'convolver',
-      'distorsion',
+      'overdrive',
       'delay',
       'compressor',
       'allpass',
