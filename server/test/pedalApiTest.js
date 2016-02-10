@@ -336,7 +336,7 @@ describe('Pedal API test', function () {
 
     it('should not get a pedal which does not exists', function (done) {
       request(URL)
-        .post(URL_PEDAL + "azeaze")
+        .get(URL_PEDAL + "azeaze")
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404)
         .end(function (err, res) {
@@ -345,7 +345,7 @@ describe('Pedal API test', function () {
           }
 
           res.body.should.not.have.property('_id');
-          res.body.message.should.equal("Pedal does not exist");
+          res.body.message.should.equal("unknowned pedal");
           done();
         });
     });

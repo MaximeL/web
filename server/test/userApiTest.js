@@ -277,7 +277,7 @@ describe('User API test', function () {
         });
     });
 
-    it('should not create a new user with an username witch does not exists' , function (done) {
+    it('should not create a new user with an username witch does already exists' , function (done) {
       var userBody = JSON.parse(JSON.stringify(userTemplate));
       request(URL)
         .post(URL_USER)

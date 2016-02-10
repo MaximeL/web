@@ -163,7 +163,7 @@ describe('Pedal Rating API test', function () {
 
     it('should not correctly get a rating of a pedal which does not exist', function (done) {
       request(URL)
-        .get(URL_PEDAL + id_pedal + URL_PEDAL_RATING)
+        .get(URL_PEDAL + "azeaze" + URL_PEDAL_RATING)
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404) //Status code created
         .end(function (err, res) {
@@ -171,9 +171,9 @@ describe('Pedal Rating API test', function () {
             throw err;
           }
           // Should.js fluent syntax applied
-          res.body.should.have.property('_id');
+          res.body.should.not.have.property('_id');
 
-          res.body.message.should.equal("Pedal does not exist");
+          res.body.message.should.equal("unknowed pedal");
           done();
         });
     });

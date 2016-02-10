@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 
 var PedalSchema = require('../model/schema').getPedaleSchema();
+var UserSchema = require('../model/schema').getUserSchema();
 
 // ---------------------------
 // Middleware for all requests
@@ -23,17 +24,18 @@ router.route('/')
   // HTTP GET
   .get(function (req, res) {
     console.log('GET all comments of pedal');
-    PedalSchema.findOne(
-      {"comments": {$exists: true}, "_id": req.params.pedalId},
-      {"comments": 1},
-      function (err, pedal) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
+      if(!pedale) {
+        res.status(404);
+        return res.json({message: "unknowed pedal"});
+      }
         if (err) {
           res.status(500);
           return res.json({message: "Can't get all users"});
         }
         console.log("   Ok pour lister les commentaires");
         res.status(200);
-        return res.send(pedal.comments);
+        return res.send(pedale.comments);
       });
   })
 

@@ -55,7 +55,7 @@ router.route('/')
         res.status(500);
         return res.json({message: "error occured"})
       }
-
+console.log("user found");
       var pedale = new PedaleSchema();
 
       pedale.name = req.body.name;
@@ -90,7 +90,6 @@ router.route('/:id')
         res.status(404);
         return res.json({message: "unknowned pedal"});
       }
-
       res.status(200);
       return res.send(pedale);
     });

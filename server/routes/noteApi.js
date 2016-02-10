@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 
 var PedalSchema = require('../model/schema').getPedaleSchema();
+var UserSchema = require('../model/schema').getUserSchema();
 
 // ---------------------------
 // Middleware for all requests
@@ -44,33 +45,41 @@ router.route('/')
     );
   })
 
-  // HTTP POST TODO : note déjà posée par un user
+  // HTTP POST
   .post(function (req, res) {
     console.log('POST a note');
-    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
-      if (err) {
-        res.status(404);
-        return res.json({message: "unknowned pedal"});
-      }
-      // on test l'existence des parametres requis
-      if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
-        req.body.author === "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
-        res.status(400);
-        return res.json({message: "incorrect syntax"});
+
+    if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
+      req.body.author === "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
+      res.status(400);
+      return res.json({message: "incorrect syntax"});
+    }
+
+    UserSchema.findOne({'_id': req.body.author}, function (err, user) {
+      if(err || !user) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
       }
 
-      pedale.rating.push({
-        _id: req.body.author,
-        rate: req.body.rate
-      });
-
-      pedale.save(function (err) {
+      PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
         if (err) {
           res.status(404);
-          return res.json({message: "incorrect syntax"});
+          return res.json({message: "unknowned pedal"});
         }
-        res.status(201);
-        return res.send(pedale);
+
+        pedale.rating.push({
+          _id: req.body.author,
+          rate: req.body.rate
+        });
+
+        pedale.save(function (err) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "incorrect syntax"});
+          }
+          res.status(201);
+          return res.send(pedale);
+        });
       });
     });
   })
