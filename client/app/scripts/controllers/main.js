@@ -209,18 +209,19 @@ angular.module('webClientSideApp')
         $scope.overStar = value;
       };
 
-      $scope.getVal = function() {
+      $scope.getVal = function(pedal) {
+        console.log(pedal);
         $scope.p = $scope.overStar;
         console.log($scope.p);
         var json = {
-          "_id" : $scope.user.id,
+          "author" : $scope.user.id,
           "rate": $scope.p
         };
-        //$http.post(config.apiURL + config.pedals + pedal._id, json).then(function() {   // TODO recup pedal_id cliquée
-        //  console.log("success");
-        //}, function(error) {
-        //  console.log(error);
-        //});
+        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {   // TODO recup pedal_id cliquée
+          console.log("success");
+        }, function(error) {
+          console.log(error);
+        });
       }
 
     });

@@ -21,7 +21,7 @@ router.use(function (req, res, next) {
 });
 
 // ---------------
-// Route ➜ /pedal/:pedalId/notes
+// Route ➜ /pedal/:pedalId/rate
 // ---------------
 router.route('/')
 
