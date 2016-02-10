@@ -182,28 +182,25 @@ router.route('/:id')
 router.route('/:id/users/')
   .get(function (req, res) {
     console.log('GET users of pedal');
-    PedaleSchema.findOne(
-      {"users": {$exists: true}, "_id": req.params.id},
-      {"users": 1},
-      function (err, pedal) {
-        if (err) {
+    PedaleSchema.findOne({"_id": req.params.id}, function (err, pedale) {
+        if (err || !pedale) {
           res.status(404);
-          return res.json({message: "incorrect syntax"});
+          return res.json({message: "unknowed pedal"});
         }
         res.status(200);
-        return res.send(pedal.users);
+        return res.send(pedale.users);
       }
     );
   })
   .put(function (req, res) {
     console.log('PUT users of pedal');
-    if (req.body.constructor !== Array || req.body.length == 0) {
+    if (req.body.users.constructor !== Array || req.body.users.length == 0) {
       res.status(400);
       return res.json({message: "incorrect syntax"});
     }
 
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
-      if (err) {
+      if (err || !pedale) {
         res.status(404);
         return res.json({message: "unknowned pedal"});
       }
@@ -214,17 +211,34 @@ router.route('/:id/users/')
       }
 
       pedale.users = [];
-      for (var i = 0; i < req.body.length; i++) {
+      for (var i = 0; i < req.body.users.length; i++) {
+        var userId = req.body.users[i]._id;
+
         pedale.users.push({
-          _id: req.body[i]
-        })
+          _id: userId
+        });
       }
 
       pedale.save(function (err) {
         if (err) {
-          res.status(404);
-          return res.json({message: "This pedal doesn't exists."});
+          res.status(401);
+          return res.json({message: "unauthorized"});
         }
+        pedale.users.forEach(function (pedalUser) {
+          UserSchema.findOne({_id: pedalUser._id}, function(err, user) {
+            if(err) {
+              res.status(500);
+              return res.json({message: "error occured"});
+            }
+
+            user.shared.push({
+              _id: pedale._id
+            });
+
+            user.save();
+          })
+        });
+
         res.status(200);
         return res.send(pedale);
       });

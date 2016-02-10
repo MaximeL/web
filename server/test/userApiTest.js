@@ -240,7 +240,7 @@ describe('User API test', function () {
    *  --------------------------------------------------------------------------------------- */
   describe('User API behaviour testing', function() {
     var userTemplate = {
-      username: "test",
+      username: "test2",
       password: "alligator3",
       email: "test@test.fr"
     };
@@ -285,7 +285,6 @@ describe('User API test', function () {
         .expect(405)
         .end(function (err, res) {
           if (err) {
-            console.log(res.body);
             throw err;
           }
           // Should.js fluent syntax applied
@@ -295,9 +294,9 @@ describe('User API test', function () {
         });
     });
 
-    it('should not authenticate a new user who does not exists' , function (done) {
+    it('should not authenticate a user who does not exists' , function (done) {
       var userBody = JSON.parse(JSON.stringify(userTemplate));
-      userBody.username = "test2";
+      userBody.username = "test3";
       request(URL)
         .post(URL_USER_AUTH)
         .send(userBody)
@@ -314,7 +313,7 @@ describe('User API test', function () {
         });
     });
 
-    it('should not authenticate a new user with a bad password', function (done) {
+    it('should not authenticate a user with a bad password', function (done) {
       var userBody = JSON.parse(JSON.stringify(userTemplate));
       userBody.password = "alligator";
       request(URL)
@@ -336,9 +335,9 @@ describe('User API test', function () {
 
   after(function (done) {
     // on drop la BD de test
-    mongoose.connection.db.dropDatabase(function (err, res) {
-      console.log("\n" + err);
-    });
+    //mongoose.connection.db.dropDatabase(function (err, res) {
+    //  console.log("\n" + err);
+    //});
 
     // In our tests we use the dbsound_test
     mongoose.connection.close();

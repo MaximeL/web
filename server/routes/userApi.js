@@ -23,7 +23,7 @@ router.route('/')
         console.log(err);
         return;
       }
-      // TODO : Supprimer les mots de passe
+
       res.status(200);
       return res.send(users);
     });
@@ -40,7 +40,9 @@ router.route('/')
     console.log(req.body.username);
     console.log("body OK");
     UserSchema.findOne({'username': req.body.username}, function(err, verif) {
+      console.log("err");
       console.log(err);
+      console.log("verif");
       console.log(verif);
       if(verif) {
         res.status(405);
