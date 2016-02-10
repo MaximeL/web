@@ -95,7 +95,8 @@ angular.module('webClientSideApp')
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                item.rating = moy;
+                var ceil = Math.ceil(moy);
+                item.rating = ceil;
 
                 // TODO Comments
 
@@ -217,18 +218,6 @@ angular.module('webClientSideApp')
 
 
       // votes
-      //$scope.isReadonly = false;
-      //
-      //$scope.max = 5;
-      //
-      //$scope.rate = 0;
-      //
-      //$scope.hoveringOver = function (value) {
-      //  //console.log("hoveringOver :" + value);
-      //  $scope.overStar = value;
-      //  console.log($scope.overStar);
-      //};
-
       $scope.rate = 0;
       $scope.max = 5;
       $scope.isReadonly = false;
@@ -238,18 +227,17 @@ angular.module('webClientSideApp')
       };
 
       $scope.getVal = function(pedal) {
-        console.log(pedal);
         $scope.p = $scope.overStar;
-        console.log($scope.p);
         var json = {
           "author" : $scope.user.id,
           "rate": $scope.p
         };
-        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {   // TODO recup pedal_id cliquée
+        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {
           console.log("success");
         }, function(error) {
           console.log(error);
         });
+        $window.location.reload();
       }
 
     });

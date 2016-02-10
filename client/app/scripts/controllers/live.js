@@ -72,6 +72,10 @@ angular.module('webClientSideApp')
       saveState.save($routeParams.id);
     };
 
+    $scope.save = function () {
+      saveState.save($routeParams.id);
+    };
+
     $scope.clickPlay = function() {
       if(NodeStorage.get().storage[0].play !== null) {
         if (NodeStorage.get().storage[0].play) {
