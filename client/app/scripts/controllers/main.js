@@ -9,8 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config, $uibModal) {
-
+  .controller('MainCtrl', function ($scope, $cookies, $rootScope, md5, NodeStorage, $http, $notification, user, pedal, $location, config) {
     $scope.user = $cookies.getObject('user');
 
     /**
@@ -96,14 +95,9 @@ angular.module('webClientSideApp')
 
         $scope.pedal.owner=$scope.user.id;
         $scope.pedal.user=$scope.user.id;
-        $scope.pedal.effects = [];
-        $scope.pedal.effects.push({data:$scope.pedal.effect});
 
-        pedal.createPedal($scope.pedal, $scope.login).then(function () {
-          console.log($scope.pedal);
-          $scope.user.pedals.push($scope.pedal._id);
-          $scope.pedalCreated = true;
-        //  $location.path( '/pedal/'.concat($scope.pedal._id) );
+        pedal.createPedal($scope.pedal).then(function () {
+          $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
 
       };
@@ -115,20 +109,25 @@ angular.module('webClientSideApp')
        * @param id
        * @param pedal
        */
-      $scope.share = function (id, pedal) {
-        $http.get(config.apiURL + config.users + id)
-          .then(function (response) {
-            var elt = {_id: id, right: true};
-            /**
-             * add pedal shared into my list of pedals
-             */
-
-            /**
-             * update user
-             */
-            $http.put(config.apiURL + config.users, response.data)
-          });
+      $scope.share = function (u, pedal) {
+        u.id = u._id;
+        u.shared.push({id:pedal._id});
+        user.updateUser(u)
+        /**
+         * update user
+         */
+      /*  $http.put(config.apiURL + config.users, response.data)
+      });*/
       };
+
+      /**
+        retrieve all users
+       */
+      $http.get(config.apiURL + config.users)
+        .then(function (response) {
+          $scope.users = response.data;
+
+        });
 
 
       $scope.switchToSignup = function () {
@@ -144,4 +143,18 @@ angular.module('webClientSideApp')
         }
         return md5.createHash(email);
       };
+
+
+      // votes
+      $scope.isReadonly = false;
+
+      $scope.max = 5;
+      $scope.rate = 3; // TODO
+
+      $scope.hoveringOver = function(value) {
+        $scope.overStar = value;
+        $scope.percent = 100 * (value / $scope.max);
+      };
+
+    }
   });

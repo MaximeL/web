@@ -1,5 +1,5 @@
 angular.module('webClientSideApp')
-  .controller('AuthenticationCtrl', function ($scope, $location, $cookies, $notification, user) {
+  .controller('AuthenticationCtrl', function ($scope, $location, $cookies, $notification, user, base64) {
     if ($location.path() == "/sign-out") {
       if ($cookies.get("user") !== undefined) {
         $cookies.remove("user");
@@ -18,6 +18,9 @@ angular.module('webClientSideApp')
         $scope.user.password != undefined
       ) {
         // TODO : hash pwd
+
+        $scope.user.password = base64.encode($scope.user.password);
+        console.log($scope.user.password)
         user.create($scope.user, '/sign-in')
       } else {
         $notification.error("Error::", "All field are not correctly filled.")
@@ -34,6 +37,7 @@ angular.module('webClientSideApp')
         $scope.user.password != undefined
       ) {
         // TODO : hash pwd
+        $scope.user.password = base64.encode($scope.user.password);
         user.login($scope.user, '/');
       }
     };

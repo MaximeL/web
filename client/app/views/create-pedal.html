@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-</head>
-<body>
-
-<div class="container">
-  <h2>Creation d'une Pédale</h2>
-  <form role="form">
+<h2>Pedal creation</h2>
+<form role="form">
+  <div class="col-md-6">
     <div class="form-group">
       <label for="name">Name</label>
       <input type="text" id="name" class="form-control" name="name" ng-model="pedal.name" required/>
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <input type="text" id="description" class="form-control" name="description" ng-model="pedal.description" required/>
+      <textarea id="description" ng-model="pedal.description" class="form-control" required></textarea>
     </div>
-
-    <button type="submit" class="btn btn-default" ng-click="newPedal()">Submit</button>
-  </form>
-</div>
-
-</body>
-</html>
+    <button type="submit" class="btn btn-success pull-right" ng-click="newPedal()">Submit</button>
+  </div>
+</form>

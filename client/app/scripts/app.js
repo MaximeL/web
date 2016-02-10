@@ -60,12 +60,7 @@ angular
         controller: 'LiveCtrl',
         controllerAs: 'live'
       })
-      .when('/signup', {
-        templateUrl: 'views/signUp.html',
-        controller: 'MainCtrl',
-        controllerAs: 'signup'
-      })
-      .when('/createPedal', {
+      .when('/create-pedal', {
         templateUrl: 'views/create-pedal.html',
         controller: 'MainCtrl',
         controllerAs: 'createPedal'
