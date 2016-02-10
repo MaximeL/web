@@ -23,7 +23,7 @@ router.route('/')
         console.log(err);
         return;
       }
-      // TODO : Supprimer les mots de passe
+
       res.status(200);
       return res.send(users);
     });
@@ -35,23 +35,31 @@ router.route('/')
     if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('email') ||
       req.body.username === "" || req.body.password === "" || req.body.email === "") {
       res.status(400);
-      return res.json({message: "Post syntax incorrect"});
+      return res.json({message: "incorrect syntax"});
     }
 
-    var user = new UserSchema();
+    UserSchema.findOne({'username': req.body.username}, function(err, verif) {
+      if(verif) {
+        console.log("Username already exists");
+        res.status(405);
+        return res.json({message: "username already exists"});
+      } else {
+        var user = new UserSchema();
 
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.email = req.body.email;
+        user.username = req.body.username;
+        user.password = req.body.password;
+        user.email = req.body.email;
 
-    user.save(function (err, user) {
-      if (err) {
-        res.status(400);
-        return res.json({message: "Invalid syntax"});
+        user.save(function (err) {
+          if (err) {
+            res.status(400);
+            return res.json({message: "Invalid syntax"});
+          }
+          user.password = undefined;
+          res.status(201);
+          return res.send(user);
+        });
       }
-      user.password = undefined;
-      res.status(201);
-      return res.send(user);
     });
   });
 
@@ -61,14 +69,11 @@ router.route('/auth')
     console.log('POST user authentification');
     var query = UserSchema.findOne({'username': req.body.username, 'password': req.body.password}).select('-password');
     query.exec(function (err, user) {
-      if (err) {
-        console.log(err);
-        return;
+      if (err || !user) {
+        res.status(404);
+        return res.json({message: "User does not exist"});
       }
 
-      if (user == null) {
-        return res.status(404).json("{message: user not found}")
-      }
       res.status(200);
       return res.send(user);
     });
@@ -78,7 +83,8 @@ router.route('/auth')
 router.route('/:id')
   .get(function (req, res) {
     console.log('GET a user');
-    UserSchema.findOne({'_id': req.params.id}, function (err, user) {
+    var query = UserSchema.findOne({'_id': req.params.id}).select('-password');
+    query.exec(function (err, user) {
       if (err) {
         res.status(404);
         return res.json({message: "User unknowned"});
@@ -89,8 +95,9 @@ router.route('/:id')
   })
   .put(function (req, res) {
     console.log('PUT a user');
+
     UserSchema.findOne({'_id': req.params.id}, function (err, user) {
-        if (err) {
+        if (err || !user) {
           res.status(404);
           return res.json({message: "User unknowned"});
         }

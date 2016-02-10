@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 
 var PedalSchema = require('../model/schema').getPedaleSchema();
+var UserSchema = require('../model/schema').getUserSchema();
 
 // ---------------------------
 // Middleware for all requests
@@ -28,47 +29,57 @@ router.route('/')
   .get(function (req, res) {
     console.log('GET all notes of pedal');
 
-    PedalSchema.findOne(
-      {"rating": {$exists: true}, "_id": req.params.pedalId},
-      {"rating": 1},
-      function (err, pedal) {
-        if (err) {
+    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
+        if (!pedale) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "unknowed pedal"});
         }
+        if (err) {
+          res.status(500);
+          return res.json({message: "error occured"});
+        }
+
         res.status(200);
-        return res.json(pedal.rating);
+        return res.json(pedale.rating);
       }
     );
   })
 
-  // HTTP POST TODO : note déjà posée par un user
+  // HTTP POST
   .post(function (req, res) {
     console.log('POST a note');
-    PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
-      if (err) {
-        res.status(404);
-        return res.json({message: "Unknowned pedal"});
-      }
-      // on test l'existence des parametres requis
-      if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
-        req.body.author == "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
-        res.status(400);
-        return res.json({message: "Post syntax incorrect, note is not specified, empty or invalid"});
+
+    if (!req.body.hasOwnProperty('author') || !req.body.hasOwnProperty('rate') ||
+      req.body.author === "" || req.body.rate.NaN || req.body.rate > 5 || req.body.rate < 0) {
+      res.status(400);
+      return res.json({message: "incorrect syntax"});
+    }
+
+    UserSchema.findOne({'_id': req.body.author}, function (err, user) {
+      if(err || !user) {
+        res.status(401);
+        return res.json({message: "unauthorized"});
       }
 
-      pedale.rating.push({
-        _id: req.body.author,
-        rate: req.body.rate
-      });
-
-      pedale.save(function (err) {
+      PedalSchema.findOne({"_id": req.params.pedalId}, function (err, pedale) {
         if (err) {
           res.status(404);
-          return res.json({message: "Post syntax incorrect, pedalid not specified or empty"});
+          return res.json({message: "unknowned pedal"});
         }
-        res.status(201);
-        return res.send(pedale);
+
+        pedale.rating.push({
+          _id: req.body.author,
+          rate: req.body.rate
+        });
+
+        pedale.save(function (err) {
+          if (err) {
+            res.status(404);
+            return res.json({message: "incorrect syntax"});
+          }
+          res.status(201);
+          return res.send(pedale);
+        });
       });
     });
   })
