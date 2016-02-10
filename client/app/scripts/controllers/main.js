@@ -153,6 +153,7 @@ angular.module('webClientSideApp')
     $scope.commentModal = function (user,pedal,newcomment) {
       console.log(user);
       console.log(pedal);
+      pedal.user=user.id;
       if(pedal.comments != undefined){
         pedal.comments.push({_id:user.id , comment:newcomment});
       }
@@ -162,7 +163,7 @@ angular.module('webClientSideApp')
       }
       pedal.author=user.id;
       pedal.content=newcomment;
-      $http.post("http://localhost:3000/api/comments", pedal)
+      $http.put(config.apiURL + config.pedals + pedal._id, pedal)
         .success(function (response) {
           $notification.success("Congratulations !", "comment saved");
           $location.path("/")

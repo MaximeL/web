@@ -126,6 +126,17 @@ router.route('/:id')
           }
         }
 
+      if(pedale.comments != undefined) {
+        pedale.comments.push({
+          _id: req.body.author,
+          comment: req.body.content
+        });
+      }
+      if(pedale.comments == undefined) {
+        pedale.comments = req.body.comments;
+      }
+
+
         pedale.save(function (err) {
           if (err) {
             console.log(err);
