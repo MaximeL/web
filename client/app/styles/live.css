@@ -37,6 +37,8 @@
   min-width: 5%;
   padding: 0;
   margin-left: 5px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .output {
@@ -49,6 +51,8 @@
   width: 5%;
   min-width: 5%;
   padding: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .input-output-text {
@@ -113,27 +117,27 @@
 /* Les boiboites */
 
 .gain{
-  background-color: #FDF4B0;
+  background-color: rgba(253, 244, 176, 0.82);
   border:1px solid #dcd499;
 }
 .allpass {
-  background-color: #A4DCB9;
+  background-color: rgba(164, 220, 185, 0.82);
   border:1px solid #779f83;
 }
 .bandpass {
-  background-color: #5BCEBF;
+  background-color: rgba(91, 206, 191, 0.82);
   border:1px solid #377c73;
 }
 .highpass {
-  background-color: #32B9BE;
+  background-color: rgba(50, 185, 190, 0.82);
   border:1px solid #217f83;
 }
 .highshelf {
-  background-color: #2E97B7;
+  background-color: rgba(46, 151, 183, 0.81);
   border:1px solid #247790;
 }
 .lowpass  {
-  background-color: #D6F4D0;
+  background-color: rgba(214, 244, 208, 0.82);
   border:1px solid #c3ddbd;
 }
 .lowshelf  {
@@ -141,26 +145,26 @@
   border:1px solid #c29ec3;
 }
 .notch  {
-  background-color: #E9DAED;
+  background-color: rgba(233, 218, 237, 0.81);
   border:1px solid #afa5b3;
 }
 .peaking  {
-  background-color: #C5E0DC;
+  background-color: rgba(197, 224, 220, 0.8);
   border:1px solid #8a9d9a;
 }
 .convolver  {
-  background-color: #ECE5CE;
+  background-color: rgba(236, 229, 206, 0.8);
   border:1px solid #aca596;
 }
 .delay  {
-  background-color: #F1D4AF;
+  background-color: rgba(241, 212, 175, 0.82);
   border:1px solid #b7a085;
 }
 .distorsion  {
-  background-color: #E08E79;
+  background-color: rgba(224, 142, 121, 0.8);
   border:1px solid #E08E79;
 }
 .compressor  {
-  background-color: #f597a4;
+  background-color: rgba(245, 151, 164, 0.8);
   border:1px solid #f597a4;
 }
