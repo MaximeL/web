@@ -37,6 +37,8 @@
   min-width: 5%;
   padding: 0;
   margin-left: 5px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .output {
@@ -49,6 +51,8 @@
   width: 5%;
   min-width: 5%;
   padding: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .input-output-text {
