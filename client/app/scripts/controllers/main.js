@@ -97,13 +97,8 @@ angular.module('webClientSideApp')
 
         $scope.pedal.owner=$scope.user.id;
         $scope.pedal.user=$scope.user.id;
-        $scope.pedal.effects = [];
-        $scope.pedal.effects.push({data:$scope.pedal.effect});
 
         pedal.createPedal($scope.pedal).then(function () {
-          console.log($scope.pedal);
-          $scope.user.pedals.push($scope.pedal._id);
-          user.updateUser($scope.user);
           $location.path( '/pedal/'.concat($scope.pedal._id) );
         });
 
