@@ -111,19 +111,15 @@ angular.module('webClientSideApp')
        * @param id
        * @param pedal
        */
-      $scope.share = function (id, pedal) {
-        $http.get(config.apiURL + config.users + id)
-          .then(function (response) {
-            var elt = {_id: id, right: true};
-            /**
-             * add pedal shared into my list of pedals
-             */
-
-            /**
-             * update user
-             */
-            $http.put(config.apiURL + config.users, response.data)
-          });
+      $scope.share = function (u, pedal) {
+        u.id = u._id;
+        u.shared.push({id:pedal._id});
+        user.updateUser(u)
+        /**
+         * update user
+         */
+      /*  $http.put(config.apiURL + config.users, response.data)
+      });*/
       };
 
       /**
@@ -132,8 +128,7 @@ angular.module('webClientSideApp')
       $http.get(config.apiURL + config.users)
         .then(function (response) {
           $scope.users = response.data;
-          console.log("users ::::: ");
-          console.log($scope.users);
+
         });
 
 

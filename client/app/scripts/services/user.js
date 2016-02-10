@@ -48,9 +48,6 @@ angular.module('webClientSideApp')
           });
       },
       updateUser : function(user){
-        console.log("####");
-        console.log(user);
-        console.log("####");
         return $http.put(config.apiURL + config.users +user.id, user)
 
       }
