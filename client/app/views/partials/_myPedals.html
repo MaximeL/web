@@ -18,6 +18,17 @@
             </ul>
           </div>
         </div>
+        <div class="pull-left">
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Share With<span class="caret"></span></button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li ng-repeat="user in users">
+                <span ng-click="">{{user.username}}</span>
+              </li>
+
+            </ul>
+          </div>
+        </div>
 
         <div class="pull-left btn-play-edit">
           <a href="/#/pedal/{{pedal._id}}"><button class="btn btn-default"><span title="Edit" id="edit" class="glyphicon glyphicon-edit aligned"></span></button></a>
