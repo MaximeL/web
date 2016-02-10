@@ -35,24 +35,19 @@ router.use('/:pedalId/design', designRouter);
 //##########POST > Route -> /api/pedale###########
 
 router.route('/')
+  // TODO : Update user
   .post(function (req, res) {
     console.log('POST a pedal');
     var pedale = new PedaleSchema();
 
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('description') || !req.body.hasOwnProperty('owner') ||
+      req.body.name === "" || req.body.description === "" || req.body.owner === "") {
+      res.status(400);
+      return res.json({message: "Post syntax incorrect"});
+    }
     pedale.name = req.body.name;
     pedale.description = req.body.description;
     pedale.owner = req.body.owner;
-
-    if (req.body.effects !== undefined && req.body.effects.constructor === Array) {
-      for (var i = 0; i < req.body.effects.length; i++) {
-        pedale.effects.push({
-          data: req.body.effects[i].data
-        });
-      }
-
-    } else {
-      pedale.effects = [];
-    }
 
     pedale.save(function (err) {
       if (err) {
@@ -68,7 +63,7 @@ router.route('/')
 router.route('/:id')
   .get(function (req, res) {
     console.log('GET a pedal');
-    console.log(req.params.id);
+
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
       if (err) {
         res.status(404);
@@ -89,7 +84,7 @@ router.route('/:id')
       }
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {
-        res.status(403);
+        res.status(401);
         return res.json({message: "unauthorized"});
       }
 
@@ -165,7 +160,7 @@ router.route('/:id/users/')
       }
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {
-        res.status(403);
+        res.status(401);
         return res.json({message: "unauthorized"});
       }
 

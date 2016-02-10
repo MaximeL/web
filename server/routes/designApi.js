@@ -59,6 +59,7 @@ router.route('/')
 
       if(req.body.user == undefined || req.body.user != pedale.owner) {
         res.status(403);
+        res.status(401);
         return res.json({message: "unauthorized"});
       }
 
