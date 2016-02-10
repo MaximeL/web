@@ -249,10 +249,11 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
     $http.put(config.apiURL + config.pedals + $scope.pedal._id + config.pedal_users, data)
       .success(function (response) {
         $notification.success("Congratulations !", "Pedal saved");
-        $location.path("/");
+        $location.path("/")
       })
       .error(function (response) {
         $notification.error("Error !", "An error occured : " + response.message);
+        $uibModalInstance.dismiss();
       });
     $uibModalInstance.close();
   };
