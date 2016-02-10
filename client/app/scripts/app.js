@@ -100,7 +100,7 @@ angular
   .run(function ($rootScope, $cookies, $location, $log, $route){
     $log.debug('In run function');
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-      if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in') {
+      if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in' && $location.path() !== '/sign-up') {
         $log.debug('not signed in. redirection...');
         $location.path("/sign-in");
         $route.reload();
