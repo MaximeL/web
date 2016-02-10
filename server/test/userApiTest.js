@@ -260,9 +260,9 @@ describe('User API test', function () {
         });
     });
 
-    it('should not get an user who does not exists', function() {
+    it('should not get an user who does not exists', function(done) {
       request(URL)
-        .post(URL_USER + "azedqsdqsd")
+        .get(URL_USER + "azedqsdqsd")
         .expect('Content-type', 'application/json; charset=utf-8')
         .expect(404)
         .end(function (err, res) {
@@ -271,7 +271,7 @@ describe('User API test', function () {
           }
           // Should.js fluent syntax applied
           res.body.should.not.have.property('_id');
-          res.body.message.should.equal("User does not exist");
+          res.body.message.should.equal("User unknowned");
           done();
         });
     });
@@ -281,9 +281,8 @@ describe('User API test', function () {
       request(URL)
         .post(URL_USER)
         .send(userBody)
-        .expect('Content-type', 'text/html; charset=utf-8')
-        //.expect('Content-type', 'application/json; charset=utf-8')
-        //.expect(405)
+        .expect('Content-type', 'application/json; charset=utf-8')
+        .expect(405)
         .end(function (err, res) {
           if (err) {
             console.log(err);
