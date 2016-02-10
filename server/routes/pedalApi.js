@@ -97,11 +97,6 @@ router.route('/:id')
   .put(function (req, res) {
     console.log('PUT a pedal');
 
-    if (!req.body.hasOwnProperty('owner') || req.body.owner === "") {
-      res.status(400);
-      return res.json({message: "incorrect syntax"});
-    }
-
     PedaleSchema.findOne({'_id': req.params.id}, function (err, pedale) {
         if (err) {
           res.status(404);
