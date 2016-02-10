@@ -58,13 +58,21 @@
     </div>
   </div>
   <!-- side menu to add effects -->
-  <div id="live-sidebar">
-    <div class="effect-element" ng-repeat="effect in effects">
-      <div class="effect-button">
-      <div ng-class="effect" ng-click="addEffect(effect)">
+  <div id="live-sidebar" >
+    <div class="btn-group-vertical" style="width:100%;">
+      <div ng-repeat="effect in effects">
+      <button class="btn btn-default" ng-class="effect" ng-click="addEffect(effect)" style="width:100%; height:60px; border-radius:0px">
         {{effect}}
+      </button>
       </div>
-      </div>
+    </div>
+    <div class="effect-element" role="group" ng-repeat="effect in effects">
+
+      <!--<div class="effect-button">-->
+      <!--<div ng-class="effect" ng-click="addEffect(effect)">-->
+        <!--{{effect}}-->
+      <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </div>
