@@ -9,7 +9,7 @@
  */
 angular.module('webClientSideApp')
 
-  .controller('MainCtrl', function ($scope, $cookies, $uibModal, $rootScope, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
+  .controller('MainCtrl', function ($scope, $cookies, $uibModal, md5, NodeStorage, $http, $notification, $log, user, pedal, $location, config) {
     $scope.user = $cookies.getObject('user');
 
     /**
@@ -127,26 +127,9 @@ angular.module('webClientSideApp')
           $log.info('Modal dismissed at: ' + new Date());
         });
       };
-
-      /**
-       * shared pedals with other users
-       *
-       * @param id
-       * @param pedal
-       */
-      $scope.share = function (u, pedal) {
-        console.log(u);
-        console.log(pedal);
-        //u.id = u._id;
-        //u.shared.push({id:pedal._id});
-        //user.updateUser(u)
-        ///**
-        // * update user
-        // */
-        /*  $http.put(config.apiURL + config.users, response.data)
-         });*/
+      $scope.deletePedal = function(pedal) {
+        $http.delete(config.)
       };
-
       /**
        retrieve all users
        */
