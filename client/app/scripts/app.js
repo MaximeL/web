@@ -29,6 +29,7 @@ angular
       users_auth: "auth",
       pedals: "api/pedals/",
       pedal_comments: "/comments",
+      pedal_users: "/users",
       pedal_rates: "/rates",
       pedal_design: "/design"
     }

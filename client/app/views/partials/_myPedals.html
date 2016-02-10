@@ -11,7 +11,7 @@
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="true">Actions <span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-share-alt fa-fw"  ></i>&nbsp;Share</a></li>
+              <li ng-click="shareModal(pedal)"><a href="/#/"><i class="fa fa-share-alt fa-fw"></i>&nbsp;Share</a></li>
               <li><a href="#"><i class="fa fa-comment fa-fw"></i>&nbsp;See comments</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#"><i class="fa fa-trash fa-fw text-danger"></i>&nbsp;Delete</a></li>
@@ -37,7 +37,9 @@
 
 
       <div class="pull-right pedal-rating">
-        <uib-rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+        <uib-rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
+                    on-leave="overStar = null" titles="['one','two','three']"
+                    aria-labelledby="default-rating"></uib-rating>
         <!--<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>-->
 
         <!--<i class="fa fa-star"></i>-->
@@ -50,27 +52,7 @@
       <div class="clearfix"/>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
-          </div>
-          <div class="modal-body" ng-repeat="user in users">
-            <li> <label class="fa fa-user fa-fw">{{user.username}}</label> <a href=""><i class="fa fa-share-alt fa-fw pull-right" ng-click="share(user,pedal)"  ></i></a></li>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <!--nom de la pedal-->
+    <!--nom de la pedal-->
     <div class="pull-left">
       <h3 class="pedal-name">{{pedal.name}}</h3>
     </div>
@@ -94,5 +76,3 @@
   </div>
   <br/>
 </div>
-
-

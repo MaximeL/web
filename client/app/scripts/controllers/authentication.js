@@ -17,11 +17,11 @@ angular.module('webClientSideApp')
         $scope.user.email != undefined &&
         $scope.user.password != undefined
       ) {
-        // TODO : hash pwd
 
-        $scope.user.password = base64.encode($scope.user.password);
-        console.log($scope.user.password)
-        user.create($scope.user, '/sign-in')
+        var object = { username: $scope.user.username };
+        object.password = base64.encode($scope.user.password);
+
+        user.create(object, '/sign-in')
       } else {
         $notification.error("Error::", "All field are not correctly filled.")
       }
@@ -36,9 +36,11 @@ angular.module('webClientSideApp')
         $scope.user.username != undefined &&
         $scope.user.password != undefined
       ) {
-        // TODO : hash pwd
-        $scope.user.password = base64.encode($scope.user.password);
-        user.login($scope.user, '/');
+
+        var object = { username: $scope.user.username };
+        object.password = base64.encode($scope.user.password);
+
+        user.login(object, '/');
       }
     };
   });
