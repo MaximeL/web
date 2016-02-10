@@ -34,8 +34,10 @@
             <div ng-switch="node.type">
               <div ng-switch-when="input">
                 <div ng-click="clickPlay()">
-                  <img class="image-button" ng-src="images/play.png" alt="PLAY" ng-if="!node.play"/>
-                  <img class="image-button" ng-src="images/pause.png" alt="PAUSE" ng-if="node.play"/>
+                  <!--<img class="image-button" style="cursor: pointer;" ng-src="images/play.png" alt="PLAY" ng-if="!node.play"/>-->
+                  <!--<img class="image-button" style="cursor: pointer;" ng-src="images/pause.png" alt="PAUSE" ng-if="node.play"/>-->
+                  <span style="padding-left:12px;cursor:pointer;"><i class="fa fa-play-circle-o" style="color:black;font-size:3em;padding-top:10px;" ng-if="!node.play"></i></span>
+                  <span style="padding-left:5px;cursor:pointer;"><i class="fa fa-pause" style="color:black;font-size:2.2em;padding-top:15px;" ng-if="node.play"></i></span>
                 </div>
               </div>
             </div>
