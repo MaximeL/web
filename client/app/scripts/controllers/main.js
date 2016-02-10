@@ -158,8 +158,14 @@ angular.module('webClientSideApp')
           $log.info('Modal dismissed at: ' + new Date());
         });
       };
-      $scope.deletePedal = function(pedal) {
-        //$http.delete(config.)
+      $scope.deletePedal = function (pedal) {
+        $http.delete(config.apiURL + config.pedals + pedal._id, {user: $scope.user.id})
+          .success(function (response) {
+
+          })
+          .error(function (response) {
+
+          });
       };
       /**
        retrieve all users
@@ -235,10 +241,10 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
   $scope.users = [];
   $scope.user = user;
 
-  for(var i = 0; i < users.length; i++) {
-    if(users[i]._id != $scope.user) {
-      $scope.pedal.users.forEach(function(pedalUser) {
-        if(users[i]._id == pedalUser._id) {
+  for (var i = 0; i < users.length; i++) {
+    if (users[i]._id != $scope.user) {
+      $scope.pedal.users.forEach(function (pedalUser) {
+        if (users[i]._id == pedalUser._id) {
           users[i].selected = true;
         }
       });
@@ -252,8 +258,8 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
       users: []
     };
 
-    for(var i = 0; i < $scope.users.length; i++) {
-      if($scope.users[i].selected) {
+    for (var i = 0; i < $scope.users.length; i++) {
+      if ($scope.users[i].selected) {
         data.users.push({_id: $scope.users[i]._id})
       }
     }
