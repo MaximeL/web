@@ -71,6 +71,11 @@ angular
         controller: 'PedalDesignCtrl',
         controllerAs: 'pedalDesign'
       })
+      .when('/pedal/:id/comments', {
+        templateUrl: 'views/pedal-comments.html',
+        controller: 'PedalCommentCtrl',
+        controllerAs: 'pedalComments'
+      })
       .when('/play/:id', {
         templateUrl: 'views/play.html',
         controller: 'PlayCtrl',
@@ -103,7 +108,7 @@ angular
     $rootScope.isLogged = $cookies.getObject('user') !== undefined;
 
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-      if($location.path().indexOf('/pedal') > -1) {
+      if($location.path().indexOf('/pedal') > -1 && $location.path().indexOf('/comments') < 0) {
         var pedalId = $location.path().split("/pedal/")[1];
         pedalId = pedalId.split("/")[0];
         $rootScope.isLive = true;

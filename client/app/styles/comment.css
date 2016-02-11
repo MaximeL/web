@@ -1,0 +1,11 @@
+.comment {
+  min-height:80px;
+}
+
+.comment .comment-text, .comment blockquote{
+  min-height:inherit;
+}
+
+.comments .separator:last-child {
+  display: none;
+}

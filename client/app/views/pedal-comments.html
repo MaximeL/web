@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>{{pedal.name}}</h1>
+    <div class="quote pull-left">
+      <blockquote class="quote-pedals quote-my-pedals">{{pedal.description}}</blockquote>
+    </div>
+  </div>
+  <div class="col-md-12 comments">
+    <h2>Comments</h2>
+    <div class="col-md-12 comment" ng-repeat="comment in pedal.comments">
+      <div class="col-sm-1 text-right">
+        <div>{{comment.username}}</div>
+        <img src="http://www.gravatar.com/avatar/{{hashEmail(comment.email)}}.jpg?s=64&d=retro" class="img-rounded"/>
+      </div>
+      <div class="col-sm-10 comment-text">
+        <blockquote>
+          {{comment.comment}}
+        </blockquote>
+      </div>
+      <div class="col-md-12" ng-class="$last ? 'hidden' : ''">
+        <hr>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="comment">Create a comment</label>
+        <textarea id="comment" class="form-control" rows="6" ng-model="comment"></textarea>
+      </div>
+    </div>
+    <div class="col-md-12" ng-class="">
+      <ul class="list-inline text-right">
+        <li>
+          <button class="btn btn-success pull-right" ng-click="save()">Send</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
