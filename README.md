@@ -1,12 +1,45 @@
-# web-client-side
+web-client-side
+===============
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.14.0.
+This project is made by :  
+* [Grégoire Sébastien](https://github.com/sgregoire)  
+* [Lozach Maxime](https://github.com/MaximeL)  
+* [Moulaye Bezeid](https://github.com/yezideteachers)  
+* [Palmero Romain](https://github.com/asromain)  
 
-## Build & development
+Client
+------
 
-Run `grunt` for building and `grunt serve` for preview.
+### Setup
 
-## Testing
+You must have :
+* *NodeJs* and *npm*
+* *Bower*
+* *Grunt*
 
-Running `grunt test` will run the unit tests with karma.
+Run the following command to install all the dependencies :  
+`npm install && bower install`
+
+### Run
+
+Run the following command to lauch the client with *Grunt* :  
+`grunt serve`
+
+Server
+------
+
+You must have :
+* *NodeJs* and *npm*
+* *MongoDB*
+
+Run the following command to install all the dependencies :  
+`npm install`
+
+### Run
+
+Run the following command to lauch the server with *NodeJs*:  
+Set environment variable : `NODE_ENV=development`  
+`npm start`  
+
+### Tests
+//TODO
