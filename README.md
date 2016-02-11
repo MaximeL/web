@@ -23,7 +23,7 @@ Run the following command to install all the dependencies :
 
 ### Run
 
-Run the following command to lauch the client with *Grunt* :
+Run the following command to launch the client with *Grunt* :
 `cd client`  
 `grunt serve`
 
@@ -40,11 +40,17 @@ Run the following command to install all the dependencies :
 
 ### Run
 
-Run the following command to lauch the server with *NodeJs*:  
+Run the following command to launch the server with *NodeJs*:  
 Set environment variable : `NODE_ENV=development` 
 `$ mongod`
 `$ cd server` 
 `npm start`  
 
 ### Tests
-//TODO
+
+Running the tests with mocha.
+Set environment variable : `NODE_ENV=test` and `PORT=3001`
+`npm start`
+Then, to execute the set of 51 tests, just run :
+`mocha test`
+
