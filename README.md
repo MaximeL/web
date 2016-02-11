@@ -26,7 +26,7 @@ The server side require :
 * *MongoDB*
 
 ### Informations
-The server will provide a REST web-service for the client and provide some ressources.
+The server will provide a REST web-service for the client and provide some resources.
 
 #### Rest Webservice
 * User Management
@@ -47,7 +47,7 @@ The server will provide a REST web-service for the client and provide some resso
   * Update shared users of a pedal
   
 #### Ressources
-The ressources are musics for testings pedals if you don't have a guitar near by.
+The resources are musics for testing pedals if you don't have a guitar near by.
 
 
 ### Setup
@@ -123,7 +123,7 @@ We recommend using [Google Chrome](https://www.google.fr/chrome/browser/desktop/
 
 ### Main Page
 
-At first arrival, you will be ask to connect. If you don't have an account, you'll be invited to sign-up to the website. The other pages are not accessible without being autenticated.  
+At first arrival, you will be ask to connect. If you don't have an account, you'll be invited to sign-up to the website. The other pages are not accessible without being authenticated.  
 On the home page, you'll find the list of your pedals. The pedals you created are on the left and the pedals shared with you are on the right.  
 
 You can do the following with your pedals :  
@@ -141,8 +141,8 @@ You can do the following with shared pedals :
 
 ### Effects
 
-The page to edit your pedal let you manage different low level effects and let you manipulate the connections between then
-in order to create a higher level pedal. Each action on the page trigger à save to the server in order to save the state of the page and recover your work at any time later.
+The page to edit your pedal let you manage different low level effects and let you manipulate the connections between them
+in order to create a higher level pedal. Each action on the page trigger a save to the server in order to save the state of the page and recover your work at any time later.
 
 The website provide the following effects :  
 * Overdrive
