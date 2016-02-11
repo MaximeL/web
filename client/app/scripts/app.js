@@ -103,6 +103,15 @@ angular
     $rootScope.isLogged = $cookies.getObject('user') !== undefined;
 
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+      if($location.path().indexOf('/pedal') > -1) {
+        var pedalId = $location.path().split("/pedal/")[1];
+        pedalId = pedalId.split("/")[0];
+        $rootScope.isLive = true;
+        $rootScope.pedalId = pedalId;
+      } else {
+        $rootScope.isLive = false;
+      }
+
       if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in' && $location.path() !== '/sign-up') {
         $log.debug('not signed in. redirection...');
         $location.path("/sign-in");

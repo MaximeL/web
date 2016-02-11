@@ -95,7 +95,8 @@ angular.module('webClientSideApp')
                   moy += r.rate;
                 });
                 moy /= rating.length;
-                item.rating = moy;
+                var ceil = Math.ceil(moy);
+                item.rating = ceil;
 
                 // TODO Comments
 
@@ -125,29 +126,57 @@ angular.module('webClientSideApp')
       };
 
       $scope.shareModal = function (pedal) {
-        var modalInstance = $uibModal.open({
-          animation: true,
-          templateUrl: '/views/partials/_shareModal.html',
-          controller: 'ModalInstanceCtrl',
-          resolve: {
-            user: function () {
-              return $scope.user.id;
-            },
-            users: function () {
-              return $scope.users
-            },
-            pedal: function () {
-              return pedal;
-            }
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: '/views/partials/_shareModal.html',
+        controller: 'ModalInstanceCtrl',
+        resolve: {
+          user: function () {
+            return $scope.user.id;
+          },
+          users: function () {
+            return $scope.users
+          },
+          pedal: function () {
+            return pedal;
           }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+
+    $scope.comment="";
+    $scope.commentModal = function (user,pedal,newcomment) {
+      console.log(user);
+      console.log(pedal);
+      pedal.user=user.id;
+      if(pedal.comments != undefined){
+        pedal.comments.push({_id:user.id , comment:newcomment});
+      }
+      else{
+        pedal.comments=[];
+        pedal.comments.push({_id:user.id , comment:newcomment});
+      }
+      pedal.author=user.id;
+      pedal.content=newcomment;
+      $http.put(config.apiURL + config.pedals + pedal._id, pedal)
+        .success(function (response) {
+          $notification.success("Congratulations !", "comment saved");
+          $location.path("/")
+        })
+        .error(function (response) {
+          $notification.error("Error !", "An error occured : " + response.message);
+
         });
 
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
-      };
+
+
+    };
       $scope.deletePedal = function (pedal) {
         $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
           .success(function (response) {
@@ -189,18 +218,6 @@ angular.module('webClientSideApp')
 
 
       // votes
-      //$scope.isReadonly = false;
-      //
-      //$scope.max = 5;
-      //
-      //$scope.rate = 0;
-      //
-      //$scope.hoveringOver = function (value) {
-      //  //console.log("hoveringOver :" + value);
-      //  $scope.overStar = value;
-      //  console.log($scope.overStar);
-      //};
-
       $scope.rate = 0;
       $scope.max = 5;
       $scope.isReadonly = false;
@@ -210,18 +227,17 @@ angular.module('webClientSideApp')
       };
 
       $scope.getVal = function(pedal) {
-        console.log(pedal);
         $scope.p = $scope.overStar;
-        console.log($scope.p);
         var json = {
           "author" : $scope.user.id,
           "rate": $scope.p
         };
-        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {   // TODO recup pedal_id cliquée
+        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {
           console.log("success");
         }, function(error) {
           console.log(error);
         });
+        $window.location.reload();
       }
 
     });
@@ -306,4 +322,7 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
     }
     return md5.createHash(email);
   };
+
+
+
 });
