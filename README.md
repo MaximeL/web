@@ -96,3 +96,22 @@ $ grunt serve
 Grunt will start a new page with your favorite browser to [http://localhost:3000](http://localhost:3000).
 
 We recommend using [Google Chrome](https://www.google.fr/chrome/browser/desktop/).
+
+### Effects
+
+The page to edit your pedal let you manage different low level effects and let you manipulate the connections between then
+in order to create a higher level pedal. Each action on the page trigger à save to the server in order to save the state of the page and recover your work at any time later.
+
+The website provide the following effects :  
+* Overdrive
+* Convolver
+* Tremolo
+* Gain
+* Delay
+* Highshelf & Lowshelf
+* Highpass & Lowpass
+* Peaking
+* Notch
+
+After the effects are set, you can design the pedal by choosing it appearance and the level you want to modify. The levels you don't provide on the pedal will keep the value setted in the low level editor.  
+You can play with the designed pedal from the main menu.
