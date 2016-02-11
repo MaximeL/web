@@ -73,6 +73,7 @@ The client side require :
 And is based on:
 * [AngularJS](https://angularjs.org/)
 * [Twitter Bootstrap](http://getbootstrap.com/)
+* [JSplumb](https://jsplumbtoolkit.com/)
 
 
 ### Setup
