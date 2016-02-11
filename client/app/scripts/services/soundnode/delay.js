@@ -22,44 +22,55 @@ angular.module('webClientSideApp')
       this.delay = audioContext.createDelay();
       this.output = audioContext.createGain();
 
-      this.feedback.gain.value = 0.2;
-
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'delayTime';
       this.parameters[0].min = 0;
-      this.parameters[0].max = 10;
-      this.parameters[0].step = 0.1;
+      this.parameters[0].max = 1;
+      this.parameters[0].step = 0.01;
+
+      this.parameters[1] = new NodeParameter();
+      this.parameters[1].name = 'feedback';
+      this.parameters[1].min = 0;
+      this.parameters[1].max = 1;
+      this.parameters[1].step = 0.01;
 
       if(typeof this.value.delayTime === 'undefined' || this.value.delayTime === null) {
-        this.delay.delayTime.value = 0;
-        this.value.delayTime = 0;
+        this.delay.delayTime.value = 0.3;
+        this.value.delayTime = 0.3;
       } else {
         this.delay.delayTime.value = this.value.delayTime;
       }
+      if(typeof this.value.feedback === 'undefined' || this.value.feedback === null) {
+        this.feedback.gain.value = 0.2;
+        this.value.feedback = 0.2;
+      } else {
+        this.feedback.gain.value = this.value.feedback;
+      }
 
       // dry path
-      this.input.connect(output);
-
+      this.input.connect(this.output);
       // wet path
       this.input.connect(this.delay);
-
       // feedback loop
       this.delay.connect(this.feedback);
       this.feedback.connect(this.delay);
-
-      this.feedback.connect(output);
+      this.feedback.connect(this.output);
     };
     Delay.prototype.setValue = function() {
       this.value.delayTime = this.delay.delayTime.value;
     };
     Delay.prototype.setParameters = function(paramName) {
-      this.delay[paramName].value = this.value[paramName];
+      if(paramName === 'feedback') {
+        this.feedback.gain.value = this.value.feedback;
+      } else {
+        this.delay[paramName].value = this.value[paramName];
+      }
     };
     Delay.prototype.getInput = function() {
-      return this.delay;
+      return this.input;
     };
     Delay.prototype.getOutput = function() {
-      return this.delay;
+      return this.output;
     };
 
     // Public API here

@@ -21,13 +21,13 @@ angular.module('webClientSideApp')
 
       this.parameters[0] = new NodeParameter();
       this.parameters[0].name = 'curveValue';
-      this.parameters[0].min = 0;
-      this.parameters[0].max = 600;
+      this.parameters[0].min = 200;
+      this.parameters[0].max = 44100;
       this.parameters[0].step = 1;
 
       if(typeof this.value.curveValue === 'undefined' || this.value.curveValue === null) {
-        this.curveValue = 400;
-        this.value.curveValue = 400;
+        this.curveValue = 22050;
+        this.value.curveValue = 22050;
       } else {
         this.curveValue = this.value.curveValue;
       }
@@ -43,7 +43,7 @@ angular.module('webClientSideApp')
     };
 
     Overdrive.prototype.makeOverdriveCurve = function (amount) {
-      /*var k = typeof amount === 'number' ? amount : 50,
+      var k = typeof amount === 'number' ? amount : 50,
         n_samples = 44100,
         curve = new Float32Array(n_samples),
         deg = Math.PI / 180,
@@ -53,17 +53,18 @@ angular.module('webClientSideApp')
         x = i * 2 / n_samples - 1;
         curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
       }
-      return curve;*/
-      var curve = new Float32Array(amount);
+      return curve;
+      /*var curve = new Float32Array(amount);
       var deg = Math.PI / 180;
 
       for (var i=0;i<amount;i++) {
         var x = i * 2 / amount - 1;
         curve[i] = (3 + 10) * x * 20 * deg / (Math.PI + 10 * Math.abs(x));
       }
-      return curve;
+      return curve;*/
     };
     Overdrive.prototype.setParameters = function(paramName) {
+      this.curveValue = this.value.curveValue;
       this.overdrive.curve = this.makeOverdriveCurve(this.value.curveValue);
     };
     Overdrive.prototype.getInput = function() {
