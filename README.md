@@ -12,10 +12,10 @@ Prerequisites
 This project is running on a MEAN stack.
 
 You will need 
-* [MongoDB running on port 27017](https://www.mongodb.org/) 
+* [MongoDB](https://www.mongodb.org/) running on port 27017 
 * [NodeJS and npm](https://nodejs.org/en/)
-* [Grunt (with -g flag)](http://gruntjs.com/)
-* [Bower (with -g flag)](http://bower.io/)
+* [Grunt](http://gruntjs.com/) (with -g flag)
+* [Bower](http://bower.io/) (with -g flag)
 
 
 Server-side
