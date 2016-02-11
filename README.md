@@ -2,10 +2,10 @@ Web
 ===============
 
 This project is made by :  
-* [Grégoire Sébastien](https://github.com/sgregoire)  
-* [Lozach Maxime](https://github.com/MaximeL)  
-* [Moulaye Bezeid](https://github.com/yezideteachers)  
-* [Palmero Romain](https://github.com/asromain)  
+* [Grégoire Sébastien](https://github.com/sgregoire)- Backend, Testing and Pedal customisation
+* [Lozach Maxime](https://github.com/MaximeL) - WebAudio integration, effects
+* [Moulaye Bezeid](https://github.com/yezideteachers) - Communications
+* [Palmero Romain](https://github.com/asromain) - backend, testing, UI
 
 Prerequisites
 ------
@@ -24,6 +24,30 @@ Server-side
 The server side require :
 * *NodeJs* and *npm*
 * *MongoDB*
+
+### Informations
+The server will provide a REST web-service for the client and provide some ressources.
+
+#### Rest Webservice
+* User Management
+  * Creation
+  * Update
+  * Authentication
+* Pedal Management
+  * Creation
+  * Update
+  * Delete
+* Comment Management
+  * Add a comment
+  * Get all comments of a pedal
+* Rating Management
+  * Add a note
+  * Get a pedal rates
+* Sharing Management
+  * Update shared users of a pedal
+  
+#### Ressources
+The ressources are musics for testings pedals if you don't have a guitar near by.
 
 
 ### Setup
