@@ -12,9 +12,9 @@
                     aria-haspopup="true" aria-expanded="true">Actions <span class="caret"></span></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
               <li ng-click="shareModal(pedal)"><a href="/#/"><i class="fa fa-share-alt fa-fw"></i>&nbsp;Share</a></li>
-              <li><a href="#"><i class="fa fa-comment fa-fw"></i>&nbsp;See comments</a></li>
+              <li><a href="/#/"><i class="fa fa-comment fa-fw"></i>&nbsp;See comments</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#"><i class="fa fa-trash fa-fw text-danger"></i>&nbsp;Delete</a></li>
+              <li ng-click="deletePedal(pedal)"><a href="/#/"><i class="fa fa-trash fa-fw text-danger"></i>&nbsp;Delete</a></li>
             </ul>
           </div>
         </li>
@@ -37,17 +37,11 @@
 
 
       <div class="pull-right pedal-rating">
-        <uib-rating ng-init="rate = pedal.rating"
-                    ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
-                    on-leave="overStar = null" aria-labelledby="default-rating"></uib-rating>
-
-        <!--<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>-->
-
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
+        <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly" style="cursor: pointer;"
+                    state-on="'fa fa-star star'"
+                    state-off="'fa fa-star-o star'"
+                    on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="getVal(pedal)"
+                    aria-labelledby="default-rating"></uib-rating>
       </div>
 
       <div class="clearfix"/>
@@ -74,6 +68,26 @@
     </ul>
 
     <div class="clearfix"/>
+
+
+        <div>
+          <uib-accordion close-others="oneAtATime">
+
+            <uib-accordion-group >
+              <uib-accordion-heading>
+                <i class="glyphicon-comment pull-right glyphicon" style="color: #0000FF ; font-size: large" ></i>
+              </uib-accordion-heading>
+              <div class="form-group">
+                <input type="text"  class="form-control" ng-model="comment"/>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success" type="button"  ng-click="commentModal(user,pedal,comment)">Save</button>
+              </div>
+            </uib-accordion-group>
+          </uib-accordion>
+        </div>
+      </a>
+
   </div>
   <br/>
 </div>

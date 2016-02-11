@@ -160,11 +160,15 @@
   background-color: rgba(241, 212, 175, 0.82);
   border:1px solid #b7a085;
 }
-.distorsion  {
+.overdrive  {
   background-color: rgba(224, 142, 121, 0.8);
   border:1px solid #E08E79;
 }
 .compressor  {
   background-color: rgba(245, 151, 164, 0.8);
   border:1px solid #f597a4;
+}
+.tremolo  {
+  background-color: rgba(243, 241, 244, 0.85);
+  border:1px solid #d7d5d8;
 }

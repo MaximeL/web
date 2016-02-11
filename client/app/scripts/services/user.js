@@ -36,7 +36,7 @@ angular.module('webClientSideApp')
               username: response.username,
               email: response.email
             });
-
+            $rootScope.isLogged = true;
             $location.path(redirect);
           })
           .error(function (response) {

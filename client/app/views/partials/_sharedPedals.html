@@ -16,14 +16,11 @@
       </ul>
 
       <div class="pull-right pedal-rating">
-        <uib-rating ng-init="rate = pedal.rating"
-                    ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)"
-                    on-leave="overStar = null" aria-labelledby="default-rating"></uib-rating>
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
-        <!--<i class="fa fa-star"></i>-->
+        <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly" style="cursor: pointer;"
+                    state-on="'fa fa-star star'"
+                    state-off="'fa fa-star-o star'"
+                    on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="getVal(pedal)"
+                    aria-labelledby="default-rating"></uib-rating>
       </div>
 
       <div class="clearfix"/>

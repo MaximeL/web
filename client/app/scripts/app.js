@@ -30,7 +30,7 @@ angular
       pedals: "api/pedals/",
       pedal_comments: "/comments",
       pedal_users: "/users",
-      pedal_rates: "/rates",
+      pedal_rates: "/rate",
       pedal_design: "/design"
     }
   )
@@ -41,21 +41,21 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/main_old', {
-        templateUrl: 'views/main_old.html',
-        controller: 'MainOld',
-        controllerAs: 'mainold'
-      })
+      //.when('/main_old', {
+      //  templateUrl: 'views/main_old.html',
+      //  controller: 'MainOld',
+      //  controllerAs: 'mainold'
+      //})
       .when('/pedal', {
         templateUrl: 'views/pedal.html',
         controller: 'AboutCtrl',
         controllerAs: 'pedal'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
+      //.when('/about', {
+      //  templateUrl: 'views/about.html',
+      //  controller: 'AboutCtrl',
+      //  controllerAs: 'about'
+      //})
       .when('/pedal/:id', {
         templateUrl: 'views/live.html',
         controller: 'LiveCtrl',
@@ -99,8 +99,20 @@ angular
   })
   .run(function ($rootScope, $cookies, $location, $log, $route){
     $log.debug('In run function');
+
+    $rootScope.isLogged = $cookies.getObject('user') !== undefined;
+
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-      if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in') {
+      if($location.path().indexOf('/pedal') > -1) {
+        var pedalId = $location.path().split("/pedal/")[1];
+        pedalId = pedalId.split("/")[0];
+        $rootScope.isLive = true;
+        $rootScope.pedalId = pedalId;
+      } else {
+        $rootScope.isLive = false;
+      }
+
+      if ($cookies.getObject('user') === undefined && $location.path() !== '/sign-in' && $location.path() !== '/sign-up') {
         $log.debug('not signed in. redirection...');
         $location.path("/sign-in");
         $route.reload();

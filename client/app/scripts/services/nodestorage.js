@@ -39,7 +39,7 @@ angular.module('webClientSideApp')
     NodeStorage.prototype.nextId = 0;*/
 
     NodeStorage.prototype.addNode = function(node) {
-      $log.info('Storing node of type : ' + node.type);
+      $log.info('NodeStorage : Storing node of type : ' + node.type);
       if(node.id === null || typeof node.id === 'undefined')
         node.id = this.nextId;
       if(node.id >= this.nextId)
@@ -59,7 +59,7 @@ angular.module('webClientSideApp')
       return node.id;
     };
     NodeStorage.prototype.removeNode = function(id) {
-      $log.info("deleting node with id : "+id);
+      $log.info("NodeStorage : deleting node with id : "+id);
       $log.info(this.storage[id]);
       jsPlumb.detachAllConnections(''+id);
       while(this.storage[id].precedents.length !== 0) {
@@ -74,7 +74,7 @@ angular.module('webClientSideApp')
       this.storage[id] = undefined;
     };
     NodeStorage.prototype.connect = function(inputId, outputId) {
-      $log.debug('connection');
+      $log.debug('NodeStorage : connection');
       $log.debug(inputId);
       $log.debug(outputId);
       this.storage[inputId].connect(this.storage[outputId]);
@@ -160,6 +160,7 @@ angular.module('webClientSideApp')
     NodeStorage.prototype.wipe = function() {
       for(var i = 0; i < this.storage.length; i++) {
         if(typeof this.storage[i] !== 'undefined' && this.storage[i] !== null) {
+          if(i == 1) continue;
           this.storage[i].disconnect();
         }
       }

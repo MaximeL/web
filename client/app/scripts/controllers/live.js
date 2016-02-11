@@ -22,7 +22,7 @@ angular.module('webClientSideApp')
     navigator.msGetUserMedia);
 
     if (navigator.getUserMedia) {
-      console.log('getUserMedia supported.');
+      console.log('LiveCtrl : getUserMedia supported.');
       $scope.ready = true;
     } else {
       $scope.ready = false;
@@ -46,6 +46,11 @@ angular.module('webClientSideApp')
 
     $scope.effects = [
       'gain',
+      'tremolo',
+      'convolver',
+      'overdrive',
+      'delay',
+      'compressor',
       'allpass',
       'bandpass',
       'highpass',
@@ -53,11 +58,7 @@ angular.module('webClientSideApp')
       'lowpass',
       'lowshelf',
       'notch',
-      'peaking',
-      'convolver',
-      'delay',
-      'distorsion',
-      'compressor'
+      'peaking'
     ];
 
     $scope.addEffect = function(type) {
@@ -74,6 +75,10 @@ angular.module('webClientSideApp')
       jsPlumb.repaintEverything();
       saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
       saveState.saveState();
+    };
+
+    $scope.save = function () {
+      saveState.save($routeParams.id);
     };
 
     $scope.clickPlay = function() {
@@ -143,6 +148,17 @@ angular.module('webClientSideApp')
         var inputId = info.sourceId;
         var outputId = info.targetId;
         $scope.nodeStorage.disconnect(inputId, outputId);
+        saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
+        saveState.saveState();
+      });
+      jsPlumb.bind('connectionMoved', function (info) {
+        var inputId = info.originalSourceId;
+        var outputId = info.originalTargetId;
+        $scope.nodeStorage.disconnect(inputId, outputId);
+
+        inputId = info.newSourceId;
+        outputId = info.newTargetId;
+        $scope.nodeStorage.connect(inputId, outputId);
         saveState.setNodeStorage($scope.nodeStorage, $scope.pedalId);
         saveState.saveState();
       });
