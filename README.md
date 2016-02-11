@@ -121,6 +121,24 @@ Grunt will start a new page with your favorite browser to [http://localhost:3000
 
 We recommend using [Google Chrome](https://www.google.fr/chrome/browser/desktop/).
 
+### Main Page
+
+At first arrival, you will be ask to connect. If you don't have an account, you'll be invited to sign-up to the website. The other pages are not accessible without being autenticated.  
+On the home page, you'll find the list of your pedals. The pedals you created are on the left and the pedals shared with you are on the right.  
+
+You can do the following with your pedals :  
+* edit 
+* play with 
+* comment 
+* rate
+* share
+* delete
+
+You can do the following with shared pedals :  
+* play with 
+* comment 
+* rate
+
 ### Effects
 
 The page to edit your pedal let you manage different low level effects and let you manipulate the connections between then
