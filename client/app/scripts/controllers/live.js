@@ -45,7 +45,7 @@ angular.module('webClientSideApp')
       'gain',
       'tremolo',
       'convolver',
-      'distorsion',
+      'overdrive',
       'delay',
       'compressor',
       'allpass',
@@ -152,6 +152,9 @@ angular.module('webClientSideApp')
     };
 
     $scope.$on("$destroy", function(){
+      NodeStorage.get().storage[0].play = null;
+      NodeStorage.get().storage[0].playSound.stop(0);
+      NodeStorage.get().storage[0].play = false;
       NodeStorage.get().wipe();
       angular.element($window).unbind('resize');
       jsPlumb.reset();
