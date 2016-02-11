@@ -7,6 +7,13 @@
     <div class="pedal-header">
       <ul class="list-inline pull-left">
         <li>
+          <a href="/#/pedal/{{pedal._id}}/comments">
+            <button class="btn btn-default">
+              <i id="comments" title="See comments" class="fa fa-comment fa-fw"></i>
+            </button>
+          </a>
+        </li>
+        <li>
           <a href="/#/play/{{pedal._id}}">
             <button class="btn btn-default">
               <i id="play" title="Play" class="fa fa-play fa-fw"></i>
@@ -16,7 +23,8 @@
       </ul>
 
       <div class="pull-right pedal-rating">
-        <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly" style="cursor: pointer;"
+        <uib-rating ng-init="rate = pedal.rating" ng-model="rate" max="max" readonly="isReadonly"
+                    style="cursor: pointer;"
                     state-on="'fa fa-star star'"
                     state-off="'fa fa-star-o star'"
                     on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="getVal(pedal)"

@@ -20,112 +20,102 @@ angular.module('webClientSideApp')
         $scope.user.pedals = response.pedals;
         $scope.user.shared = response.shared;
 
-          var pedals = $scope.user.pedals;
-          $scope.user.pedals = [];
-          // Pour chaque pédales possédées
-          pedals.forEach(function (pedal) {
-            $http.get(config.apiURL + config.pedals + pedal._id)
-              .success(function (response) {
-                var item = {
-                  _id: response._id,
-                  name: response.name,
-                  description: response.description
-                };
-                var users = response.users;
-                // Pour chaque utilisateur de la pédale
-                users.forEach(function (user) {
-                  $http.get(config.apiURL + config.users + user._id)
-                    .success(function (response) {
-                      user.email = response.email;
-                    })
-                    .error(function (response) {
+        var pedals = $scope.user.pedals;
+        $scope.user.pedals = [];
+        // Pour chaque pédales possédées
+        pedals.forEach(function (pedal) {
+          $http.get(config.apiURL + config.pedals + pedal._id)
+            .success(function (response) {
+              var item = {
+                _id: response._id,
+                name: response.name,
+                description: response.description
+              };
+              var users = response.users;
+              // Pour chaque utilisateur de la pédale
+              users.forEach(function (user) {
+                $http.get(config.apiURL + config.users + user._id)
+                  .success(function (response) {
+                    user.email = response.email;
+                  })
+                  .error(function (response) {
 
-                    });
-                });
-                item.users = users;
+                  });
+              });
+              item.users = users;
 
-                // TODO : Rating
-                var rating = response.rating;
-                var moy = 0;
-                rating.forEach(function (r) {
-                  moy += r.rate;
-                });
-                moy /= rating.length;
-                item.rating = moy;
+              var rating = response.rating;
+              var moy = 0;
+              rating.forEach(function (r) {
+                moy += r.rate;
+              });
+              moy /= rating.length;
+              item.rating = moy;
 
-                // TODO Comments
-                var comments = response.comments;
-                //comments.forEach(function(comment) {
-                //
-                //});
-
-                $scope.user.pedals.push(item);
-              }).error(function (response) {
-            });
+              $scope.user.pedals.push(item);
+            }).error(function (response) {
           });
-
-          var shared = $scope.user.shared;
-          $scope.user.shared = [];
-          // Pour chaque pédale partagée
-          shared.forEach(function (pedal) {
-            $http.get(config.apiURL + config.pedals + pedal._id)
-              .success(function (response) {
-                var item = {
-                  _id: response._id,
-                  name: response.name,
-                  description: response.description
-                };
-                var users = response.users;
-                // Pour chaque utilisateur de la pédale
-                users.forEach(function (user) {
-                  $http.get(config.apiURL + config.users + user._id)
-                    .success(function (response) {
-                      user.email = response.email;
-                    })
-                    .error(function (response) {
-
-                    });
-                });
-                item.users = users;
-
-                // TODO : Rating
-                var rating = response.rating;
-                var moy = 0;
-                rating.forEach(function (r) {
-                  moy += r.rate;
-                });
-                moy /= rating.length;
-                var ceil = Math.ceil(moy);
-                item.rating = ceil;
-
-                // TODO Comments
-
-                $scope.user.shared.push(item);
-              }).error(function (response) {
-            });
-          });
-        })
-        .error(function (response) {
-
         });
 
+        var shared = $scope.user.shared;
+        $scope.user.shared = [];
+        // Pour chaque pédale partagée
+        shared.forEach(function (pedal) {
+          $http.get(config.apiURL + config.pedals + pedal._id)
+            .success(function (response) {
+              var item = {
+                _id: response._id,
+                name: response.name,
+                description: response.description
+              };
+              var users = response.users;
+              // Pour chaque utilisateur de la pédale
+              users.forEach(function (user) {
+                $http.get(config.apiURL + config.users + user._id)
+                  .success(function (response) {
+                    user.email = response.email;
+                  })
+                  .error(function (response) {
 
-      /**
-       * Creation d'une nouvelle pedale
-       */
-      $scope.newPedal = function () {
+                  });
+              });
+              item.users = users;
 
+              var rating = response.rating;
+              var moy = 0;
+              rating.forEach(function (r) {
+                moy += r.rate;
+              });
+              moy /= rating.length;
+              var ceil = Math.ceil(moy);
+              item.rating = ceil;
 
-        $scope.pedal.owner = $scope.user.id;
-        $scope.pedal.user = $scope.user.id;
-
-        pedal.createPedal($scope.pedal).then(function () {
-          $location.path('/pedal/'.concat($scope.pedal._id)).reload();
+              $scope.user.shared.push(item);
+            }).error(function (response) {
+          });
         });
+      })
+      .error(function (response) {
 
-      };
+      });
 
-      $scope.shareModal = function (pedal) {
+
+    /**
+     * Creation d'une nouvelle pedale
+     */
+    $scope.newPedal = function () {
+
+
+      $scope.pedal.owner = $scope.user.id;
+      $scope.pedal.user = $scope.user.id;
+
+      pedal.createPedal($scope.pedal).then(function () {
+        $location.path('/pedal/'.concat($scope.pedal._id)).reload();
+      });
+
+    };
+
+    $scope.shareModal = function (pedal) {
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: '/views/partials/_shareModal.html',
@@ -150,97 +140,70 @@ angular.module('webClientSideApp')
       });
     };
 
-    $scope.comment="";
-    $scope.commentModal = function (user,pedal,newcomment) {
-      console.log(user);
-      console.log(pedal);
-      pedal.user=user.id;
-      if(pedal.comments != undefined){
-        pedal.comments.push({_id:user.id , comment:newcomment});
-      }
-      else{
-        pedal.comments=[];
-        pedal.comments.push({_id:user.id , comment:newcomment});
-      }
-      pedal.author=user.id;
-      pedal.content=newcomment;
-      $http.put(config.apiURL + config.pedals + pedal._id, pedal)
+    $scope.deletePedal = function (pedal) {
+      $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
         .success(function (response) {
-          $notification.success("Congratulations !", "comment saved");
-          $location.path("/")
+          $notification.success("Success", "You successfully deleted the pedal.");
+          for (var i = 0; i < $scope.user.pedals.length; i++) {
+            if ($scope.user.pedals[i]._id == pedal._id) {
+              $scope.user.pedals.splice(i, 1);
+              break;
+            }
+          }
         })
         .error(function (response) {
-          $notification.error("Error !", "An error occured : " + response.message);
-
+          $notification.error("Error", "An error occured. (" + response.message + ").");
         });
-
-
-
     };
-      $scope.deletePedal = function (pedal) {
-        $http.delete(config.apiURL + config.pedals + pedal._id + "/" + $scope.user.id)
-          .success(function (response) {
-            $notification.success("Success", "You successfully deleted the pedal.");
-            for (var i = 0; i < $scope.user.pedals.length; i++) {
-              if ($scope.user.pedals[i]._id == pedal._id) {
-                $scope.user.pedals.splice(i, 1);
-                break;
-              }
-            }
-          })
-          .error(function (response) {
-            $notification.error("Error", "An error occured. (" + response.message + ").");
-          });
-      };
-      /**
-       retrieve all users
-       */
-      $http.get(config.apiURL + config.users)
-        .then(function (response) {
-          $scope.users = response.data;
+    /**
+     retrieve all users
+     */
+    $http.get(config.apiURL + config.users)
+      .then(function (response) {
+        $scope.users = response.data;
 
-        });
+      });
 
 
-      $scope.switchToSignup = function () {
-        $scope.created = false;
-        $scope.logged = true;
-      };
+    $scope.switchToSignup = function () {
+      $scope.created = false;
+      $scope.logged = true;
+    };
 
 
-      // permet de hash un email
-      $scope.hashEmail = function (email) {
-        if (email === undefined) {
-          return "";
-        }
-        return md5.createHash(email);
-      };
-
-
-      // votes
-      $scope.rate = 0;
-      $scope.max = 5;
-      $scope.isReadonly = false;
-
-      $scope.hoveringOver = function(value) {
-        $scope.overStar = value;
-      };
-
-      $scope.getVal = function(pedal) {
-        $scope.p = $scope.overStar;
-        var json = {
-          "author" : $scope.user.id,
-          "rate": $scope.p
-        };
-        $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function() {
-          console.log("success");
-        }, function(error) {
-          console.log(error);
-        });
-        $window.location.reload();
+    // permet de hash un email
+    $scope.hashEmail = function (email) {
+      if (email === undefined) {
+        return "";
       }
+      return md5.createHash(email);
+    };
 
-    });
+
+    // votes
+    $scope.rate = 0;
+    $scope.max = 5;
+    $scope.isReadonly = false;
+
+    $scope.hoveringOver = function (value) {
+      $scope.overStar = value;
+    };
+
+    $scope.getVal = function (pedal) {
+      $scope.p = $scope.overStar;
+      var json = {
+        "author": $scope.user.id,
+        "rate": $scope.p
+      };
+      $http.post(config.apiURL + config.pedals + pedal._id + config.pedal_rates, json).then(function () {
+        console.log("success");
+      }, function (error) {
+        console.log(error);
+      });
+      $window.location.reload();
+    }
+
+  });
 
 
 angular.module('webClientSideApp')
@@ -322,7 +285,6 @@ angular.module('webClientSideApp').controller('ModalInstanceCtrl', function ($sc
     }
     return md5.createHash(email);
   };
-
 
 
 });
